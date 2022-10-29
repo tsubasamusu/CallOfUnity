@@ -5,7 +5,7 @@ using UniRx.Triggers;
 namespace CallOfUnity
 {
     /// <summary>
-    /// カメラを制御
+    /// カメラを制御する
     /// </summary>
     public class CameraController : MonoBehaviour,ISetUp
     {
@@ -23,7 +23,7 @@ namespace CallOfUnity
         /// </summary>
         public void SetUp()
         {
-            //毎フレーム、メッセージを発行する
+            //カメラを操作する
             this.UpdateAsObservable()
                 .Subscribe(_ =>
                 {
