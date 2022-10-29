@@ -1,3 +1,4 @@
+using System.Numerics;
 using UnityEngine;
 
 namespace CallOfUnity
@@ -7,6 +8,10 @@ namespace CallOfUnity
     /// </summary>
     public static class ConstData
     {
+        public const float walkSpeed = 10f;//歩くスピード
 
+        public const float runSpeed = 30f;//走るスピード
+
+        public const KeyCode runKey = KeyCode.Q;//ダッシュキー
     }
 }

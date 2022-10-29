@@ -19,7 +19,7 @@ namespace CallOfUnity
         private float xRotVelocity;//xの回転速度
 
         /// <summary>
-        /// 初期設定を行う
+        /// CameraControllerの初期設定を行う
         /// </summary>
         public void SetUp()
         {
@@ -41,8 +41,8 @@ namespace CallOfUnity
 
                     //カメラを回転させる
                     transform.rotation = Quaternion.Euler(currentXRot, currentYRot, 0);
-                }
-                ).AddTo(this);
+                })
+                .AddTo(this);
         }
     }
 }
