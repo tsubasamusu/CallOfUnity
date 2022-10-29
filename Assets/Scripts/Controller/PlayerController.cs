@@ -16,14 +16,15 @@ namespace CallOfUnity
         /// </summary>
         protected override void SetUpController()
         {
-            //移動方向を取得
+            //移動方向とスピードを取得
             this.UpdateAsObservable()
                 .Subscribe(_ =>
                 {
                     moveDir = Vector3.Scale(
                         (Camera.main.transform.right * Input.GetAxis("Horizontal")
                     + Camera.main.transform.forward * Input.GetAxis("Vertical"))
-                    , new Vector3(1f, 0f, 1f));
+                    , new Vector3(1f, 0f, 1f))
+                    * (Input.GetKey(ConstData.runKey) ? ConstData.runSpeed : ConstData.walkSpeed);
                 })
                 .AddTo(this);
         }

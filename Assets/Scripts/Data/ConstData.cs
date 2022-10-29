@@ -1,4 +1,3 @@
-using System.Numerics;
 using UnityEngine;
 
 namespace CallOfUnity
@@ -11,6 +10,8 @@ namespace CallOfUnity
         public const float walkSpeed = 10f;//歩くスピード
 
         public const float runSpeed = 30f;//走るスピード
+
+        public const float gravity = 5f;//重力
 
         public const KeyCode runKey = KeyCode.Q;//ダッシュキー
     }

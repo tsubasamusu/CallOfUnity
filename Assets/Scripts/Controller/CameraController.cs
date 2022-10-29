@@ -9,11 +9,11 @@ namespace CallOfUnity
     /// </summary>
     public class CameraController : MonoBehaviour,ISetUp
     {
-        private float yRot;//“ü—Í‚³‚ê‚½yŠp“x
-        private float xRot;//“ü—Í‚³‚ê‚½xŠp“x
+        private float yRot;//“ü—Í‚³‚ê‚½y‚Ì‰ñ“]
+        private float xRot;//“ü—Í‚³‚ê‚½x‚Ì‰ñ“]
 
-        private float currentYRot;//Œ»İ‚ÌyŠp“x
-        private float currentXRot;//Œ»İ‚ÌxŠp“x
+        private float currentYRot;//Œ»İ‚Ìy‚Ì‰ñ“]
+        private float currentXRot;//Œ»İ‚Ìx‚Ì‰ñ“]
 
         private float yRotVelocity;//y‚Ì‰ñ“]‘¬“x
         private float xRotVelocity;//x‚Ì‰ñ“]‘¬“x
@@ -33,10 +33,10 @@ namespace CallOfUnity
                     //ƒ}ƒEƒX‚ÌcˆÚ“®‚ğæ“¾
                     xRot -= Input.GetAxis("Mouse Y") * GameData.instance.LookSensitivity;
 
-                    //ŠŠ‚ç‚©‚ÉxŠp“x‚ğæ“¾
+                    //ŠŠ‚ç‚©‚Éx‚Ì‰ñ“]‚ğæ“¾
                     currentXRot = Mathf.SmoothDamp(currentXRot, xRot, ref xRotVelocity, GameData.instance.LookSmooth);
 
-                    //ŠŠ‚ç‚©‚ÉyŠp“x‚ğæ“¾
+                    //ŠŠ‚ç‚©‚Éy‚Ì‰ñ“]‚ğæ“¾
                     currentYRot = Mathf.SmoothDamp(currentYRot, yRot, ref yRotVelocity, GameData.instance.LookSmooth);
 
                     //ƒJƒƒ‰‚ğ‰ñ“]‚³‚¹‚é

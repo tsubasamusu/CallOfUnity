@@ -22,8 +22,27 @@ namespace CallOfUnity
                 .Subscribe(_ => transform.Translate(moveDir * Time.deltaTime))
                 .AddTo(this);
 
+            //重力を生成する
+            this.UpdateAsObservable()
+                .Where(_ => !CheckGrounded())
+                .Subscribe(_ => transform.Translate(new Vector3(0f, -ConstData.gravity, 0f) * Time.deltaTime))
+                .AddTo(this);
+
             //子クラスの初期設定を行う
             SetUpController();
+        }
+
+        /// <summary>
+        /// 接地判定を行う
+        /// </summary>
+        /// <returns></returns>
+        protected bool CheckGrounded()
+        {
+            //光線を作成 
+            var ray = new Ray(transform.position + Vector3.up * 0.1f, Vector3.down);
+
+            //光線が他のコライダーに接触したらtrueを返す
+            return Physics.Raycast(ray, 0.15f);
         }
 
         /// <summary>
