@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
 using UniRx.Triggers;
+using DG.Tweening;
 
 namespace CallOfUnity
 {
@@ -16,6 +17,7 @@ namespace CallOfUnity
         /// </summary>
         protected override void SetUpController()
         {
+            //移動・かがむ・武器チェンジ
             this.UpdateAsObservable()
                 .Subscribe(_ =>
                 {
@@ -60,6 +62,27 @@ namespace CallOfUnity
                 .Where(_ => Input.GetKey(ConstData.SHOT_KEY))
                 .ThrottleFirst(System.TimeSpan.FromSeconds(GetRateOfFire()))
                 .Subscribe(_ => Shot())
+                .AddTo(this);
+
+            //構える
+            this.UpdateAsObservable()
+                .Where(_ => Input.GetKeyDown(ConstData.STANCE_KEY) || Input.GetKeyUp(ConstData.STANCE_KEY))
+                .ThrottleFirst(System.TimeSpan.FromSeconds(ConstData.STANCE_TIME))
+                .Subscribe(_ =>
+                {
+                    //構えるキーが押されたら
+                    if(Input.GetKeyDown(ConstData.STANCE_KEY))
+                    {
+                        //構える
+                        Camera.main.DOFieldOfView(ConstData.STANCE_FOV,ConstData.STANCE_TIME);
+                    }
+                    //構えるキーが離されたら
+                    else if(Input.GetKeyUp(ConstData.STANCE_KEY))
+                    {
+                        //構えるのをやめる
+                        Camera.main.DOFieldOfView(ConstData.NORMAL_FOV, ConstData.STANCE_TIME);
+                    }
+                })
                 .AddTo(this);
         }
 

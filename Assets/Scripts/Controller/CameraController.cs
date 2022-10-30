@@ -7,7 +7,7 @@ namespace CallOfUnity
     /// <summary>
     /// ƒJƒƒ‰‚ğ§Œä‚·‚é
     /// </summary>
-    public class CameraController : MonoBehaviour,ISetUp
+    public class CameraController : MonoBehaviour, ISetUp
     {
         private float yRot;//“ü—Í‚³‚ê‚½y‚Ì‰ñ“]
         private float xRot;//“ü—Í‚³‚ê‚½x‚Ì‰ñ“]
@@ -23,6 +23,9 @@ namespace CallOfUnity
         /// </summary>
         public void SetUp()
         {
+            //‹–ìŠp‚ğ‰Šú‰»
+            Camera.main.fieldOfView = ConstData.NORMAL_FOV;
+
             //ƒJƒƒ‰‚ğ‘€ì‚·‚é
             this.UpdateAsObservable()
                 .Subscribe(_ =>

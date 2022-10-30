@@ -13,6 +13,12 @@ namespace CallOfUnity
 
         public const float GRAVITY = 5f;//重力
 
+        public const float STANCE_TIME = 0.25f;//構える時間
+
+        public const float NORMAL_FOV = 60f;//基本の視野角
+
+        public const float STANCE_FOV = 30f;//構える時の視野角
+
         public const KeyCode RUN_KEY = KeyCode.Q;//ダッシュキー
 
         public const KeyCode RELOAD_KEY = KeyCode.R;//リロードキー
@@ -22,5 +28,7 @@ namespace CallOfUnity
         public const KeyCode CHANGE_WEAPON_KEY = KeyCode.LeftShift;//武器チェンジキー
 
         public const KeyCode SHOT_KEY = KeyCode.Mouse0;//射撃キー
+
+        public const KeyCode STANCE_KEY = KeyCode.Mouse1;//構えるキー
     }
 }
