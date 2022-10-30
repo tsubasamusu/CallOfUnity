@@ -16,5 +16,7 @@ namespace CallOfUnity
         public const KeyCode runKey = KeyCode.Q;//ダッシュキー
 
         public const KeyCode reloadKey = KeyCode.R;//リロードキー
+
+        public const KeyCode stoopKey = KeyCode.E;//かがむキー
     }
 }
