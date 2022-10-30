@@ -10,13 +10,19 @@ namespace CallOfUnity
     /// <summary>
     /// プレイヤーの動きを制御する
     /// </summary>
+    [RequireComponent(typeof(Rigidbody))]
     public class PlayerController : ControllerBase
     {
+        private Rigidbody rb;//Rigidbody
+
         /// <summary>
         /// PlayerControllerの初期設定を行う
         /// </summary>
         protected override void SetUpController()
         {
+            //リセット時の処理を呼び出す 
+            Reset();
+
             //移動・かがむ・武器チェンジ
             this.UpdateAsObservable()
                 .Subscribe(_ =>
@@ -46,7 +52,7 @@ namespace CallOfUnity
                     }
 
                     //武器チェンジキーが押されたら武器をチェンジする
-                    if(Input.GetKeyDown(ConstData.CHANGE_WEAPON_KEY))ChangeWeapon();
+                    if (Input.GetKeyDown(ConstData.CHANGE_WEAPON_KEY)) ChangeWeapon();
                 })
                 .AddTo(this);
 
@@ -71,19 +77,34 @@ namespace CallOfUnity
                 .Subscribe(_ =>
                 {
                     //構えるキーが押されたら
-                    if(Input.GetKeyDown(ConstData.STANCE_KEY))
+                    if (Input.GetKeyDown(ConstData.STANCE_KEY))
                     {
                         //構える
-                        Camera.main.DOFieldOfView(ConstData.STANCE_FOV,ConstData.STANCE_TIME);
+                        Camera.main.DOFieldOfView(ConstData.STANCE_FOV, ConstData.STANCE_TIME);
                     }
                     //構えるキーが離されたら
-                    else if(Input.GetKeyUp(ConstData.STANCE_KEY))
+                    else if (Input.GetKeyUp(ConstData.STANCE_KEY))
                     {
                         //構えるのをやめる
                         Camera.main.DOFieldOfView(ConstData.NORMAL_FOV, ConstData.STANCE_TIME);
                     }
                 })
                 .AddTo(this);
+
+            //ジャンプ
+            this.UpdateAsObservable()
+                .Where(_ => Input.GetKeyDown(ConstData.JUMP_KEY) && CheckGrounded())
+                .Subscribe(_ => rb.AddForce(Vector3.up * ConstData.JUMP_POWER, ForceMode.Impulse))
+                .AddTo(this);
+        }
+
+        /// <summary>
+        /// リセット時に呼び出される
+        /// </summary>
+        private void Reset()
+        {
+            //Rigidbodyを取得
+            rb = GetComponent<Rigidbody>();
         }
 
         /// <summary>

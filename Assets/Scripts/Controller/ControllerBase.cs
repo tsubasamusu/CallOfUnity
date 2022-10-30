@@ -35,7 +35,7 @@ namespace CallOfUnity
         /// <summary>
         /// Ú’n”»’è‚ğs‚¤
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Ú’n‚µ‚Ä‚¢‚½‚çtrue</returns>
         protected bool CheckGrounded()
         {
             //Œõü‚ğì¬ 

@@ -19,6 +19,8 @@ namespace CallOfUnity
 
         public const float STANCE_FOV = 30f;//構える時の視野角
 
+        public const float JUMP_POWER = 10f;//ジャンプ力
+
         public const KeyCode RUN_KEY = KeyCode.Q;//ダッシュキー
 
         public const KeyCode RELOAD_KEY = KeyCode.R;//リロードキー
@@ -30,5 +32,7 @@ namespace CallOfUnity
         public const KeyCode SHOT_KEY = KeyCode.Mouse0;//射撃キー
 
         public const KeyCode STANCE_KEY = KeyCode.Mouse1;//構えるキー
+
+        public const KeyCode JUMP_KEY = KeyCode.Space;//ジャンプキー
     }
 }
