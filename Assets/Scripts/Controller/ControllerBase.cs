@@ -68,6 +68,27 @@ namespace CallOfUnity
         protected void Shot()
         {
             //TODO:射撃処理
+            Debug.Log("射撃");
+        }
+
+        /// <summary>
+        /// 現在使用している武器のリロード時間を取得する
+        /// </summary>
+        /// <returns>現在使用している武器のリロード時間</returns>
+        protected float GetReloadTime()
+        {
+            //TODO:リロード時間取得処理
+            return 3f;//（仮）
+        }
+
+        /// <summary>
+        /// 現在使用している武器の連射速度を取得する
+        /// </summary>
+        /// <returns>現在使用している武器の連射速度</returns>
+        protected float GetRateOfFire()
+        {
+            //TODO:連射速度取得処理
+            return 1f;//（仮）
         }
     }
 }

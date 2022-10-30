@@ -20,5 +20,7 @@ namespace CallOfUnity
         public const KeyCode STOOP_KEY = KeyCode.E;//かがむキー
 
         public const KeyCode CHANGE_WEAPON_KEY = KeyCode.LeftShift;//武器チェンジキー
+
+        public const KeyCode SHOT_KEY = KeyCode.Mouse0;//射撃キー
     }
 }

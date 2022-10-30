@@ -51,8 +51,15 @@ namespace CallOfUnity
             //リロード
             this.UpdateAsObservable()
                 .Where(_ => Input.GetKeyDown(ConstData.RELOAD_KEY))
-                .ThrottleFirst(System.TimeSpan.FromSeconds(3.0f))//TODO:リロード時間取得処理
+                .ThrottleFirst(System.TimeSpan.FromSeconds(GetReloadTime()))
                 .Subscribe(_ => Reload())
+                .AddTo(this);
+
+            //射撃
+            this.UpdateAsObservable()
+                .Where(_ => Input.GetKey(ConstData.SHOT_KEY))
+                .ThrottleFirst(System.TimeSpan.FromSeconds(GetRateOfFire()))
+                .Subscribe(_ => Shot())
                 .AddTo(this);
         }
 
