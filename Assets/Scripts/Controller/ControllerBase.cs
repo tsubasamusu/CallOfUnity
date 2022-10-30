@@ -25,7 +25,7 @@ namespace CallOfUnity
             //重力を生成する
             this.UpdateAsObservable()
                 .Where(_ => !CheckGrounded())
-                .Subscribe(_ => transform.Translate(new Vector3(0f, -ConstData.gravity, 0f) * Time.deltaTime))
+                .Subscribe(_ => transform.Translate(new Vector3(0f, -ConstData.GRAVITY, 0f) * Time.deltaTime))
                 .AddTo(this);
 
             //子クラスの初期設定を行う

@@ -7,16 +7,18 @@ namespace CallOfUnity
     /// </summary>
     public static class ConstData
     {
-        public const float walkSpeed = 10f;//歩くスピード
+        public const float WALK_SPEED = 10f;//歩くスピード
 
-        public const float runSpeed = 30f;//走るスピード
+        public const float RUN_SPEED = 30f;//走るスピード
 
-        public const float gravity = 5f;//重力
+        public const float GRAVITY = 5f;//重力
 
-        public const KeyCode runKey = KeyCode.Q;//ダッシュキー
+        public const KeyCode RUN_KEY = KeyCode.Q;//ダッシュキー
 
-        public const KeyCode reloadKey = KeyCode.R;//リロードキー
+        public const KeyCode RELOAD_KEY = KeyCode.R;//リロードキー
 
-        public const KeyCode stoopKey = KeyCode.E;//かがむキー
+        public const KeyCode STOOP_KEY = KeyCode.E;//かがむキー
+
+        public const KeyCode CHANGE_WEAPON_KEY = KeyCode.LeftShift;//武器チェンジキー
     }
 }
