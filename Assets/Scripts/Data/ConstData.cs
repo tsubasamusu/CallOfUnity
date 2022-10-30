@@ -14,5 +14,7 @@ namespace CallOfUnity
         public const float gravity = 5f;//重力
 
         public const KeyCode runKey = KeyCode.Q;//ダッシュキー
+
+        public const KeyCode reloadKey = KeyCode.R;//リロードキー
     }
 }

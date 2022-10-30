@@ -27,6 +27,13 @@ namespace CallOfUnity
                     * (Input.GetKey(ConstData.runKey) ? ConstData.runSpeed : ConstData.walkSpeed);
                 })
                 .AddTo(this);
+
+            //リロード
+            this.UpdateAsObservable()
+                .Where(_ => Input.GetKeyDown(ConstData.reloadKey))
+                .ThrottleFirst(System.TimeSpan.FromSeconds(3.0f))//TODO:リロード時間取得処理
+                .Subscribe(_ => Reload())
+                .AddTo(this);
         }
     }
 }

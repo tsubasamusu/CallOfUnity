@@ -59,6 +59,7 @@ namespace CallOfUnity
         protected void Reload()
         {
             //TODO:リロード処理
+            Debug.Log("リロード");
         }
 
         /// <summary>
