@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16956723a854e5a469685cd800531fc9, type: 3}
+  m_Name: WeaponDataSO
+  m_EditorClassIdentifier: 
+  weaponDataList:
+  - name: 0
+    objWeapon: {fileID: 7435563560876477611, guid: 44d0e3077df82e44bbb42ae3044d4bf0, type: 3}
+    bullet: {fileID: 0}
+    ammunitionNo: 30
+    reloadTime: 3
+    rateOfFire: 0.1
+    firingRange: 300
+    attackPower: 1
+  - name: 1
+    objWeapon: {fileID: 2161021469762290829, guid: 6f442ab3c7624b34a97414f5b501ef19, type: 3}
+    bullet: {fileID: 0}
+    ammunitionNo: 10
+    reloadTime: 2
+    rateOfFire: 1
+    firingRange: 100
+    attackPower: 1
+  - name: 2
+    objWeapon: {fileID: 8044793742223492786, guid: 83b0b12a3074d3e4aa0da20db6b74142, type: 3}
+    bullet: {fileID: 0}
+    ammunitionNo: 1
+    reloadTime: 5
+    rateOfFire: 5
+    firingRange: 100
+    attackPower: 100
+  - name: 3
+    objWeapon: {fileID: 4272078121948299647, guid: 42bd3dba4b01b35479dbd47886411415, type: 3}
+    bullet: {fileID: 0}
+    ammunitionNo: 1
+    reloadTime: 2
+    rateOfFire: 1
+    firingRange: 10
+    attackPower: 30
+  - name: 4
+    objWeapon: {fileID: 2792196814616366396, guid: 9da4a5b321cdf3147b0af1f4bb9686aa, type: 3}
+    bullet: {fileID: 0}
+    ammunitionNo: 1
+    reloadTime: 5
+    rateOfFire: 3
+    firingRange: 1000
+    attackPower: 80
+  - name: 5
+    objWeapon: {fileID: 6268340975612751157, guid: 3f92009e42684114cb5d6a225af8672c, type: 3}
+    bullet: {fileID: 0}
+    ammunitionNo: 50
+    reloadTime: 2
+    rateOfFire: 0.1
+    firingRange: 100
+    attackPower: 1

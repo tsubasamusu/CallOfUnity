@@ -105,7 +105,7 @@ namespace CallOfUnity
             var ray = new Ray(transform.position + Vector3.up * 1f, transform.forward);
 
             //光線を発射し、光線が何にも触れなかったらfalseを返す
-            if (!Physics.Raycast(ray, out RaycastHit hit, GetRange())) return false;
+            if (!Physics.Raycast(ray, out RaycastHit hit, GetFiringRange())) return false;
 
             //光線の接触相手のチーム番号が異なるならtrueを返す
             return (hit.transform.TryGetComponent(out ControllerBase controller) && myTeamNo != controller.myTeamNo);
@@ -115,7 +115,7 @@ namespace CallOfUnity
         /// 現在使用している武器の射程距離を取得する
         /// </summary>
         /// <returns>現在使用している武器の射程距離</returns>
-        private float GetRange()
+        private float GetFiringRange()
         {
             //TODO:射程距離の取得処理
             return 100f;//（仮）
