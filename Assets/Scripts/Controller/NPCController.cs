@@ -102,7 +102,7 @@ namespace CallOfUnity
         private bool CheckEnemy()
         {
             //Œõü‚ğì¬  
-            var ray = new Ray(transform.position + Vector3.up * 1f, transform.forward);
+            var ray = new Ray(weaponTran.position, transform.forward);
 
             //Œõü‚ğ”­Ë‚µAŒõü‚ª‰½‚É‚àG‚ê‚È‚©‚Á‚½‚çfalse‚ğ•Ô‚·
             if (!Physics.Raycast(ray, out RaycastHit hit, GetFiringRange())) return false;

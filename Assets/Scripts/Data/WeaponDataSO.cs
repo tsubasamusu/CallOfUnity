@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 ///武器のデータを管理する
@@ -31,11 +32,13 @@ public class WeaponDataSO : ScriptableObject
     {
         public WeaponName name;//名前  
         public GameObject objWeapon;//武器のオブジェクト
-        public BulletBase bullet;//弾
+        public Sprite sprWeapon;//武器のスプライト
+        public BulletDetailBase bullet;//弾
         public int ammunitionNo;//装弾数
         public float reloadTime;//リロード時間
         public float rateOfFire;//連射速度
         public float firingRange;//射程距離
+        public float bulletVelocity;//弾速
         [Range(0f,100f)]
         public float attackPower;//攻撃力
     }

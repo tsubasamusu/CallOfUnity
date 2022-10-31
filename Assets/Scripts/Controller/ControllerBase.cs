@@ -12,11 +12,16 @@ namespace CallOfUnity
         [HideInInspector]
         public int myTeamNo;//自分のチーム番号
 
+        protected Transform weaponTran;//武器の位置
+
         /// <summary>
         /// ControllerBaseの初期設定を行う
         /// </summary>
         public void SetUp()
         {
+            //武器の位置を取得
+            weaponTran = transform.GetChild(0).transform;
+
             //重力を生成する
             this.UpdateAsObservable()
                 .Where(_ => !CheckGrounded())
