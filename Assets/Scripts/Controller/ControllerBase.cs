@@ -9,6 +9,9 @@ namespace CallOfUnity
     /// </summary>
     public class ControllerBase : MonoBehaviour, ISetUp
     {
+        [HideInInspector]
+        public int myTeamNo;//自分のチーム番号
+
         protected Vector3 moveDir;//移動方向
 
         /// <summary>
@@ -22,27 +25,8 @@ namespace CallOfUnity
                 .Subscribe(_ => transform.Translate(moveDir * Time.deltaTime))
                 .AddTo(this);
 
-            //重力を生成する
-            this.UpdateAsObservable()
-                .Where(_ => !CheckGrounded())
-                .Subscribe(_ => transform.Translate(new Vector3(0f, -ConstData.GRAVITY, 0f) * Time.deltaTime))
-                .AddTo(this);
-
             //子クラスの初期設定を行う
             SetUpController();
-        }
-
-        /// <summary>
-        /// 接地判定を行う
-        /// </summary>
-        /// <returns>接地していたらtrue</returns>
-        protected bool CheckGrounded()
-        {
-            //光線を作成 
-            var ray = new Ray(transform.position + Vector3.up * 0.1f, Vector3.down);
-
-            //光線が他のコライダーに接触したらtrueを返す
-            return Physics.Raycast(ray, 0.15f);
         }
 
         /// <summary>
@@ -89,6 +73,16 @@ namespace CallOfUnity
         {
             //TODO:連射速度取得処理
             return 1f;//（仮）
+        }
+
+        /// <summary>
+        /// 現在使用している武器の残弾数を取得する
+        /// </summary>
+        /// <returns>現在使用している武器の残弾数</returns>
+        protected float GetAmmunitionRemaining()
+        {
+            //TODO:残弾数の取得処理
+            return 100f;//（仮）
         }
     }
 }

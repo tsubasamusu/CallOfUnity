@@ -65,7 +65,7 @@ namespace CallOfUnity
 
             //射撃
             this.UpdateAsObservable()
-                .Where(_ => Input.GetKey(ConstData.SHOT_KEY))
+                .Where(_ => Input.GetKey(ConstData.SHOT_KEY) && GetAmmunitionRemaining() > 0)
                 .ThrottleFirst(System.TimeSpan.FromSeconds(GetRateOfFire()))
                 .Subscribe(_ => Shot())
                 .AddTo(this);
@@ -105,6 +105,22 @@ namespace CallOfUnity
         {
             //Rigidbodyを取得
             rb = GetComponent<Rigidbody>();
+
+            //自分のチーム番号を設定
+            myTeamNo = 0;
+        }
+
+        /// <summary>
+        /// 接地判定を行う
+        /// </summary>
+        /// <returns>接地していたらtrue</returns>
+        private bool CheckGrounded()
+        {
+            //光線を作成 
+            var ray = new Ray(transform.position + Vector3.up * 0.1f, Vector3.down);
+
+            //光線が他のコライダーに接触したらtrueを返す
+            return Physics.Raycast(ray, 0.15f);
         }
 
         /// <summary>

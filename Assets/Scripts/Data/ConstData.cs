@@ -11,8 +11,6 @@ namespace CallOfUnity
 
         public const float RUN_SPEED = 30f;//走るスピード
 
-        public const float GRAVITY = 5f;//重力
-
         public const float STANCE_TIME = 0.25f;//構える時間
 
         public const float NORMAL_FOV = 60f;//基本の視野角
@@ -20,6 +18,8 @@ namespace CallOfUnity
         public const float STANCE_FOV = 30f;//構える時の視野角
 
         public const float JUMP_POWER = 10f;//ジャンプ力
+
+        public const float STOPPING_DISTANCE = 5f;//停止距離
 
         public const KeyCode RUN_KEY = KeyCode.Q;//ダッシュキー
 
