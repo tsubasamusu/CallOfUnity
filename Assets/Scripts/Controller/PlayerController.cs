@@ -27,16 +27,18 @@ namespace CallOfUnity
             this.UpdateAsObservable()
                 .Subscribe(_ =>
                 {
-                    //移動方向を設定
-                    moveDir
-                    //水平方向の入力を取得
-                    = Vector3.Scale((Camera.main.transform.right * Input.GetAxis("Horizontal")
+                    //移動する
+                    transform.Translate(
+                        //水平方向の入力を取得
+                        Vector3.Scale((Camera.main.transform.right * Input.GetAxis("Horizontal")
                         //垂直方向の入力を取得
                         + Camera.main.transform.forward * Input.GetAxis("Vertical"))
                         //y成分を0にする
                         , new Vector3(1f, 0f, 1f))
                         //移動スピードを取得
-                        * (Input.GetKey(ConstData.RUN_KEY) ? ConstData.RUN_SPEED : ConstData.WALK_SPEED);
+                        * (Input.GetKey(ConstData.RUN_KEY) ? ConstData.RUN_SPEED : ConstData.WALK_SPEED)
+                        //時間を掛ける
+                        * Time.deltaTime);
 
                     //かがむキーが押されたら
                     if (Input.GetKeyDown(ConstData.STOOP_KEY))
@@ -108,19 +110,6 @@ namespace CallOfUnity
 
             //自分のチーム番号を設定
             myTeamNo = 0;
-        }
-
-        /// <summary>
-        /// 接地判定を行う
-        /// </summary>
-        /// <returns>接地していたらtrue</returns>
-        private bool CheckGrounded()
-        {
-            //光線を作成 
-            var ray = new Ray(transform.position + Vector3.up * 0.1f, Vector3.down);
-
-            //光線が他のコライダーに接触したらtrueを返す
-            return Physics.Raycast(ray, 0.15f);
         }
 
         /// <summary>

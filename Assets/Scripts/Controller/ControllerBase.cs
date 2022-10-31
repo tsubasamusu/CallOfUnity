@@ -12,17 +12,15 @@ namespace CallOfUnity
         [HideInInspector]
         public int myTeamNo;//自分のチーム番号
 
-        protected Vector3 moveDir;//移動方向
-
         /// <summary>
         /// ControllerBaseの初期設定を行う
         /// </summary>
         public void SetUp()
         {
-            //移動する
+            //重力を生成する
             this.UpdateAsObservable()
-                .Where(_ => moveDir != Vector3.zero)
-                .Subscribe(_ => transform.Translate(moveDir * Time.deltaTime))
+                .Where(_ => !CheckGrounded())
+                .Subscribe(_ => transform.Translate(Vector3.down * ConstData.GRAVITY * Time.deltaTime))
                 .AddTo(this);
 
             //子クラスの初期設定を行う
@@ -35,6 +33,19 @@ namespace CallOfUnity
         protected virtual void SetUpController()
         {
             //子クラスで処理を記述する
+        }
+
+        /// <summary>
+        /// 接地判定を行う
+        /// </summary>
+        /// <returns>接地していたらtrue</returns>
+        protected bool CheckGrounded()
+        {
+            //光線を作成 
+            var ray = new Ray(transform.position + Vector3.up * 0.1f, Vector3.down);
+
+            //光線が他のコライダーに接触したらtrueを返す
+            return Physics.Raycast(ray, 0.15f);
         }
 
         /// <summary>

@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.AI;
 using UniRx;
 using UniRx.Triggers;
+using System;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 
 namespace CallOfUnity
 {
@@ -23,16 +26,12 @@ namespace CallOfUnity
             //リセット時の処理を呼び出す
             Reset();
 
-            //移動・射撃
-            this.UpdateAsObservable()
-                .Subscribe(_ =>
-                {
-                    //目標地点を設定
-                    SetTargetPos(GetNearEnemyPos());
+            //射撃とリロードの制御を開始
+            ShotReloadAsync(this.GetCancellationTokenOnDestroy()).Forget();
 
-                    //射線上に敵がいて、弾が残っているなら射撃する
-                    if (CheckEnemy() && GetAmmunitionRemaining() > 0) Shot();
-                })
+            //移動
+            this.UpdateAsObservable()
+                .Subscribe(_ => SetTargetPos(GetNearEnemyPos()))
                 .AddTo(this);
         }
 
@@ -49,6 +48,41 @@ namespace CallOfUnity
 
             //（デバック用）
             myTeamNo = 1;
+        }
+
+        /// <summary>
+        /// 射撃とリロードを制御する
+        /// </summary>
+        /// <param name="token">CancellationToken</param>
+        /// <returns>待ち時間</returns>
+        private async UniTask ShotReloadAsync(CancellationToken token)
+        {
+            //無限に繰り返す
+            while(true)
+            {
+                //残弾数が0なら
+                if(GetAmmunitionRemaining()==0)
+                {
+                    //リロードする
+                    Reload();
+
+                    //リロードが終わるまで待つ
+                    await UniTask.Delay(TimeSpan.FromSeconds(GetReloadTime()), cancellationToken: token);
+                }
+
+                //射線上に敵がいて、弾が残っているなら
+                if (CheckEnemy() && GetAmmunitionRemaining() > 0)
+                {
+                    //次弾が撃てるまで待つ
+                    await UniTask.Delay(TimeSpan.FromSeconds(GetRateOfFire()), cancellationToken: token);
+
+                    //射撃する
+                    Shot();
+                }
+
+                //1フレーム待つ
+                await UniTask.Yield(token);
+            }
         }
 
         /// <summary>

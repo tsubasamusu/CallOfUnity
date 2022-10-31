@@ -21,6 +21,8 @@ namespace CallOfUnity
 
         public const float STOPPING_DISTANCE = 5f;//停止距離
 
+        public const float GRAVITY = 5f;//重力
+
         public const KeyCode RUN_KEY = KeyCode.Q;//ダッシュキー
 
         public const KeyCode RELOAD_KEY = KeyCode.R;//リロードキー
