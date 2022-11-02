@@ -18,6 +18,8 @@ namespace CallOfUnity
         /// </summary>
         void Start()
         {
+            //TODO:メソッド化
+
             //ISetUpインターフェイスのリストの要素数だけ繰り返す
             for (int i = 0; i < iSetUpList.Count; i++)
             {

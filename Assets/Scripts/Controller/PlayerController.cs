@@ -4,6 +4,9 @@ using UnityEngine;
 using UniRx;
 using UniRx.Triggers;
 using DG.Tweening;
+using System;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 
 namespace CallOfUnity
 {
@@ -23,7 +26,7 @@ namespace CallOfUnity
             //リセット時の処理を呼び出す 
             Reset();
 
-            //移動・かがむ・武器チェンジ
+            //移動・かがむ・武器チェンジ・ジャンプ
             this.UpdateAsObservable()
                 .Subscribe(_ =>
                 {
@@ -61,21 +64,21 @@ namespace CallOfUnity
             //リロード
             this.UpdateAsObservable()
                 .Where(_ => Input.GetKeyDown(ConstData.RELOAD_KEY))
-                .ThrottleFirst(System.TimeSpan.FromSeconds(GetReloadTime()))
+                .ThrottleFirst(TimeSpan.FromSeconds(GetReloadTime()))
                 .Subscribe(_ => Reload())
                 .AddTo(this);
 
             //射撃
             this.UpdateAsObservable()
                 .Where(_ => Input.GetKey(ConstData.SHOT_KEY) && GetAmmunitionRemaining() > 0)
-                .ThrottleFirst(System.TimeSpan.FromSeconds(GetRateOfFire()))
+                .ThrottleFirst(TimeSpan.FromSeconds(GetRateOfFire()))
                 .Subscribe(_ => Shot())
                 .AddTo(this);
 
             //構える
             this.UpdateAsObservable()
                 .Where(_ => Input.GetKeyDown(ConstData.STANCE_KEY) || Input.GetKeyUp(ConstData.STANCE_KEY))
-                .ThrottleFirst(System.TimeSpan.FromSeconds(ConstData.STANCE_TIME))
+                .ThrottleFirst(TimeSpan.FromSeconds(ConstData.STANCE_TIME))
                 .Subscribe(_ =>
                 {
                     //構えるキーが押されたら
@@ -96,7 +99,7 @@ namespace CallOfUnity
             //ジャンプ
             this.UpdateAsObservable()
                 .Where(_ => Input.GetKeyDown(ConstData.JUMP_KEY) && CheckGrounded())
-                .Subscribe(_ => rb.AddForce(Vector3.up * ConstData.JUMP_POWER, ForceMode.Impulse))
+                .Subscribe(_ => JumpAsync(this.GetCancellationTokenOnDestroy()).Forget())
                 .AddTo(this);
         }
 
@@ -110,6 +113,32 @@ namespace CallOfUnity
 
             //自分のチーム番号を設定
             myTeamNo = 0;
+        }
+
+        /// <summary>
+        /// ジャンプする
+        /// </summary>
+        /// <param name="token">CancellationToken</param>
+        /// <returns>待ち時間</returns>
+        private async UniTaskVoid JumpAsync(CancellationToken token)
+        {
+            //物理演算を開始
+            rb.isKinematic = false;
+
+            //力を加える
+            rb.AddForce(Vector3.up * ConstData.JUMP_POWER, ForceMode.Impulse);
+
+            //完全にジャンプするまで待つ
+            await UniTask.Delay(TimeSpan.FromSeconds(ConstData.WAIT_JUMP_TIME), cancellationToken: token);
+
+            //着地するまで待つ
+            await UniTask.WaitUntil(() => CheckGrounded(), cancellationToken: token);
+
+            //キャラクターの角度を初期化
+            transform.eulerAngles = Vector3.zero;
+
+            //物理演算を終了
+            rb.isKinematic = true;
         }
 
         /// <summary>
