@@ -61,6 +61,12 @@ namespace CallOfUnity
                 })
                 .AddTo(this);
 
+            //重力を生成する
+            this.UpdateAsObservable()
+                .Where(_ => !CheckGrounded())
+                .Subscribe(_ => transform.Translate(Vector3.down * GameData.instance.gravity * Time.deltaTime))
+                .AddTo(this);
+
             //リロード
             this.UpdateAsObservable()
                 .Where(_ => Input.GetKeyDown(ConstData.RELOAD_KEY))
@@ -96,10 +102,13 @@ namespace CallOfUnity
                 })
                 .AddTo(this);
 
+            //重力の初期値を取得
+            float firstGravity = GameData.instance.gravity;
+
             //ジャンプ
             this.UpdateAsObservable()
                 .Where(_ => Input.GetKeyDown(ConstData.JUMP_KEY) && CheckGrounded())
-                .Subscribe(_ => JumpAsync(this.GetCancellationTokenOnDestroy()).Forget())
+                .Subscribe(_ => JumpAsync(this.GetCancellationTokenOnDestroy(), firstGravity).Forget())
                 .AddTo(this);
         }
 
@@ -119,8 +128,9 @@ namespace CallOfUnity
         /// ジャンプする
         /// </summary>
         /// <param name="token">CancellationToken</param>
+        /// <param name="firstGravity">重力の初期値</param>
         /// <returns>待ち時間</returns>
-        private async UniTaskVoid JumpAsync(CancellationToken token)
+        private async UniTaskVoid JumpAsync(CancellationToken token,float firstGravity)
         {
             //物理演算を開始
             rb.isKinematic = false;
@@ -128,8 +138,14 @@ namespace CallOfUnity
             //力を加える
             rb.AddForce(Vector3.up * ConstData.JUMP_POWER, ForceMode.Impulse);
 
+            //重力を無効化
+            GameData.instance.gravity = 0f;
+
             //完全にジャンプするまで待つ
             await UniTask.Delay(TimeSpan.FromSeconds(ConstData.WAIT_JUMP_TIME), cancellationToken: token);
+
+            //重力を初期値に設定
+            GameData.instance.gravity = firstGravity;
 
             //着地するまで待つ
             await UniTask.WaitUntil(() => CheckGrounded(), cancellationToken: token);

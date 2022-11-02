@@ -252,6 +252,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lookSensitivity: 2.86
   lookSmooth: 0.1
+  gravity: 5
 --- !u!4 &129353343
 Transform:
   m_ObjectHideFlags: 0

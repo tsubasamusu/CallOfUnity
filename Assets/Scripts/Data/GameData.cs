@@ -13,6 +13,9 @@ namespace CallOfUnity
         [SerializeField, Header("視点の滑らかさ"), Range(0.1f, 1f)]
         private float lookSmooth;//視点の滑らかさ
 
+        [Header("重力")]
+        public float gravity;//重力
+
         //「視点感度」の取得・設定用
         public float LookSensitivity { get => lookSensitivity; set => lookSensitivity = value; }
 

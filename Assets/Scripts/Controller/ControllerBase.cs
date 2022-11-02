@@ -22,12 +22,6 @@ namespace CallOfUnity
             //武器の位置を取得
             weaponTran = transform.GetChild(0).transform;
 
-            //重力を生成する
-            this.UpdateAsObservable()
-                .Where(_ => !CheckGrounded())
-                .Subscribe(_ => transform.Translate(Vector3.down * ConstData.GRAVITY * Time.deltaTime))
-                .AddTo(this);
-
             //子クラスの初期設定を行う
             SetUpController();
         }

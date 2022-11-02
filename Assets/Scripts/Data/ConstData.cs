@@ -17,13 +17,11 @@ namespace CallOfUnity
 
         public const float STANCE_FOV = 30f;//構える時の視野角
 
-        public const float JUMP_POWER = 10f;//ジャンプ力
+        public const float JUMP_POWER = 5f;//ジャンプ力
 
-        public const float WAIT_JUMP_TIME = 0.2f;//ジャンプ後、物理演算終了の判断を行うまでの時間
+        public const float WAIT_JUMP_TIME = 0.4f;//ジャンプ後、物理演算終了の判断を行うまでの時間
 
         public const float STOPPING_DISTANCE = 5f;//停止距離
-
-        public const float GRAVITY = 5f;//重力
 
         public const KeyCode RUN_KEY = KeyCode.Q;//ダッシュキー
 

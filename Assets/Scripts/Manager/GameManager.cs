@@ -18,13 +18,18 @@ namespace CallOfUnity
         /// </summary>
         void Start()
         {
-            //TODO:メソッド化
+            //各クラスの初期設定を行う
+            SetUp();
 
-            //ISetUpインターフェイスのリストの要素数だけ繰り返す
-            for (int i = 0; i < iSetUpList.Count; i++)
+            //各クラスの初期設定を行う
+            void SetUp()
             {
-                //各クラスの初期設定を行う
-                iSetUpList[i].Value.SetUp();
+                //ISetUpインターフェイスのリストの要素数だけ繰り返す
+                for (int i = 0; i < iSetUpList.Count; i++)
+                {
+                    //各クラスの初期設定を行う
+                    iSetUpList[i].Value.SetUp();
+                }
             }
         }
     }
