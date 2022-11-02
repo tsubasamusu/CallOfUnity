@@ -32,6 +32,7 @@ public class WeaponDataSO : ScriptableObject
     {
         public WeaponName name;//名前  
         public GameObject objWeapon;//武器のオブジェクト
+        public GameObject impactEffect;//着弾エフェクト
         public Sprite sprWeapon;//武器のスプライト
         public BulletDetailBase bullet;//弾
         public int ammunitionNo;//装弾数

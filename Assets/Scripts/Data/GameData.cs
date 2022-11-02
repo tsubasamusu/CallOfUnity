@@ -16,11 +16,17 @@ namespace CallOfUnity
         [Header("重力")]
         public float gravity;//重力
 
+        [SerializeField,Header("ロケットランチャーのエフェクト")]
+        private GameObject objRocketLauncherEffect;//ロケットランチャーのエフェクト
+
         //「視点感度」の取得・設定用
         public float LookSensitivity { get => lookSensitivity; set => lookSensitivity = value; }
 
         //「視点の滑らかさ」の取得・設定用
         public float LookSmooth { get => lookSmooth; set => lookSmooth = value; }
+
+        //「ロケットランチャーのエフェクト」の取得用
+        public GameObject ObjRocketLauncherEffect { get => objRocketLauncherEffect; }
 
         public static GameData instance;//インスタンス
 
