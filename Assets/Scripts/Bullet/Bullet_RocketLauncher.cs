@@ -16,11 +16,8 @@ namespace CallOfUnity
         /// </summary>
         private void Start()
         {
-            //エフェクト保持用
-            Transform effectTran = null;
-
             //エフェクトを生成
-            effectTran = Instantiate(GameData.instance.ObjRocketLauncherEffect.transform);
+            Transform effectTran = Instantiate(GameData.instance.ObjRocketLauncherEffect.transform);
 
             //エフェクトの向きを設定
             effectTran.forward = transform.forward;
