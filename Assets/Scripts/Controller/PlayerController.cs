@@ -137,17 +137,17 @@ namespace CallOfUnity
             //完全にジャンプするまで待つ
             await UniTask.Delay(TimeSpan.FromSeconds(ConstData.WAIT_JUMP_TIME), cancellationToken: token);
 
-            //重力を初期値に設定
-            GameData.instance.gravity = firstGravity;
-
-            //着地するまで待つ
-            await UniTask.WaitUntil(() => CheckGrounded(), cancellationToken: token);
-
             //キャラクターの角度を初期化
             transform.eulerAngles = Vector3.zero;
 
             //物理演算を終了
             rb.isKinematic = true;
+
+            //重力を初期値に設定
+            GameData.instance.gravity = firstGravity;
+
+            //着地するまで待つ
+            await UniTask.WaitUntil(() => CheckGrounded(), cancellationToken: token);
         }
 
         /// <summary>
