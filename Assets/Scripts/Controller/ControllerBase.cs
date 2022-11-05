@@ -20,7 +20,7 @@ namespace CallOfUnity
         public void SetUp()
         {
             //武器の位置を取得
-            weaponTran = transform.GetChild(0).transform;
+            weaponTran = transform.GetChild(0).transform.GetChild(0).transform;
 
             //子クラスの初期設定を行う
             SetUpController();
