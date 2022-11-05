@@ -58,6 +58,13 @@ namespace CallOfUnity
 
                     //武器チェンジキーが押されたら武器をチェンジする
                     if (Input.GetKeyDown(ConstData.CHANGE_WEAPON_KEY)) ChangeWeapon();
+
+                    //構えるキーが離されたら
+                    if (Input.GetKeyUp(ConstData.STANCE_KEY))
+                    {
+                        //構えるのをやめる
+                        Camera.main.DOFieldOfView(ConstData.NORMAL_FOV, ConstData.STANCE_TIME);
+                    }
                 })
                 .AddTo(this);
 
@@ -83,23 +90,9 @@ namespace CallOfUnity
 
             //構える
             this.UpdateAsObservable()
-                .Where(_ => Input.GetKeyDown(ConstData.STANCE_KEY) || Input.GetKeyUp(ConstData.STANCE_KEY))
+                .Where(_ => Input.GetKeyDown(ConstData.STANCE_KEY))
                 .ThrottleFirst(TimeSpan.FromSeconds(ConstData.STANCE_TIME))
-                .Subscribe(_ =>
-                {
-                    //構えるキーが押されたら
-                    if (Input.GetKeyDown(ConstData.STANCE_KEY))
-                    {
-                        //構える
-                        Camera.main.DOFieldOfView(ConstData.STANCE_FOV, ConstData.STANCE_TIME);
-                    }
-                    //構えるキーが離されたら
-                    else if (Input.GetKeyUp(ConstData.STANCE_KEY))
-                    {
-                        //構えるのをやめる
-                        Camera.main.DOFieldOfView(ConstData.NORMAL_FOV, ConstData.STANCE_TIME);
-                    }
-                })
+                .Subscribe(_ =>Camera.main.DOFieldOfView(ConstData.STANCE_FOV, ConstData.STANCE_TIME))
                 .AddTo(this);
 
             //重力の初期値を取得
