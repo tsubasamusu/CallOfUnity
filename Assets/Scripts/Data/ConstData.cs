@@ -23,6 +23,8 @@ namespace CallOfUnity
 
         public const float STOPPING_DISTANCE = 5f;//停止距離
 
+        public const int FIRST_ALL_BULLET_COUNT = 1000;//初期総残弾数
+
         public const KeyCode RUN_KEY = KeyCode.Q;//ダッシュキー
 
         public const KeyCode RELOAD_KEY = KeyCode.R;//リロードキー

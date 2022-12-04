@@ -46,6 +46,16 @@ namespace CallOfUnity
             //停止距離を設定
             agent.stoppingDistance = ConstData.STOPPING_DISTANCE;
 
+            //WeaponDataSOを取得
+            WeaponDataSO weaponDataSO = GameData.instance.WeaponDataSO;
+
+            //所持武器の数だけ繰り返す
+            for(int i=0;i<weaponDatas.Length;i++) 
+            {
+                //所持武器をランダムに決定
+                weaponDatas[i] = weaponDataSO.weaponDataList[UnityEngine.Random.Range(0, weaponDataSO.weaponDataList.Count)];
+            }
+
             //（デバック用）
             myTeamNo = 1;
         }

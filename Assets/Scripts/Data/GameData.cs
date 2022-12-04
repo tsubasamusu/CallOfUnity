@@ -19,6 +19,9 @@ namespace CallOfUnity
         [SerializeField,Header("ロケットランチャーのエフェクト")]
         private GameObject objRocketLauncherEffect;//ロケットランチャーのエフェクト
 
+        [SerializeField]
+        private WeaponDataSO weaponDataSO;//WeaponDataSO
+
         //「視点感度」の取得・設定用
         public float LookSensitivity { get => lookSensitivity; set => lookSensitivity = value; }
 
@@ -27,6 +30,8 @@ namespace CallOfUnity
 
         //「ロケットランチャーのエフェクト」の取得用
         public GameObject ObjRocketLauncherEffect { get => objRocketLauncherEffect; }
+
+        public WeaponDataSO WeaponDataSO { get => weaponDataSO; }
 
         public static GameData instance;//インスタンス
 

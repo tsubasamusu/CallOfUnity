@@ -254,6 +254,7 @@ MonoBehaviour:
   lookSmooth: 0.1
   gravity: 5
   objRocketLauncherEffect: {fileID: 0}
+  weaponDataSO: {fileID: 11400000, guid: 57a443bdb75a4c042a0ee2d2e38612af, type: 2}
 --- !u!4 &129353343
 Transform:
   m_ObjectHideFlags: 0
@@ -532,6 +533,41 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myTeamNo: 0
+  weaponDatas:
+  - name: 0
+    objWeapon: {fileID: 0}
+    impactEffect: {fileID: 0}
+    sprWeapon: {fileID: 0}
+    bullet: {fileID: 0}
+    ammunitionNo: 0
+    reloadTime: 0
+    rateOfFire: 0
+    firingRange: 0
+    bulletVelocity: 0
+    attackPower: 0
+  - name: 0
+    objWeapon: {fileID: 0}
+    impactEffect: {fileID: 0}
+    sprWeapon: {fileID: 0}
+    bullet: {fileID: 0}
+    ammunitionNo: 0
+    reloadTime: 0
+    rateOfFire: 0
+    firingRange: 0
+    bulletVelocity: 0
+    attackPower: 0
+  currentWeapon:
+    name: 0
+    objWeapon: {fileID: 0}
+    impactEffect: {fileID: 0}
+    sprWeapon: {fileID: 0}
+    bullet: {fileID: 0}
+    ammunitionNo: 0
+    reloadTime: 0
+    rateOfFire: 0
+    firingRange: 0
+    bulletVelocity: 0
+    attackPower: 0
 --- !u!114 &362703148
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -916,6 +952,7 @@ MonoBehaviour:
     unityReference: {fileID: 362703148}
     rawReference:
       rid: -2
+  playerControllerBase: {fileID: 1519644928}
   references:
     version: 2
     RefIds:
@@ -971,6 +1008,41 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myTeamNo: 0
+  weaponDatas:
+  - name: 0
+    objWeapon: {fileID: 0}
+    impactEffect: {fileID: 0}
+    sprWeapon: {fileID: 0}
+    bullet: {fileID: 0}
+    ammunitionNo: 0
+    reloadTime: 0
+    rateOfFire: 0
+    firingRange: 0
+    bulletVelocity: 0
+    attackPower: 0
+  - name: 0
+    objWeapon: {fileID: 0}
+    impactEffect: {fileID: 0}
+    sprWeapon: {fileID: 0}
+    bullet: {fileID: 0}
+    ammunitionNo: 0
+    reloadTime: 0
+    rateOfFire: 0
+    firingRange: 0
+    bulletVelocity: 0
+    attackPower: 0
+  currentWeapon:
+    name: 0
+    objWeapon: {fileID: 0}
+    impactEffect: {fileID: 0}
+    sprWeapon: {fileID: 0}
+    bullet: {fileID: 0}
+    ammunitionNo: 0
+    reloadTime: 0
+    rateOfFire: 0
+    firingRange: 0
+    bulletVelocity: 0
+    attackPower: 0
 --- !u!54 &1519644929
 Rigidbody:
   m_ObjectHideFlags: 0

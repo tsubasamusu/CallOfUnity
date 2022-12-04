@@ -10,7 +10,27 @@ namespace CallOfUnity
         [HideInInspector]
         public int myTeamNo;//自分のチーム番号
 
+        [HideInInspector]
+        public WeaponDataSO.WeaponData[] weaponDatas = new WeaponDataSO.WeaponData[2];//所持武器のデータ
+
+        [HideInInspector]
+        public WeaponDataSO.WeaponData currentWeapon;//使用中の武器
+
+        private int allBulletCount;//総残弾数
+
+        private int[] bulletCounts = new int[2];//それぞれの武器の残弾数
+
         protected Transform weaponTran;//武器の位置
+
+        /// <summary>
+        /// 「総残弾数」の取得用
+        /// </summary>
+        public int AllBulletCount { get => allBulletCount; }
+
+        /// <summary>
+        /// 「それぞれの武器の残弾数」の取得用
+        /// </summary>
+        public int[] BulletCounts { get => bulletCounts; }
 
         /// <summary>
         /// ControllerBaseの初期設定を行う
@@ -20,8 +40,28 @@ namespace CallOfUnity
             //武器の位置を取得
             weaponTran = transform.GetChild(0).transform.GetChild(0).transform;
 
+            //総残弾数を初期値に設定
+            allBulletCount = ConstData.FIRST_ALL_BULLET_COUNT;
+
             //子クラスの初期設定を行う
             SetUpController();
+
+            //所持武器の数だけ繰り返す
+            for (int i = 0; i < weaponDatas.Length; i++)
+            {
+                //所持武器が設定されているなら
+                if (weaponDatas[i] != null)
+                {
+                    //使用中の武器を設定
+                    if (i == 0) currentWeapon = weaponDatas[i];
+                }
+                //所持武器が設定されていないなら
+                else
+                {
+                    //問題を報告
+                    Debug.Log("所持武器が設定されていません");
+                }
+            }
         }
 
         /// <summary>
@@ -50,8 +90,7 @@ namespace CallOfUnity
         /// </summary>
         protected void Reload()
         {
-            //TODO:リロード処理
-            Debug.Log("リロード");
+            
         }
 
         /// <summary>
