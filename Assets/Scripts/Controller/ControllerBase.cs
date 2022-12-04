@@ -1,3 +1,6 @@
+using System;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace CallOfUnity
@@ -21,6 +24,8 @@ namespace CallOfUnity
         private int[] bulletCounts = new int[2];//それぞれの武器の残弾数
 
         protected Transform weaponTran;//武器の位置
+
+        protected bool isReloading;//リロード中かどうか
 
         /// <summary>
         /// 「総残弾数」の取得用
@@ -88,9 +93,34 @@ namespace CallOfUnity
         /// <summary>
         /// リロードする
         /// </summary>
-        protected void Reload()
+        /// <param name="token">CancellationToken</param>
+        /// <returns>待ち時間</returns>
+        protected async UniTaskVoid ReloadAsync(CancellationToken token)
         {
-            
+            //リロード中に変更する
+            isReloading= true;
+
+            //使用中の武器が設定されていなければ
+            if (currentWeapon == null)
+            {
+                //問題を報告
+                Debug.Log("使用中の武器が設定されていません");
+
+                //以降の処理を行わない
+                return;
+            }
+
+            //一定時間待つ
+            await UniTask.Delay(TimeSpan.FromSeconds(currentWeapon.reloadTime), cancellationToken: token);
+
+            //総残弾数を更新する
+            allBulletCount -= (currentWeapon.ammunitionNo - GetAmmunitionRemaining());
+
+            //使用中の武器の残弾数を初期値に設定
+            bulletCounts[GetCurrentWeaponNo()] = currentWeapon.ammunitionNo;
+
+            //リロード終了状態に変更する
+            isReloading= false;
         }
 
         /// <summary>
@@ -98,6 +128,9 @@ namespace CallOfUnity
         /// </summary>
         protected void Shot()
         {
+            //リロード中か、残弾数が「0」なら、以降の処理を行わない
+            if (isReloading || GetAmmunitionRemaining() == 0) return;
+
             //TODO:射撃処理
             Debug.Log("射撃");
         }
@@ -108,8 +141,11 @@ namespace CallOfUnity
         /// <returns>現在使用している武器のリロード時間</returns>
         protected float GetReloadTime()
         {
-            //TODO:リロード時間取得処理
-            return 3f;//（仮）
+            //リロード中か、残弾数が「0」なら、リロード時間を「0」で返す
+            if (isReloading || GetAmmunitionRemaining() == 0) return 0f;
+
+            //現在使用している武器のリロード時間を返す
+            return currentWeapon.reloadTime;
         }
 
         /// <summary>
@@ -118,18 +154,42 @@ namespace CallOfUnity
         /// <returns>現在使用している武器の連射速度</returns>
         protected float GetRateOfFire()
         {
-            //TODO:連射速度取得処理
-            return 1f;//（仮）
+            //現在使用している武器の連射速度を返す
+            return currentWeapon.rateOfFire;
+        }
+
+        /// <summary>
+        /// 使用中の武器の番号を取得する
+        /// </summary>
+        /// <returns>使用中の武器の番号（0or1）</returns>
+        private int GetCurrentWeaponNo()
+        {
+            //所持武器の数だけ繰り返す
+            for (int i = 0; i < weaponDatas.Length; i++)
+            {
+                //繰り返し処理で取得した武器が使用中の武器と一致したなら
+                if (weaponDatas[i] == currentWeapon)
+                {
+                    //繰り返し回数を返す
+                    return i;
+                }
+            }
+
+            //問題を報告
+            Debug.Log("使用中の武器が所持武器の中にありません");
+
+            //仮
+            return 0;
         }
 
         /// <summary>
         /// 現在使用している武器の残弾数を取得する
         /// </summary>
         /// <returns>現在使用している武器の残弾数</returns>
-        protected float GetAmmunitionRemaining()
+        protected int GetAmmunitionRemaining()
         {
-            //TODO:残弾数の取得処理
-            return 100f;//（仮）
+            //現在使用している武器の残弾数を返す
+            return bulletCounts[GetCurrentWeaponNo()];
         }
     }
 }

@@ -78,7 +78,7 @@ namespace CallOfUnity
             this.UpdateAsObservable()
                 .Where(_ => Input.GetKeyDown(ConstData.RELOAD_KEY))
                 .ThrottleFirst(TimeSpan.FromSeconds(GetReloadTime()))
-                .Subscribe(_ => Reload())
+                .Subscribe(_ => ReloadAsync(this.GetCancellationTokenOnDestroy()).Forget())
                 .AddTo(this);
 
             //射撃
@@ -173,6 +173,9 @@ namespace CallOfUnity
         /// </summary>
         private void ChangeWeapon()
         {
+            //リロード中は以降の処理を行わない
+            if(isReloading) return;
+
             //武器をチェンジする処理
             Debug.Log("武器をチェンジ");
         }

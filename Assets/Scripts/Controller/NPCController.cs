@@ -74,7 +74,7 @@ namespace CallOfUnity
                 if(GetAmmunitionRemaining()==0)
                 {
                     //リロードする
-                    Reload();
+                    ReloadAsync(this.GetCancellationTokenOnDestroy()).Forget();
 
                     //リロードが終わるまで待つ
                     await UniTask.Delay(TimeSpan.FromSeconds(GetReloadTime()), cancellationToken: token);
