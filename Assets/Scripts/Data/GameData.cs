@@ -7,14 +7,17 @@ namespace CallOfUnity
     /// </summary>
     public class GameData : MonoBehaviour
     {
-        [SerializeField, Header("視点感度"), Range(0.1f, 10f)]
-        private float lookSensitivity;//視点感度
+        [Header("視点感度"), Range(0.1f, 10f)]
+        public float lookSensitivity;//視点感度
 
-        [SerializeField, Header("視点の滑らかさ"), Range(0.1f, 1f)]
-        private float lookSmooth;//視点の滑らかさ
+        [Header("視点の滑らかさ"), Range(0.1f, 1f)]
+        public float lookSmooth;//視点の滑らかさ
 
         [Header("重力")]
         public float gravity;//重力
+
+        [HideInInspector]
+        public (int team0 ,int team1) score;//得点
 
         [SerializeField,Header("ロケットランチャーのエフェクト")]
         private GameObject objRocketLauncherEffect;//ロケットランチャーのエフェクト
@@ -24,16 +27,6 @@ namespace CallOfUnity
 
         [SerializeField]
         private WeaponDataSO weaponDataSO;//WeaponDataSO
-
-        /// <summary>
-        /// 「視点感度」の取得・設定用
-        /// </summary>
-        public float LookSensitivity { get => lookSensitivity; set => lookSensitivity = value; }
-
-        /// <summary>
-        /// 「視点の滑らかさ」の取得・設定用
-        /// </summary>
-        public float LookSmooth { get => lookSmooth; set => lookSmooth = value; }
 
         /// <summary>
         /// 「ロケットランチャーのエフェクト」の取得用

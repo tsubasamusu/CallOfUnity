@@ -31,16 +31,16 @@ namespace CallOfUnity
                 .Subscribe(_ =>
                 {
                     //マウスの横移動を取得
-                    yRot += Input.GetAxis("Mouse X") * GameData.instance.LookSensitivity;
+                    yRot += Input.GetAxis("Mouse X") * GameData.instance.lookSensitivity;
 
                     //マウスの縦移動を取得
-                    xRot -= Input.GetAxis("Mouse Y") * GameData.instance.LookSensitivity;
+                    xRot -= Input.GetAxis("Mouse Y") * GameData.instance.lookSensitivity;
 
                     //滑らかにxの回転を取得
-                    currentXRot = Mathf.SmoothDamp(currentXRot, xRot, ref xRotVelocity, GameData.instance.LookSmooth);
+                    currentXRot = Mathf.SmoothDamp(currentXRot, xRot, ref xRotVelocity, GameData.instance.lookSmooth);
 
                     //滑らかにyの回転を取得
-                    currentYRot = Mathf.SmoothDamp(currentYRot, yRot, ref yRotVelocity, GameData.instance.LookSmooth);
+                    currentYRot = Mathf.SmoothDamp(currentYRot, yRot, ref yRotVelocity, GameData.instance.lookSmooth);
 
                     //カメラを回転させる
                     transform.rotation = Quaternion.Euler(currentXRot, currentYRot, 0);

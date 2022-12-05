@@ -25,6 +25,8 @@ namespace CallOfUnity
 
         public const int FIRST_ALL_BULLET_COUNT = 1000;//初期総残弾数
 
+        public const int WIN_SCORE = 50;//勝利得点
+
         public const KeyCode RUN_KEY = KeyCode.Q;//ダッシュキー
 
         public const KeyCode RELOAD_KEY = KeyCode.R;//リロードキー

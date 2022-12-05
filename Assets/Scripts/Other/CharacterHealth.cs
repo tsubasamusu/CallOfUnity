@@ -23,11 +23,11 @@ namespace CallOfUnity
         {
             //弾に触れた際の処理
             this.OnCollisionEnterAsObservable()
-                .Where(other => other.transform.TryGetComponent(out BulletDetailBase bullet))
-                .Subscribe(other =>
+                .Where(collision => collision.transform.TryGetComponent(out BulletDetailBase _))
+                .Subscribe(collision =>
                 {
                     //ダメージを取得
-                    float damage = other.transform.GetComponent<BulletDetailBase>().weaponData.attackPower;
+                    float damage = collision.transform.GetComponent<BulletDetailBase>().weaponData.attackPower;
 
                     //HPを更新
                     hp = Mathf.Clamp(hp - damage, 0f, 100f);
@@ -40,8 +40,50 @@ namespace CallOfUnity
             //死亡処理
             void Die()
             {
-                //TODO:死亡処理
-                Debug.Log("死亡");
+                //ControllerBaseを取得できなかったら
+                if(!TryGetComponent(out ControllerBase controllerBase))
+                {
+                    //問題を報告
+                    Debug.Log("ControllerBaseを取得できませんでした");
+
+                    //以降の処理を行わない
+                    return;
+                }
+
+                //自分がチーム0なら
+                if(controllerBase.myTeamNo== 0)
+                {
+                    //チーム1の得点を増やす
+                    GameData.instance.score.team1++;
+                }
+                //自分がチーム1なら
+                else
+                {
+                    //チーム0の得点を増やす
+                    GameData.instance.score.team0++;
+                }
+
+                //チーム0が勝利したら
+                if(GameData.instance.score.team0 >=ConstData.WIN_SCORE)
+                {
+                    //TODO:チーム0勝利時の処理
+                    Debug.Log("チーム0の勝ち");
+
+                    //以降の処理を行わない
+                    return;
+                }
+                //チーム1が勝利したら
+                else if(GameData.instance.score.team1>=ConstData.WIN_SCORE)
+                {
+                    //TODO:チーム1勝利時の処理
+                    Debug.Log("チーム1の勝ち");
+
+                    //以降の処理を行わない
+                    return;
+                }
+
+                //TODO:リスポーン処理
+                Debug.Log("リスポーン");
             }
         }
     }
