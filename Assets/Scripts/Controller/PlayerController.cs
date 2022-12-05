@@ -43,19 +43,6 @@ namespace CallOfUnity
                         //時間を掛ける
                         * Time.deltaTime);
 
-                    //かがむキーが押されたら
-                    if (Input.GetKeyDown(ConstData.STOOP_KEY))
-                    {
-                        //かがむ
-                        Stoop();
-                    }
-                    //かがむキーが離されたら
-                    else if (Input.GetKeyUp(ConstData.STOOP_KEY))
-                    {
-                        //かがむのをやめる
-                        StopStoop();
-                    }
-
                     //武器チェンジキーが押されたら武器をチェンジする
                     if (Input.GetKeyDown(ConstData.CHANGE_WEAPON_KEY)) ChangeWeapon();
 
@@ -151,24 +138,6 @@ namespace CallOfUnity
 
             //着地するまで待つ
             await UniTask.WaitUntil(() => CheckGrounded(), cancellationToken: token);
-        }
-
-        /// <summary>
-        /// かがむ
-        /// </summary>
-        private void Stoop()
-        {
-            //TODO:かがむ処理
-            Debug.Log("かがむ");
-        }
-
-        /// <summary>
-        /// かがむのをやめる
-        /// </summary>
-        private void StopStoop()
-        {
-            //TODO:かがむのをやめる処理
-            Debug.Log("かがむのをやめる");
         }
 
         /// <summary>

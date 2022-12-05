@@ -23,6 +23,19 @@ namespace CallOfUnity
             this.UpdateAsObservable()
                 .Subscribe(_ => transform.Translate(transform.forward * weaponData.bulletVelocity * Time.deltaTime))
                 .AddTo(this);
+
+            //着弾
+            this.OnCollisionEnterAsObservable()
+                .Subscribe(collision =>
+                {
+                    //プレイヤーとNPC以外のものに接触したら
+                    if(!collision.transform.TryGetComponent(out ControllerBase controllerBase))
+                    {
+                        //弾を消す
+                        Destroy(gameObject);
+                    }
+                })
+                .AddTo(this);
         }
     }
 }
