@@ -19,18 +19,35 @@ namespace CallOfUnity
         [SerializeField,Header("ロケットランチャーのエフェクト")]
         private GameObject objRocketLauncherEffect;//ロケットランチャーのエフェクト
 
+        [SerializeField,Header("ゲームオブジェクトの一時的な親")]
+        private Transform temporaryObjectContainerTran;
+
         [SerializeField]
         private WeaponDataSO weaponDataSO;//WeaponDataSO
 
-        //「視点感度」の取得・設定用
+        /// <summary>
+        /// 「視点感度」の取得・設定用
+        /// </summary>
         public float LookSensitivity { get => lookSensitivity; set => lookSensitivity = value; }
 
-        //「視点の滑らかさ」の取得・設定用
+        /// <summary>
+        /// 「視点の滑らかさ」の取得・設定用
+        /// </summary>
         public float LookSmooth { get => lookSmooth; set => lookSmooth = value; }
 
-        //「ロケットランチャーのエフェクト」の取得用
+        /// <summary>
+        /// 「ロケットランチャーのエフェクト」の取得用
+        /// </summary>
         public GameObject ObjRocketLauncherEffect { get => objRocketLauncherEffect; }
 
+        /// <summary>
+        /// 「ゲームオブジェクトの一時的な親」の取得用
+        /// </summary>
+        public Transform TemporaryObjectContainerTran { get => temporaryObjectContainerTran; }
+
+        /// <summary>
+        /// 「WeaponDataSO」の取得用
+        /// </summary>
         public WeaponDataSO WeaponDataSO { get => weaponDataSO; }
 
         public static GameData instance;//インスタンス

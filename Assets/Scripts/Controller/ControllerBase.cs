@@ -27,6 +27,8 @@ namespace CallOfUnity
 
         protected bool isReloading;//リロード中かどうか
 
+        protected bool isPlayer;//プレイヤーかどうか
+
         /// <summary>
         /// 「総残弾数」の取得用
         /// </summary>
@@ -97,30 +99,30 @@ namespace CallOfUnity
         /// <returns>待ち時間</returns>
         protected async UniTaskVoid ReloadAsync(CancellationToken token)
         {
+            //リロードできるだけの弾が残っていなければ、以降の処理を行わない
+            if (allBulletCount < GetRequiredBulletCount()) return;
+
             //リロード中に変更する
-            isReloading= true;
-
-            //使用中の武器が設定されていなければ
-            if (currentWeapon == null)
-            {
-                //問題を報告
-                Debug.Log("使用中の武器が設定されていません");
-
-                //以降の処理を行わない
-                return;
-            }
+            isReloading = true;
 
             //一定時間待つ
             await UniTask.Delay(TimeSpan.FromSeconds(currentWeapon.reloadTime), cancellationToken: token);
 
             //総残弾数を更新する
-            allBulletCount -= (currentWeapon.ammunitionNo - GetAmmunitionRemaining());
+            allBulletCount = Math.Clamp(allBulletCount - GetRequiredBulletCount(), 0, ConstData.FIRST_ALL_BULLET_COUNT);
 
             //使用中の武器の残弾数を初期値に設定
             bulletCounts[GetCurrentWeaponNo()] = currentWeapon.ammunitionNo;
 
             //リロード終了状態に変更する
-            isReloading= false;
+            isReloading = false;
+
+            //リロードに必要な弾数を取得する
+            int GetRequiredBulletCount()
+            {
+                //使用中の武器の最大装弾数と、使用中の武器の現在の装弾数との差を返す
+                return currentWeapon.ammunitionNo - GetAmmunitionRemaining();
+            }
         }
 
         /// <summary>
@@ -131,8 +133,26 @@ namespace CallOfUnity
             //リロード中か、残弾数が「0」なら、以降の処理を行わない
             if (isReloading || GetAmmunitionRemaining() == 0) return;
 
-            //TODO:射撃処理
-            Debug.Log("射撃");
+            //総残弾数を更新する
+            allBulletCount = Math.Clamp(allBulletCount - 1, 0, ConstData.FIRST_ALL_BULLET_COUNT);
+
+            //使用中の武器の残弾数を更新する
+            bulletCounts[GetCurrentWeaponNo()] = Math.Clamp(bulletCounts[GetCurrentWeaponNo()] - 1, 0, currentWeapon.ammunitionNo);
+
+            //弾を生成する
+            BulletDetailBase bullet = Instantiate(currentWeapon.bullet);
+
+            //生成した弾の親を設定する
+            bullet.transform.SetParent(GameData.instance.TemporaryObjectContainerTran);
+
+            //生成した弾の位置を設定する
+            bullet.transform.position = weaponTran.position;
+
+            //生成した弾の向きを設定する
+            bullet.transform.forward = isPlayer ? Camera.main.transform.forward : transform.forward;
+
+            //生成した弾を飛ばす
+            bullet.Move();
         }
 
         /// <summary>

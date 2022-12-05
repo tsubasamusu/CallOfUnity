@@ -115,6 +115,9 @@ namespace CallOfUnity
 
             //自分のチーム番号を設定
             myTeamNo = 0;
+
+            //プレイヤーに設定
+            isPlayer = true;
         }
 
         /// <summary>
