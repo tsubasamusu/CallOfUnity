@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace CallOfUnity
@@ -25,8 +26,14 @@ namespace CallOfUnity
         [SerializeField,Header("ゲームオブジェクトの一時的な親")]
         private Transform temporaryObjectContainerTran;
 
+        [SerializeField, Header("NPCのプレファブ")]
+        private ControllerBase npcControllerBase;//NPCのプレファブ
+
         [SerializeField]
         private WeaponDataSO weaponDataSO;//WeaponDataSO
+
+        [HideInInspector]
+        public List<ControllerBase> npcList = new();//NPCのリスト
 
         /// <summary>
         /// 「ロケットランチャーのエフェクト」の取得用
@@ -37,6 +44,11 @@ namespace CallOfUnity
         /// 「ゲームオブジェクトの一時的な親」の取得用
         /// </summary>
         public Transform TemporaryObjectContainerTran { get => temporaryObjectContainerTran; }
+
+        /// <summary>
+        /// 「NPCのプレファブ」の取得用
+        /// </summary>
+        public ControllerBase NpcControllerBase { get => npcControllerBase; }
 
         /// <summary>
         /// 「WeaponDataSO」の取得用
