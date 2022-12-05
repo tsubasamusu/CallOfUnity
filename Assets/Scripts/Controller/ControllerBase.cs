@@ -47,28 +47,20 @@ namespace CallOfUnity
             //武器の位置を取得
             weaponTran = transform.GetChild(0).transform.GetChild(0).transform;
 
+            //子クラスの初期設定を行う
+            SetUpController();
+        }
+
+        /// <summary>
+        /// 再設定する
+        /// </summary>
+        public void ReSetUp()
+        {
             //総残弾数を初期値に設定
             allBulletCount = ConstData.FIRST_ALL_BULLET_COUNT;
 
-            //子クラスの初期設定を行う
-            SetUpController();
-
-            //所持武器の数だけ繰り返す
-            for (int i = 0; i < weaponDatas.Length; i++)
-            {
-                //所持武器が設定されているなら
-                if (weaponDatas[i] != null)
-                {
-                    //使用中の武器を設定
-                    if (i == 0) currentWeapon = weaponDatas[i];
-                }
-                //所持武器が設定されていないなら
-                else
-                {
-                    //問題を報告
-                    Debug.Log("所持武器が設定されていません");
-                }
-            }
+            //使用中の武器を初期値に設定
+            currentWeapon = weaponDatas[0];
         }
 
         /// <summary>

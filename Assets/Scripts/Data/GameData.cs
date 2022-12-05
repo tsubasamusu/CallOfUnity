@@ -20,6 +20,9 @@ namespace CallOfUnity
         [HideInInspector]
         public (int team0 ,int team1) score;//得点
 
+        [SerializeField, Header("リスポーン地点のリスト")]
+        private List<Transform> respawnTransList = new();
+
         [SerializeField,Header("ロケットランチャーのエフェクト")]
         private GameObject objRocketLauncherEffect;//ロケットランチャーのエフェクト
 
@@ -34,6 +37,11 @@ namespace CallOfUnity
 
         [HideInInspector]
         public List<ControllerBase> npcList = new();//NPCのリスト
+
+        /// <summary>
+        /// 「リスポーン地点のリスト」の取得用
+        /// </summary>
+        public List<Transform> RespawnTransList { get => respawnTransList; }
 
         /// <summary>
         /// 「ロケットランチャーのエフェクト」の取得用

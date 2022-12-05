@@ -82,8 +82,13 @@ namespace CallOfUnity
                     return;
                 }
 
-                //TODO:リスポーン処理
-                Debug.Log("リスポーン");
+                //再設定する
+                controllerBase.ReSetUp();
+
+                //リスポーンする
+                transform.position = controllerBase.myTeamNo == 0 ? 
+                    GameData.instance.RespawnTransList[0].position
+                    : GameData.instance.RespawnTransList[1].position;
             }
         }
     }
