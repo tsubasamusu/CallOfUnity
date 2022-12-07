@@ -64,7 +64,7 @@ namespace CallOfUnity
 
             //射撃
             this.UpdateAsObservable()
-                .Where(_ => Input.GetKey(ConstData.SHOT_KEY) && GetAmmunitionRemaining() > 0)
+                .Where(_ => Input.GetKey(ConstData.SHOT_KEY) && GetBulletcCount() > 0)
                 .ThrottleFirst(TimeSpan.FromSeconds(currentWeaponData.rateOfFire))
                 .Subscribe(_ => Shot())
                 .AddTo(this);
@@ -92,8 +92,8 @@ namespace CallOfUnity
             base.ReSetUp();
 
             //各武器の残弾数を最大値に設定する
-            UpdateBulletCount(0, GetWeaponInformation(0).weaponData.ammunitionNo);
-            UpdateBulletCount(1, GetWeaponInformation(1).weaponData.ammunitionNo);
+            UpdateBulletCount(0, GetWeaponInfo(0).weaponData.ammunitionNo);
+            UpdateBulletCount(1, GetWeaponInfo(1).weaponData.ammunitionNo);
         }
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace CallOfUnity
             currentWeapoonNo= 0;
 
             //使用中の武器のデータを初期値に設定
-            currentWeaponData = GetWeaponInformation(0).weaponData;
+            currentWeaponData = GetWeaponInfo(0).weaponData;
         }
 
         /// <summary>
@@ -133,7 +133,7 @@ namespace CallOfUnity
 
             //使用中の武器のデータを更新する
             currentWeaponData = currentWeapoonNo == 0 ?
-                GetWeaponInformation(1).weaponData : GetWeaponInformation(0).weaponData;
+                GetWeaponInfo(1).weaponData : GetWeaponInfo(0).weaponData;
 
             //使用中の武器の番号を更新する
             currentWeapoonNo = currentWeapoonNo == 0 ? 1 : 0;

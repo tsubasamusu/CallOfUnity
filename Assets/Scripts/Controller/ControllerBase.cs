@@ -129,7 +129,7 @@ namespace CallOfUnity
             int GetRequiredBulletCount()
             {
                 //使用中の武器の最大装弾数と、使用中の武器の現在の装弾数との差を返す
-                return currentWeaponData.ammunitionNo - GetAmmunitionRemaining();
+                return currentWeaponData.ammunitionNo - GetBulletcCount();
             }
         }
 
@@ -139,14 +139,14 @@ namespace CallOfUnity
         protected void Shot()
         {
             //リロード中か、残弾数が「0」なら、以降の処理を行わない
-            if (isReloading || GetAmmunitionRemaining() == 0) return;
+            if (isReloading || GetBulletcCount() == 0) return;
 
             //総残弾数を更新する
             allBulletCount = Math.Clamp(allBulletCount - 1, 0, ConstData.FIRST_ALL_BULLET_COUNT);
 
             //使用中の武器の残弾数を更新する
             UpdateBulletCount(currentWeapoonNo,
-                Math.Clamp(GetWeaponInformation(currentWeapoonNo).bulletCount - 1, 0, currentWeaponData.ammunitionNo));
+                Math.Clamp(GetWeaponInfo(currentWeapoonNo).bulletCount - 1, 0, currentWeaponData.ammunitionNo));
 
             //弾を生成する
             BulletDetailBase bullet = Instantiate(currentWeaponData.bullet);
@@ -166,6 +166,8 @@ namespace CallOfUnity
             //弾を発射する
             bullet.transform.GetComponent<Rigidbody>()
                 .AddForce(weaponTran.forward*currentWeaponData.shotPower,ForceMode.Impulse);
+
+            Debug.Log(GetBulletcCount());
         }
 
         /// <summary>
@@ -174,9 +176,6 @@ namespace CallOfUnity
         /// <returns>現在使用している武器のリロード時間</returns>
         protected float GetReloadTime()
         {
-            //リロード中か、残弾数が「0」なら、リロード時間を「0」で返す
-            if (isReloading || GetAmmunitionRemaining() == 0) return 0f;
-
             //現在使用している武器のリロード時間を返す
             return currentWeaponData.reloadTime;
         }
@@ -185,10 +184,10 @@ namespace CallOfUnity
         /// 現在使用している武器の残弾数を取得する
         /// </summary>
         /// <returns>現在使用している武器の残弾数</returns>
-        protected int GetAmmunitionRemaining()
+        protected int GetBulletcCount()
         {
             //現在使用している武器の残弾数を返す
-            return GetWeaponInformation(currentWeapoonNo).bulletCount;
+            return GetWeaponInfo(currentWeapoonNo).bulletCount;
         }
 
         /// <summary>
@@ -196,13 +195,13 @@ namespace CallOfUnity
         /// </summary>
         /// <param name="weaponNo">武器の番号</param>
         /// <returns>（データ・残弾数）</returns>
-        protected (WeaponDataSO.WeaponData weaponData, int bulletCount) GetWeaponInformation(int weaponNo)
+        protected (WeaponDataSO.WeaponData weaponData, int bulletCount) GetWeaponInfo(int weaponNo)
         {
             //受け取った番号に応じて戻り値を変更
             return weaponNo switch
             {
-                0 => GameData.instance.playerWeaponInfo.infomation0,
-                1 => GameData.instance.playerWeaponInfo.infomation1,
+                0 => GameData.instance.playerWeaponInfo.info0,
+                1 => GameData.instance.playerWeaponInfo.info1,
                 _ => (null, -1)
             };
         }
@@ -217,8 +216,8 @@ namespace CallOfUnity
             //受け取った所持武器の番号に応じて処理を変更
             switch (weaponNo)
             {
-                case 0: GameData.instance.playerWeaponInfo.infomation0.bulletCount0 = bulletCount; break;
-                case 1: GameData.instance.playerWeaponInfo.infomation1.bulletCount1 = bulletCount; break;
+                case 0: GameData.instance.playerWeaponInfo.info0.bulletCount = bulletCount; break;
+                case 1: GameData.instance.playerWeaponInfo.info1.bulletCount = bulletCount; break;
                 default: Debug.Log("適切な武器の番号を指定してください"); break;
             }
         }

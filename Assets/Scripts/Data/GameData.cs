@@ -36,8 +36,8 @@ namespace CallOfUnity
         public List<ControllerBase> npcList = new();//NPCのリスト
 
         [HideInInspector]
-        public ((WeaponDataSO.WeaponData weapon0, int bulletCount0) infomation0,
-            (WeaponDataSO.WeaponData weapon1, int bulletCount1) infomation1)
+        public ((WeaponDataSO.WeaponData data, int bulletCount) info0,
+            (WeaponDataSO.WeaponData data, int bulletCount) info1)
             playerWeaponInfo;//プレイヤーの所持武器の情報
 
         /// <summary>

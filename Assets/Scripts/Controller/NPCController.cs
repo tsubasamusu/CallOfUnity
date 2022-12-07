@@ -65,7 +65,7 @@ namespace CallOfUnity
             while(true)
             {
                 //Žc’e”‚ª0‚È‚ç
-                if(GetAmmunitionRemaining()==0)
+                if(GetBulletcCount()==0)
                 {
                     //ƒŠƒ[ƒh‚·‚é
                     ReloadAsync(this.GetCancellationTokenOnDestroy()).Forget();
@@ -75,7 +75,7 @@ namespace CallOfUnity
                 }
 
                 //ŽËüã‚É“G‚ª‚¢‚ÄA’e‚ªŽc‚Á‚Ä‚¢‚é‚È‚ç
-                if (CheckEnemy() && GetAmmunitionRemaining() > 0)
+                if (CheckEnemy() && GetBulletcCount() > 0)
                 {
                     //ŽŸ’e‚ªŒ‚‚Ä‚é‚Ü‚Å‘Ò‚Â
                     await UniTask.Delay(TimeSpan.FromSeconds(currentWeaponData.rateOfFire), cancellationToken: token);
