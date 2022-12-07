@@ -71,7 +71,7 @@ namespace CallOfUnity
             //射撃
             this.UpdateAsObservable()
                 .Where(_ => Input.GetKey(ConstData.SHOT_KEY) && GetAmmunitionRemaining() > 0)
-                .ThrottleFirst(TimeSpan.FromSeconds(GetRateOfFire()))
+                .ThrottleFirst(TimeSpan.FromSeconds(currentWeaponData.rateOfFire))
                 .Subscribe(_ => Shot())
                 .AddTo(this);
 
@@ -93,6 +93,19 @@ namespace CallOfUnity
         }
 
         /// <summary>
+        /// 再設定する
+        /// </summary>
+        public override void ReSetUp()
+        {
+            //親クラスの処理を行う
+            base.ReSetUp();
+
+            //各武器の残弾数を最大値に設定する
+            UpdateBulletCount(0, GetWeaponInformation(0).weaponData.ammunitionNo);
+            UpdateBulletCount(1, GetWeaponInformation(1).weaponData.ammunitionNo);
+        }
+
+        /// <summary>
         /// リセット時に呼び出される
         /// </summary>
         private void Reset()
@@ -102,13 +115,6 @@ namespace CallOfUnity
 
             //自分のチーム番号を設定
             myTeamNo = 0;
-
-            //所持武器の数だけ繰り返す
-            for(int i=0;i<weaponDataList.Count;i++)
-            {
-                //所持武器を設定する
-                weaponDataList[i] = GameData.instance.weaponDataListForPlayer[i];
-            }
         }
 
         /// <summary>
@@ -153,7 +159,8 @@ namespace CallOfUnity
             if(isReloading||Input.GetKey(ConstData.SHOT_KEY)) return;
 
             //使用中の武器のデータを更新する
-            currentWeapon = GetCurrentWeaponNo() == 0 ? weaponDataList[1] : weaponDataList[0];
+            currentWeaponData = currentWeapoonNo == 0 ?
+                GetWeaponInformation(1).weaponData : GetWeaponInformation(0).weaponData;
 
             ///武器のオブジェクトを表示する
             DisplayObjWeapon();

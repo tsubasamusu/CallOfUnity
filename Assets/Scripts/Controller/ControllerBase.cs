@@ -15,14 +15,11 @@ namespace CallOfUnity
         public int myTeamNo;//自分のチーム番号
 
         [HideInInspector]
-        public List<WeaponDataSO.WeaponData> weaponDataList = new();//所持武器のデータのリスト
-
-        [HideInInspector]
-        public WeaponDataSO.WeaponData currentWeapon;//使用中の武器
+        public WeaponDataSO.WeaponData currentWeaponData;//使用中の武器
 
         private int allBulletCount;//総残弾数
 
-        private List<int> bulletCountList = new ();//それぞれの武器の残弾数のリスト
+        protected int currentWeapoonNo;//使用中の武器の番号
 
         protected Transform weaponTran;//武器の位置
 
@@ -36,27 +33,12 @@ namespace CallOfUnity
         public int AllBulletCount { get => allBulletCount; }
 
         /// <summary>
-        /// 「それぞれの武器の残弾数」の取得用
-        /// </summary>
-        public List<int> BulletCounts { get => bulletCountList; }
-
-        /// <summary>
         /// ControllerBaseの初期設定を行う
         /// </summary>
         public void SetUp()
         {
             //武器の位置を取得
             weaponTran = transform.GetChild(0).transform.GetChild(0).transform;
-
-            //所持できる武器の数だけ繰り返す
-            for (int i = 0; i < ConstData.WEAPONS_NUMBER_I_HAVE; i++)
-            {
-                //所持武器のリストに空箱を作る
-                weaponDataList.Add(null);
-
-                //それぞれの武器の残弾数のリストに空箱を作る
-                bulletCountList.Add(0);
-            }
 
             //子クラスの初期設定を行う
             SetUpController();
@@ -77,7 +59,7 @@ namespace CallOfUnity
             if (objWeapon != null) Destroy(objWeapon);
 
             //武器のオブジェクトを生成する
-            objWeapon = Instantiate(currentWeapon.objWeapon);
+            objWeapon = Instantiate(currentWeaponData.objWeapon);
 
             //生成した武器の親を設定
             objWeapon.transform.SetParent(weaponTran.transform);
@@ -89,20 +71,12 @@ namespace CallOfUnity
         /// <summary>
         /// 再設定する
         /// </summary>
-        public void ReSetUp()
+        public virtual void ReSetUp()
         {
             //総残弾数を初期値に設定
             allBulletCount = ConstData.FIRST_ALL_BULLET_COUNT;
 
-            //それぞれの武器の残弾数のリストの要素数だけ繰り返す
-            for (int i = 0;i<bulletCountList.Count;i++)
-            {
-                //それぞれの武器の残弾数を最大数にする
-                bulletCountList[i] = weaponDataList[i].ammunitionNo;
-            }
-
-            //使用中の武器を初期値に設定
-            currentWeapon = weaponDataList[0];
+            //子クラスで処理を記述する
         }
 
         /// <summary>
@@ -140,13 +114,13 @@ namespace CallOfUnity
             isReloading = true;
 
             //一定時間待つ
-            await UniTask.Delay(TimeSpan.FromSeconds(currentWeapon.reloadTime), cancellationToken: token);
+            await UniTask.Delay(TimeSpan.FromSeconds(currentWeaponData.reloadTime), cancellationToken: token);
 
             //総残弾数を更新する
             allBulletCount = Math.Clamp(allBulletCount - GetRequiredBulletCount(), 0, ConstData.FIRST_ALL_BULLET_COUNT);
 
             //使用中の武器の残弾数を初期値に設定
-            bulletCountList[GetCurrentWeaponNo()] = currentWeapon.ammunitionNo;
+            UpdateBulletCount(currentWeapoonNo, currentWeaponData.ammunitionNo);
 
             //リロード終了状態に変更する
             isReloading = false;
@@ -155,7 +129,7 @@ namespace CallOfUnity
             int GetRequiredBulletCount()
             {
                 //使用中の武器の最大装弾数と、使用中の武器の現在の装弾数との差を返す
-                return currentWeapon.ammunitionNo - GetAmmunitionRemaining();
+                return currentWeaponData.ammunitionNo - GetAmmunitionRemaining();
             }
         }
 
@@ -171,11 +145,11 @@ namespace CallOfUnity
             allBulletCount = Math.Clamp(allBulletCount - 1, 0, ConstData.FIRST_ALL_BULLET_COUNT);
 
             //使用中の武器の残弾数を更新する
-            bulletCountList[GetCurrentWeaponNo()]
-                = Math.Clamp(bulletCountList[GetCurrentWeaponNo()] - 1, 0, currentWeapon.ammunitionNo);
+            UpdateBulletCount(currentWeapoonNo,
+                Math.Clamp(GetWeaponInformation(currentWeapoonNo).bulletCount - 1, 0, currentWeaponData.ammunitionNo));
 
             //弾を生成する
-            BulletDetailBase bullet = Instantiate(currentWeapon.bullet);
+            BulletDetailBase bullet = Instantiate(currentWeaponData.bullet);
 
             //生成した弾の親を設定する
             bullet.transform.SetParent(GameData.instance.TemporaryObjectContainerTran);
@@ -183,11 +157,11 @@ namespace CallOfUnity
             //生成した弾の位置を設定する
             bullet.transform.position = weaponTran.position;
 
-            //生成した弾の向きを設定する
-            bullet.transform.forward = bullet.TryGetComponent(out PlayerController _) ? Camera.main.transform.forward : transform.forward;
+            //生成した弾の進行方向を設定する
+            Vector3 moveDir = TryGetComponent(out PlayerController _) ? Camera.main.transform.forward : transform.forward;
 
             //生成した弾の初期設定を行う
-            bullet.SetUpBullet(currentWeapon);
+            bullet.SetUpBullet(currentWeaponData, moveDir);
         }
 
         /// <summary>
@@ -200,27 +174,7 @@ namespace CallOfUnity
             if (isReloading || GetAmmunitionRemaining() == 0) return 0f;
 
             //現在使用している武器のリロード時間を返す
-            return currentWeapon.reloadTime;
-        }
-
-        /// <summary>
-        /// 現在使用している武器の連射速度を取得する
-        /// </summary>
-        /// <returns>現在使用している武器の連射速度</returns>
-        protected float GetRateOfFire()
-        {
-            //現在使用している武器の連射速度を返す
-            return currentWeapon.rateOfFire;
-        }
-
-        /// <summary>
-        /// 使用中の武器の番号を取得する
-        /// </summary>
-        /// <returns>使用中の武器の番号</returns>
-        protected int GetCurrentWeaponNo()
-        {
-            //所持武器の番号を返す
-            return weaponDataList.IndexOf(currentWeapon) == -1 ? 0 : weaponDataList.IndexOf(currentWeapon);
+            return currentWeaponData.reloadTime;
         }
 
         /// <summary>
@@ -230,7 +184,39 @@ namespace CallOfUnity
         protected int GetAmmunitionRemaining()
         {
             //現在使用している武器の残弾数を返す
-            return bulletCountList[GetCurrentWeaponNo()];
+            return GetWeaponInformation(currentWeapoonNo).bulletCount;
+        }
+
+        /// <summary>
+        /// 武器の情報を取得する
+        /// </summary>
+        /// <param name="weaponNo">武器の番号</param>
+        /// <returns>（データ・残弾数）</returns>
+        protected (WeaponDataSO.WeaponData weaponData, int bulletCount) GetWeaponInformation(int weaponNo)
+        {
+            //受け取った番号に応じて戻り値を変更
+            return weaponNo switch
+            {
+                0 => GameData.instance.playerWeaponInfo.infomation0,
+                1 => GameData.instance.playerWeaponInfo.infomation1,
+                _ => (null, -1)
+            };
+        }
+
+        /// <summary>
+        /// 武器の残弾数を更新する
+        /// </summary>
+        /// <param name="weaponNo">設定したい所持武器の番号</param>
+        /// <param name="bulletCount">設定したい武器の残弾数</param>
+        protected void UpdateBulletCount(int weaponNo, int bulletCount)
+        {
+            //受け取った所持武器の番号に応じて処理を変更
+            switch (weaponNo)
+            {
+                case 0: GameData.instance.playerWeaponInfo.infomation0.bulletCount0 = bulletCount; break;
+                case 1: GameData.instance.playerWeaponInfo.infomation1.bulletCount1 = bulletCount; break;
+                default: Debug.Log("適切な武器の番号を指定してください"); break;
+            }
         }
     }
 }

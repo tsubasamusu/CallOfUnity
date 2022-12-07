@@ -47,18 +47,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e711910fc0291cb48bf1f410f1530d24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponData:
-    name: 0
-    objWeapon: {fileID: 0}
-    impactEffect: {fileID: 0}
-    sprWeapon: {fileID: 0}
-    bullet: {fileID: 0}
-    ammunitionNo: 0
-    reloadTime: 0
-    rateOfFire: 0
-    firingRange: 0
-    bulletVelocity: 0
-    attackPower: 0
 --- !u!54 &7801501983767132604
 Rigidbody:
   m_ObjectHideFlags: 0

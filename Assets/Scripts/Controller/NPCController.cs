@@ -46,13 +46,9 @@ namespace CallOfUnity
             //停止距離を設定
             agent.stoppingDistance = ConstData.STOPPING_DISTANCE;
 
-            //所持武器の数だけ繰り返す
-            for(int i=0;i<weaponDataList.Count;i++) 
-            {
-                //所持武器をランダムに決定
-                weaponDataList[i] = GameData.instance.WeaponDataSO
-                    .weaponDataList[UnityEngine.Random.Range(0, GameData.instance.WeaponDataSO.weaponDataList.Count)];
-            }
+            //使用武器をランダムに決定
+            currentWeaponData = GameData.instance.WeaponDataSO
+                .weaponDataList[UnityEngine.Random.Range(0, GameData.instance.WeaponDataSO.weaponDataList.Count)];
 
             //（デバック用）
             myTeamNo = 1;
@@ -82,7 +78,7 @@ namespace CallOfUnity
                 if (CheckEnemy() && GetAmmunitionRemaining() > 0)
                 {
                     //次弾が撃てるまで待つ
-                    await UniTask.Delay(TimeSpan.FromSeconds(GetRateOfFire()), cancellationToken: token);
+                    await UniTask.Delay(TimeSpan.FromSeconds(currentWeaponData.rateOfFire), cancellationToken: token);
 
                     //射撃する
                     Shot();
@@ -113,7 +109,7 @@ namespace CallOfUnity
             var ray = new Ray(weaponTran.position, transform.forward);
 
             //光線を発射し、光線が何にも触れなかったらfalseを返す
-            if (!Physics.Raycast(ray, out RaycastHit hit, currentWeapon.firingRange)) return false;
+            if (!Physics.Raycast(ray, out RaycastHit hit, currentWeaponData.firingRange)) return false;
 
             //光線の接触相手のチーム番号が異なるならtrueを返す
             return (hit.transform.TryGetComponent(out ControllerBase controller) && myTeamNo != controller.myTeamNo);

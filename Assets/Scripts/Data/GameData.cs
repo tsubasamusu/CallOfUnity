@@ -18,15 +18,15 @@ namespace CallOfUnity
         public float gravity;//重力
 
         [HideInInspector]
-        public (int team0 ,int team1) score;//得点
+        public (int team0, int team1) score;//得点
 
         [SerializeField, Header("リスポーン地点のリスト")]
         private List<Transform> respawnTransList = new();
 
-        [SerializeField,Header("ロケットランチャーのエフェクト")]
+        [SerializeField, Header("ロケットランチャーのエフェクト")]
         private GameObject objRocketLauncherEffect;//ロケットランチャーのエフェクト
 
-        [SerializeField,Header("ゲームオブジェクトの一時的な親")]
+        [SerializeField, Header("ゲームオブジェクトの一時的な親")]
         private Transform temporaryObjectContainerTran;
 
         [SerializeField, Header("NPCのプレファブ")]
@@ -39,7 +39,9 @@ namespace CallOfUnity
         public List<ControllerBase> npcList = new();//NPCのリスト
 
         [HideInInspector]
-        public List<WeaponDataSO.WeaponData> weaponDataListForPlayer = new();//プレーヤー用の所持武器のリスト
+        public ((WeaponDataSO.WeaponData weapon0, int bulletCount0) infomation0,
+            (WeaponDataSO.WeaponData weapon1, int bulletCount1) infomation1)
+            playerWeaponInfo;//プレイヤーの所持武器の情報
 
         /// <summary>
         /// 「リスポーン地点のリスト」の取得用
