@@ -27,7 +27,7 @@ namespace CallOfUnity
                 .Subscribe(collision =>
                 {
                     //ダメージを取得
-                    float damage = collision.transform.GetComponent<BulletDetailBase>().weaponData.attackPower;
+                    float damage = collision.transform.GetComponent<BulletDetailBase>().WeaponData.attackPower;
 
                     //HPを更新
                     hp = Mathf.Clamp(hp - damage, 0f, 100f);

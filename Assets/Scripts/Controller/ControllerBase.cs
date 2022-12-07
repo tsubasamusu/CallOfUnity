@@ -169,8 +169,8 @@ namespace CallOfUnity
             //¶¬‚µ‚½’e‚ÌŒü‚«‚ğİ’è‚·‚é
             bullet.transform.forward = isPlayer ? Camera.main.transform.forward : transform.forward;
 
-            //¶¬‚µ‚½’e‚ğ”ò‚Î‚·
-            bullet.Move();
+            //¶¬‚µ‚½’e‚Ì‰Šúİ’è‚ğs‚¤
+            bullet.SetUpBullet(currentWeapon);
         }
 
         /// <summary>
