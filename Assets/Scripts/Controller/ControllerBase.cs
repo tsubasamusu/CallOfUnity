@@ -15,7 +15,7 @@ namespace CallOfUnity
         public int myTeamNo;//自分のチーム番号
 
         //[HideInInspector]
-        public List<WeaponDataSO.WeaponData> weaponDataList=new();//所持武器のデータ
+        public List<WeaponDataSO.WeaponData> weaponDataList = new();//所持武器のデータ
 
         //[HideInInspector]
         public WeaponDataSO.WeaponData currentWeapon;//使用中の武器
@@ -144,7 +144,8 @@ namespace CallOfUnity
             allBulletCount = Math.Clamp(allBulletCount - 1, 0, ConstData.FIRST_ALL_BULLET_COUNT);
 
             //使用中の武器の残弾数を更新する
-            bulletCounts[GetCurrentWeaponNo()] = Math.Clamp(bulletCounts[GetCurrentWeaponNo()] - 1, 0, currentWeapon.ammunitionNo);
+            bulletCounts[GetCurrentWeaponNo()]
+                = Math.Clamp(bulletCounts[GetCurrentWeaponNo()] - 1, 0, currentWeapon.ammunitionNo);
 
             //弾を生成する
             BulletDetailBase bullet = Instantiate(currentWeapon.bullet);
@@ -188,21 +189,11 @@ namespace CallOfUnity
         /// <summary>
         /// 使用中の武器の番号を取得する
         /// </summary>
-        /// <returns>使用中の武器の番号（0or1）</returns>
+        /// <returns>使用中の武器の番号</returns>
         protected int GetCurrentWeaponNo()
         {
-            //使用中の武器が所持武器の中にあったら
-            if (weaponDataList.Exists(x=>x.name== currentWeapon.name))
-            {
-                //所持武器の番号を返す
-                return weaponDataList.IndexOf(currentWeapon);
-            }
-
-            //問題を報告
-            Debug.Log("使用中の武器が所持武器の中にありません");
-
-            //仮
-            return -1;
+            //所持武器の番号を返す
+            return weaponDataList.IndexOf(currentWeapon) == -1 ? 0 : weaponDataList.IndexOf(currentWeapon);
         }
 
         /// <summary>

@@ -22,7 +22,7 @@ MonoBehaviour:
     reloadTime: 3
     rateOfFire: 0.1
     firingRange: 300
-    bulletVelocity: 0
+    bulletVelocity: 100
     attackPower: 1
   - name: 1
     objWeapon: {fileID: 2161021469762290829, guid: 6f442ab3c7624b34a97414f5b501ef19, type: 3}
