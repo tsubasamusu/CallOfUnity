@@ -151,17 +151,21 @@ namespace CallOfUnity
             //’e‚ğ¶¬‚·‚é
             BulletDetailBase bullet = Instantiate(currentWeaponData.bullet);
 
+            //¶¬‚µ‚½’e‚Ì‰Šúİ’è‚ğs‚¤
+            bullet.SetUpBullet(currentWeaponData);
+
             //¶¬‚µ‚½’e‚Ìe‚ğİ’è‚·‚é
             bullet.transform.SetParent(GameData.instance.TemporaryObjectContainerTran);
 
             //¶¬‚µ‚½’e‚ÌˆÊ’u‚ğİ’è‚·‚é
             bullet.transform.position = weaponTran.position;
 
-            //¶¬‚µ‚½’e‚Ìis•ûŒü‚ğİ’è‚·‚é
-            Vector3 moveDir = TryGetComponent(out PlayerController _) ? Camera.main.transform.forward : transform.forward;
+            //¶¬‚µ‚½’e‚ÌŒü‚«‚ğİ’è‚·‚é
+            bullet.transform.forward= weaponTran.forward;
 
-            //¶¬‚µ‚½’e‚Ì‰Šúİ’è‚ğs‚¤
-            bullet.SetUpBullet(currentWeaponData, moveDir);
+            //’e‚ğ”­Ë‚·‚é
+            bullet.transform.GetComponent<Rigidbody>()
+                .AddForce(weaponTran.forward*currentWeaponData.shotPower,ForceMode.Impulse);
         }
 
         /// <summary>

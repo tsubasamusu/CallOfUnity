@@ -39,7 +39,7 @@ public class WeaponDataSO : ScriptableObject
         public float reloadTime;//リロード時間
         public float rateOfFire;//連射速度
         public float firingRange;//射程距離
-        public float bulletVelocity;//弾速
+        public float shotPower;//発射力
         [Range(0f,100f)]
         public float attackPower;//攻撃力
     }

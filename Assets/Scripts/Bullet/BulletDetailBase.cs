@@ -22,22 +22,15 @@ namespace CallOfUnity
         /// 弾の初期設定を行う
         /// </summary>
         /// <param name="weaponData">使用した武器のデータ</param>
-        /// <param name="moveDir">弾の進行方向</param>
-        public void SetUpBullet(WeaponDataSO.WeaponData weaponData, Vector3 moveDir)
+        public void SetUpBullet(WeaponDataSO.WeaponData weaponData)
         {
             //使用された武器のデータを取得
             this.weaponData = weaponData;
 
-            //進行方向を向く
-            transform.forward = moveDir;
-
-            //移動・自滅
+            //自滅
             this.UpdateAsObservable()
                 .Subscribe(_ =>
                 {
-                    //移動し続ける
-                    transform.Translate(moveDir * weaponData.bulletVelocity * Time.deltaTime);
-
                     //弾のy座標が戦場外に行ったら
                     if (transform.position.y < 0f || transform.position.y > 5f)
                     {
