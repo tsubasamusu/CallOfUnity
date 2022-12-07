@@ -14,15 +14,15 @@ namespace CallOfUnity
         [HideInInspector]
         public int myTeamNo;//自分のチーム番号
 
-        //[HideInInspector]
-        public List<WeaponDataSO.WeaponData> weaponDataList = new();//所持武器のデータ
+        [HideInInspector]
+        public List<WeaponDataSO.WeaponData> weaponDataList = new();//所持武器のデータのリスト
 
-        //[HideInInspector]
+        [HideInInspector]
         public WeaponDataSO.WeaponData currentWeapon;//使用中の武器
 
         private int allBulletCount;//総残弾数
 
-        private int[] bulletCounts = new int[2];//それぞれの武器の残弾数
+        private List<int> bulletCountList = new ();//それぞれの武器の残弾数のリスト
 
         protected Transform weaponTran;//武器の位置
 
@@ -38,7 +38,7 @@ namespace CallOfUnity
         /// <summary>
         /// 「それぞれの武器の残弾数」の取得用
         /// </summary>
-        public int[] BulletCounts { get => bulletCounts; }
+        public List<int> BulletCounts { get => bulletCountList; }
 
         /// <summary>
         /// ControllerBaseの初期設定を行う
@@ -53,6 +53,9 @@ namespace CallOfUnity
             {
                 //所持武器のリストに空箱を作る
                 weaponDataList.Add(null);
+
+                //それぞれの武器の残弾数のリストに空箱を作る
+                bulletCountList.Add(0);
             }
 
             //仮
@@ -73,6 +76,13 @@ namespace CallOfUnity
         {
             //総残弾数を初期値に設定
             allBulletCount = ConstData.FIRST_ALL_BULLET_COUNT;
+
+            //それぞれの武器の残弾数のリストの要素数だけ繰り返す
+            for (int i = 0;i<bulletCountList.Count;i++)
+            {
+                //それぞれの武器の残弾数を最大数にする
+                bulletCountList[i] = weaponDataList[i].ammunitionNo;
+            }
 
             //使用中の武器を初期値に設定
             currentWeapon = weaponDataList[0];
@@ -119,7 +129,7 @@ namespace CallOfUnity
             allBulletCount = Math.Clamp(allBulletCount - GetRequiredBulletCount(), 0, ConstData.FIRST_ALL_BULLET_COUNT);
 
             //使用中の武器の残弾数を初期値に設定
-            bulletCounts[GetCurrentWeaponNo()] = currentWeapon.ammunitionNo;
+            bulletCountList[GetCurrentWeaponNo()] = currentWeapon.ammunitionNo;
 
             //リロード終了状態に変更する
             isReloading = false;
@@ -144,8 +154,8 @@ namespace CallOfUnity
             allBulletCount = Math.Clamp(allBulletCount - 1, 0, ConstData.FIRST_ALL_BULLET_COUNT);
 
             //使用中の武器の残弾数を更新する
-            bulletCounts[GetCurrentWeaponNo()]
-                = Math.Clamp(bulletCounts[GetCurrentWeaponNo()] - 1, 0, currentWeapon.ammunitionNo);
+            bulletCountList[GetCurrentWeaponNo()]
+                = Math.Clamp(bulletCountList[GetCurrentWeaponNo()] - 1, 0, currentWeapon.ammunitionNo);
 
             //弾を生成する
             BulletDetailBase bullet = Instantiate(currentWeapon.bullet);
@@ -203,7 +213,7 @@ namespace CallOfUnity
         protected int GetAmmunitionRemaining()
         {
             //現在使用している武器の残弾数を返す
-            return bulletCounts[GetCurrentWeaponNo()];
+            return bulletCountList[GetCurrentWeaponNo()];
         }
     }
 }
