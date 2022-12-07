@@ -21,6 +21,8 @@ namespace CallOfUnity
         /// </summary>
         protected override void SetUpController()
         {
+            Rigidbody rb = GetComponent<Rigidbody>();
+
             //リセット時の処理を呼び出す 
             Reset();
 
@@ -29,17 +31,7 @@ namespace CallOfUnity
                 .Subscribe(_ =>
                 {
                     //移動する
-                    transform.Translate(
-                        //水平方向の入力を取得
-                        Vector3.Scale((Camera.main.transform.right * Input.GetAxis("Horizontal")
-                        //垂直方向の入力を取得
-                        + Camera.main.transform.forward * Input.GetAxis("Vertical"))
-                        //y成分を0にする
-                        , new Vector3(1f, 0f, 1f))
-                        //移動スピードを取得
-                        * (Input.GetKey(ConstData.RUN_KEY) ? ConstData.RUN_SPEED : ConstData.WALK_SPEED)
-                        //時間を掛ける
-                        * Time.deltaTime);
+                    Move();
 
                     //武器チェンジキーが押されたら武器をチェンジする
                     if (Input.GetKeyDown(ConstData.CHANGE_WEAPON_KEY)) ChangeWeapon();
@@ -120,6 +112,51 @@ namespace CallOfUnity
 
             ///武器のオブジェクトを表示する
             DisplayObjWeapon();
+        }
+
+        /// <summary>
+        /// 移動する
+        /// </summary>
+        private void Move()
+        {
+            //プレーヤーが壁に近づき過ぎたら（x）
+            if (Math.Abs(transform.position.x) > ConstData.MAX_LENGTH_TO_WALL)
+            {
+                //適切なx座標を取得する
+                float posX = transform.position.x + (transform.position.x >= 0f ? -1f : 1f);
+
+                //座標を更新する
+                transform.position = new Vector3(posX,transform.position.y,transform.position.z);
+
+                //以降の処理を行わない
+                return;
+            }
+
+            //プレーヤーが壁に近づき過ぎたら（z）
+            if (Math.Abs(transform.position.z) > ConstData.MAX_LENGTH_TO_WALL)
+            {
+                //適切なz座標を取得する
+                float posZ = transform.position.z + (transform.position.z >= 0f ? -1f : 1f);
+
+                //座標を更新する
+                transform.position = new Vector3(transform.position.x, transform.position.y, posZ);
+
+                //以降の処理を行わない
+                return;
+            }
+
+            //移動する
+            transform.Translate(
+                //水平方向の入力を取得する
+                Vector3.Scale((Camera.main.transform.right * Input.GetAxis("Horizontal")
+                //垂直方向の入力を取得する
+                + Camera.main.transform.forward * Input.GetAxis("Vertical"))
+                //y成分を「0」にする
+                , new Vector3(1f, 0f, 1f))
+                //移動スピードを取得する
+                * (Input.GetKey(ConstData.RUN_KEY) ? ConstData.RUN_SPEED : ConstData.WALK_SPEED)
+                //時間を掛ける
+                * Time.deltaTime);
         }
     }
 }
