@@ -55,12 +55,6 @@ namespace CallOfUnity
                 })
                 .AddTo(this);
 
-            //重力を生成する
-            this.UpdateAsObservable()
-                .Where(_ => !CheckGrounded())
-                .Subscribe(_ => transform.Translate(Vector3.down * GameData.instance.gravity * Time.deltaTime))
-                .AddTo(this);
-
             //リロード
             this.UpdateAsObservable()
                 .Where(_ => Input.GetKeyDown(ConstData.RELOAD_KEY))
@@ -82,13 +76,10 @@ namespace CallOfUnity
                 .Subscribe(_ =>Camera.main.DOFieldOfView(ConstData.STANCE_FOV, ConstData.STANCE_TIME))
                 .AddTo(this);
 
-            //重力の初期値を取得
-            float firstGravity = GameData.instance.gravity;
-
             //ジャンプ
             this.UpdateAsObservable()
                 .Where(_ => Input.GetKeyDown(ConstData.JUMP_KEY) && CheckGrounded())
-                .Subscribe(_ => JumpAsync(this.GetCancellationTokenOnDestroy(), firstGravity).Forget())
+                .Subscribe(_ => Jump())
                 .AddTo(this);
         }
 
@@ -126,34 +117,10 @@ namespace CallOfUnity
         /// <summary>
         /// ジャンプする
         /// </summary>
-        /// <param name="token">CancellationToken</param>
-        /// <param name="firstGravity">重力の初期値</param>
-        /// <returns>待ち時間</returns>
-        private async UniTaskVoid JumpAsync(CancellationToken token,float firstGravity)
+        private void Jump()
         {
-            //物理演算を開始
-            rb.isKinematic = false;
-
-            //力を加える
-            rb.AddForce(Vector3.up * ConstData.JUMP_POWER, ForceMode.Impulse);
-
-            //重力を無効化
-            GameData.instance.gravity = 0f;
-
-            //完全にジャンプするまで待つ
-            await UniTask.Delay(TimeSpan.FromSeconds(ConstData.WAIT_JUMP_TIME), cancellationToken: token);
-
-            //キャラクターの角度を初期化
-            transform.eulerAngles = Vector3.zero;
-
-            //物理演算を終了
-            rb.isKinematic = true;
-
-            //重力を初期値に設定
-            GameData.instance.gravity = firstGravity;
-
-            //着地するまで待つ
-            await UniTask.WaitUntil(() => CheckGrounded(), cancellationToken: token);
+            //y座標を変更する
+            transform.DOMoveY(transform.position.y + 1f, 0.5f).SetEase(Ease.OutQuad).SetLoops(2, LoopType.Yoyo);
         }
 
         /// <summary>

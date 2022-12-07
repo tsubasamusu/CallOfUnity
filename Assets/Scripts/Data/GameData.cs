@@ -14,9 +14,6 @@ namespace CallOfUnity
         [Header("視点の滑らかさ"), Range(0.1f, 1f)]
         public float lookSmooth;//視点の滑らかさ
 
-        [Header("重力")]
-        public float gravity;//重力
-
         [HideInInspector]
         public (int team0, int team1) score;//得点
 

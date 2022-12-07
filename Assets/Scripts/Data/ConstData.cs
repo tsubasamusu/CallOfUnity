@@ -19,8 +19,6 @@ namespace CallOfUnity
 
         public const float JUMP_POWER = 5f;//ジャンプ力
 
-        public const float WAIT_JUMP_TIME = 0.4f;//ジャンプ後、物理演算終了の判断を行うまでの時間
-
         public const float STOPPING_DISTANCE = 5f;//停止距離
 
         public const float MAX_LENGTH_FROM_CENTER_TO_BULLET = 1000f;//弾が存在できるステージ中央からの最大距離
