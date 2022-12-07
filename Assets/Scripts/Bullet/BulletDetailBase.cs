@@ -27,9 +27,30 @@ namespace CallOfUnity
             //使用された武器のデータを取得
             this.weaponData = weaponData;
 
-            //移動
+            //移動・自滅
             this.UpdateAsObservable()
-                .Subscribe(_ =>transform.Translate(transform.forward * weaponData.bulletVelocity * Time.deltaTime))
+                .Subscribe(_ =>
+                {
+                    //移動し続ける
+                    transform.Translate(transform.forward * weaponData.bulletVelocity * Time.deltaTime);
+
+                    //弾のy座標が戦場外に行ったら
+                    if (transform.position.y < 0f || transform.position.y > 5f)
+                    {
+                        //弾を消す
+                        Destroy(gameObject);
+
+                        //以降の処理を行わない
+                        return;
+                    }
+
+                    //ステージから離れすぎたら
+                    if (Mathf.Abs((transform.position - Vector3.zero).magnitude) > ConstData.MAX_LENGTH_FROM_CENTER_TO_BULLET)
+                    {
+                        //自滅する
+                        Destroy(gameObject);
+                    }
+                })
                 .AddTo(this);
 
             //着弾

@@ -32,6 +32,9 @@ namespace CallOfUnity
                     //HPを更新
                     hp = Mathf.Clamp(hp - damage, 0f, 100f);
 
+                    //触れた弾を消す
+                    Destroy(collision.gameObject);
+
                     //HPが0なら死亡処理を行う
                     if (hp == 0f) Die();
                 })
@@ -84,6 +87,9 @@ namespace CallOfUnity
 
                 //再設定する
                 controllerBase.ReSetUp();
+
+                //HPを初期値に戻す
+                hp = 100f;
 
                 //リスポーンする
                 transform.position = controllerBase.myTeamNo == 0 ? 

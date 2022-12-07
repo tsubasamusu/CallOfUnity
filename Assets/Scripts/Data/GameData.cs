@@ -38,6 +38,9 @@ namespace CallOfUnity
         [HideInInspector]
         public List<ControllerBase> npcList = new();//NPCのリスト
 
+        [HideInInspector]
+        public List<WeaponDataSO.WeaponData> weaponDataListForPlayer = new();//プレーヤー用の所持武器のリスト
+
         /// <summary>
         /// 「リスポーン地点のリスト」の取得用
         /// </summary>

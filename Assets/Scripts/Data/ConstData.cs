@@ -23,6 +23,8 @@ namespace CallOfUnity
 
         public const float STOPPING_DISTANCE = 5f;//停止距離
 
+        public const float MAX_LENGTH_FROM_CENTER_TO_BULLET = 1000f;//弾が存在できるステージ中央からの最大距離
+
         public const int FIRST_ALL_BULLET_COUNT = 1000;//初期総残弾数
 
         public const int WIN_SCORE = 50;//勝利得点

@@ -33,7 +33,7 @@ MonoBehaviour:
     reloadTime: 2
     rateOfFire: 1
     firingRange: 100
-    bulletVelocity: 0
+    bulletVelocity: 10
     attackPower: 1
   - name: 2
     objWeapon: {fileID: 8044793742223492786, guid: 83b0b12a3074d3e4aa0da20db6b74142, type: 3}
@@ -44,7 +44,7 @@ MonoBehaviour:
     reloadTime: 5
     rateOfFire: 5
     firingRange: 100
-    bulletVelocity: 0
+    bulletVelocity: 10
     attackPower: 100
   - name: 3
     objWeapon: {fileID: 4272078121948299647, guid: 42bd3dba4b01b35479dbd47886411415, type: 3}
@@ -55,7 +55,7 @@ MonoBehaviour:
     reloadTime: 2
     rateOfFire: 1
     firingRange: 10
-    bulletVelocity: 0
+    bulletVelocity: 10
     attackPower: 30
   - name: 4
     objWeapon: {fileID: 2792196814616366396, guid: 9da4a5b321cdf3147b0af1f4bb9686aa, type: 3}
@@ -66,7 +66,7 @@ MonoBehaviour:
     reloadTime: 5
     rateOfFire: 3
     firingRange: 1000
-    bulletVelocity: 0
+    bulletVelocity: 10
     attackPower: 80
   - name: 5
     objWeapon: {fileID: 6268340975612751157, guid: 3f92009e42684114cb5d6a225af8672c, type: 3}
@@ -77,5 +77,5 @@ MonoBehaviour:
     reloadTime: 2
     rateOfFire: 0.1
     firingRange: 100
-    bulletVelocity: 0
+    bulletVelocity: 10
     attackPower: 1

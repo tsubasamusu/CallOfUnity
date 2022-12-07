@@ -103,8 +103,12 @@ namespace CallOfUnity
             //自分のチーム番号を設定
             myTeamNo = 0;
 
-            //プレイヤーに設定
-            isPlayer = true;
+            //所持武器の数だけ繰り返す
+            for(int i=0;i<weaponDataList.Count;i++)
+            {
+                //所持武器を設定する
+                weaponDataList[i] = GameData.instance.weaponDataListForPlayer[i];
+            }
         }
 
         /// <summary>
@@ -150,6 +154,9 @@ namespace CallOfUnity
 
             //使用中の武器のデータを更新する
             currentWeapon = GetCurrentWeaponNo() == 0 ? weaponDataList[1] : weaponDataList[0];
+
+            ///武器のオブジェクトを表示する
+            DisplayObjWeapon();
         }
     }
 }

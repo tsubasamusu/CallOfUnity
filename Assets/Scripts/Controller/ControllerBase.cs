@@ -26,9 +26,9 @@ namespace CallOfUnity
 
         protected Transform weaponTran;//武器の位置
 
-        protected bool isReloading;//リロード中かどうか
+        protected GameObject objWeapon;//武器のオブジェクト
 
-        protected bool isPlayer;//プレイヤーかどうか
+        protected bool isReloading;//リロード中かどうか
 
         /// <summary>
         /// 「総残弾数」の取得用
@@ -58,15 +58,32 @@ namespace CallOfUnity
                 bulletCountList.Add(0);
             }
 
-            //仮
-            weaponDataList[0] = GameData.instance.WeaponDataSO.weaponDataList[0];
-            weaponDataList[1] = GameData.instance.WeaponDataSO.weaponDataList[2];
+            //子クラスの初期設定を行う
+            SetUpController();
 
             //再設定する
             ReSetUp();
 
-            //子クラスの初期設定を行う
-            SetUpController();
+            //武器のオブジェクトを表示する
+            DisplayObjWeapon();
+        }
+
+        /// <summary>
+        /// 武器のオブジェクトを表示する
+        /// </summary>
+        protected void DisplayObjWeapon()
+        {
+            //武器のオブジェクトが既に生成してあるなら、それを消す
+            if (objWeapon != null) Destroy(objWeapon);
+
+            //武器のオブジェクトを生成する
+            objWeapon = Instantiate(currentWeapon.objWeapon);
+
+            //生成した武器の親を設定
+            objWeapon.transform.SetParent(weaponTran.transform);
+
+            //生成した武器の位置・角度を設定
+            objWeapon.transform.localPosition = objWeapon.transform.localEulerAngles = Vector3.zero;
         }
 
         /// <summary>
@@ -167,7 +184,7 @@ namespace CallOfUnity
             bullet.transform.position = weaponTran.position;
 
             //生成した弾の向きを設定する
-            bullet.transform.forward = isPlayer ? Camera.main.transform.forward : transform.forward;
+            bullet.transform.forward = bullet.TryGetComponent(out PlayerController _) ? Camera.main.transform.forward : transform.forward;
 
             //生成した弾の初期設定を行う
             bullet.SetUpBullet(currentWeapon);

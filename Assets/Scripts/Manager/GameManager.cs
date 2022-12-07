@@ -23,6 +23,10 @@ namespace CallOfUnity
         {
             //TODO:プレイヤーの所持武器の指定の確認と設定
 
+            //仮
+            GameData.instance.weaponDataListForPlayer.Add(GameData.instance.WeaponDataSO.weaponDataList[0]);
+            GameData.instance.weaponDataListForPlayer.Add(GameData.instance.WeaponDataSO.weaponDataList[2]);
+
             //各クラスの初期設定を行う
             SetUp();
 
