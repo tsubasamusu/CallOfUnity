@@ -50,10 +50,10 @@ namespace CallOfUnity
             WeaponDataSO weaponDataSO = GameData.instance.WeaponDataSO;
 
             //所持武器の数だけ繰り返す
-            for(int i=0;i<weaponDatas.Length;i++) 
+            for(int i=0;i<weaponDataList.Count;i++) 
             {
                 //所持武器をランダムに決定
-                weaponDatas[i] = weaponDataSO.weaponDataList[UnityEngine.Random.Range(0, weaponDataSO.weaponDataList.Count)];
+                weaponDataList[i] = weaponDataSO.weaponDataList[UnityEngine.Random.Range(0, weaponDataSO.weaponDataList.Count)];
             }
 
             //（デバック用）

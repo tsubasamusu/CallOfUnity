@@ -21,13 +21,7 @@ namespace CallOfUnity
         /// </summary>
         void Start()
         {
-            //TODO:プレイヤーの所持武器の指定の確認
-
-            //TODO:プレイヤーの所持武器の設定
-
-            //仮
-            playerControllerBase.weaponDatas[0] = GameData.instance.WeaponDataSO.weaponDataList[0];
-            playerControllerBase.weaponDatas[1] = GameData.instance.WeaponDataSO.weaponDataList[2];
+            //TODO:プレイヤーの所持武器の指定の確認と設定
 
             //各クラスの初期設定を行う
             SetUp();

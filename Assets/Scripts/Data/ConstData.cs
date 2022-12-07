@@ -27,6 +27,8 @@ namespace CallOfUnity
 
         public const int WIN_SCORE = 50;//勝利得点
 
+        public const int WEAPONS_NUMBER_I_HAVE = 2;//所持できる武器の数
+
         public const KeyCode RUN_KEY = KeyCode.Q;//ダッシュキー
 
         public const KeyCode RELOAD_KEY = KeyCode.R;//リロードキー

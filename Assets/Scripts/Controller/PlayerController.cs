@@ -145,11 +145,11 @@ namespace CallOfUnity
         /// </summary>
         private void ChangeWeapon()
         {
-            //リロード中は以降の処理を行わない
-            if(isReloading) return;
+            //リロード中か、射撃中は以降の処理を行わない
+            if(isReloading||Input.GetKey(ConstData.SHOT_KEY)) return;
 
-            //武器をチェンジする処理
-            Debug.Log("武器をチェンジ");
+            //使用中の武器のデータを更新する
+            currentWeapon = GetCurrentWeaponNo() == 0 ? weaponDataList[1] : weaponDataList[0];
         }
     }
 }

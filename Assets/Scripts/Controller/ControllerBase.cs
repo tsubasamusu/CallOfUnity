@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -13,10 +14,10 @@ namespace CallOfUnity
         [HideInInspector]
         public int myTeamNo;//自分のチーム番号
 
-        [HideInInspector]
-        public WeaponDataSO.WeaponData[] weaponDatas = new WeaponDataSO.WeaponData[2];//所持武器のデータ
+        //[HideInInspector]
+        public List<WeaponDataSO.WeaponData> weaponDataList=new();//所持武器のデータ
 
-        [HideInInspector]
+        //[HideInInspector]
         public WeaponDataSO.WeaponData currentWeapon;//使用中の武器
 
         private int allBulletCount;//総残弾数
@@ -47,6 +48,20 @@ namespace CallOfUnity
             //武器の位置を取得
             weaponTran = transform.GetChild(0).transform.GetChild(0).transform;
 
+            //所持できる武器の数だけ繰り返す
+            for (int i = 0; i < ConstData.WEAPONS_NUMBER_I_HAVE; i++)
+            {
+                //所持武器のリストに空箱を作る
+                weaponDataList.Add(null);
+            }
+
+            //仮
+            weaponDataList[0] = GameData.instance.WeaponDataSO.weaponDataList[0];
+            weaponDataList[1] = GameData.instance.WeaponDataSO.weaponDataList[2];
+
+            //再設定する
+            ReSetUp();
+
             //子クラスの初期設定を行う
             SetUpController();
         }
@@ -60,7 +75,7 @@ namespace CallOfUnity
             allBulletCount = ConstData.FIRST_ALL_BULLET_COUNT;
 
             //使用中の武器を初期値に設定
-            currentWeapon = weaponDatas[0];
+            currentWeapon = weaponDataList[0];
         }
 
         /// <summary>
@@ -174,24 +189,20 @@ namespace CallOfUnity
         /// 使用中の武器の番号を取得する
         /// </summary>
         /// <returns>使用中の武器の番号（0or1）</returns>
-        private int GetCurrentWeaponNo()
+        protected int GetCurrentWeaponNo()
         {
-            //所持武器の数だけ繰り返す
-            for (int i = 0; i < weaponDatas.Length; i++)
+            //使用中の武器が所持武器の中にあったら
+            if (weaponDataList.Exists(x=>x.name== currentWeapon.name))
             {
-                //繰り返し処理で取得した武器が使用中の武器と一致したなら
-                if (weaponDatas[i] == currentWeapon)
-                {
-                    //繰り返し回数を返す
-                    return i;
-                }
+                //所持武器の番号を返す
+                return weaponDataList.IndexOf(currentWeapon);
             }
 
             //問題を報告
             Debug.Log("使用中の武器が所持武器の中にありません");
 
             //仮
-            return 0;
+            return -1;
         }
 
         /// <summary>
