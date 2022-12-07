@@ -17,13 +17,9 @@ namespace CallOfUnity
 
         public const float STANCE_FOV = 30f;//構える時の視野角
 
-        public const float JUMP_POWER = 5f;//ジャンプ力
-
         public const float STOPPING_DISTANCE = 5f;//停止距離
 
         public const float MAX_LENGTH_FROM_CENTER_TO_BULLET = 1000f;//弾が存在できるステージ中央からの最大距離
-
-        public const int FIRST_ALL_BULLET_COUNT = 1000;//初期総残弾数
 
         public const int WIN_SCORE = 50;//勝利得点
 
@@ -36,7 +32,5 @@ namespace CallOfUnity
         public const KeyCode SHOT_KEY = KeyCode.Mouse0;//射撃キー
 
         public const KeyCode STANCE_KEY = KeyCode.Mouse1;//構えるキー
-
-        public const KeyCode JUMP_KEY = KeyCode.Space;//ジャンプキー
     }
 }

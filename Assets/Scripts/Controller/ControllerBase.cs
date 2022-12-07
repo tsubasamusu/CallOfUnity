@@ -14,23 +14,19 @@ namespace CallOfUnity
         [HideInInspector]
         public int myTeamNo;//自分のチーム番号
 
-        [HideInInspector]
-        public WeaponDataSO.WeaponData currentWeaponData;//使用中の武器
-
-        private int allBulletCount;//総残弾数
+        protected WeaponDataSO.WeaponData currentWeaponData;//使用中の武器
 
         protected int currentWeapoonNo;//使用中の武器の番号
 
+        protected int bulletCountForNpc;//NPC用の残弾数
+
         protected Transform weaponTran;//武器の位置
 
-        protected GameObject objWeapon;//武器のオブジェクト
+        private GameObject objWeapon;//武器のオブジェクト
 
         protected bool isReloading;//リロード中かどうか
 
-        /// <summary>
-        /// 「総残弾数」の取得用
-        /// </summary>
-        public int AllBulletCount { get => allBulletCount; }
+        protected bool isPlayer;//自分がプレーヤーかどうか
 
         /// <summary>
         /// ControllerBaseの初期設定を行う
@@ -73,9 +69,6 @@ namespace CallOfUnity
         /// </summary>
         public virtual void ReSetUp()
         {
-            //総残弾数を初期値に設定
-            allBulletCount = ConstData.FIRST_ALL_BULLET_COUNT;
-
             //子クラスで処理を記述する
         }
 
@@ -107,30 +100,17 @@ namespace CallOfUnity
         /// <returns>待ち時間</returns>
         protected async UniTaskVoid ReloadAsync(CancellationToken token)
         {
-            //リロードできるだけの弾が残っていなければ、以降の処理を行わない
-            if (allBulletCount < GetRequiredBulletCount()) return;
-
             //リロード中に変更する
             isReloading = true;
 
             //一定時間待つ
             await UniTask.Delay(TimeSpan.FromSeconds(currentWeaponData.reloadTime), cancellationToken: token);
 
-            //総残弾数を更新する
-            allBulletCount = Math.Clamp(allBulletCount - GetRequiredBulletCount(), 0, ConstData.FIRST_ALL_BULLET_COUNT);
-
             //使用中の武器の残弾数を初期値に設定
-            UpdateBulletCount(currentWeapoonNo, currentWeaponData.ammunitionNo);
+            SetBulletCount(currentWeapoonNo, currentWeaponData.ammunitionNo);
 
             //リロード終了状態に変更する
             isReloading = false;
-
-            //リロードに必要な弾数を取得する
-            int GetRequiredBulletCount()
-            {
-                //使用中の武器の最大装弾数と、使用中の武器の現在の装弾数との差を返す
-                return currentWeaponData.ammunitionNo - GetBulletcCount();
-            }
         }
 
         /// <summary>
@@ -138,14 +118,11 @@ namespace CallOfUnity
         /// </summary>
         protected void Shot()
         {
-            //リロード中か、残弾数が「0」なら、以降の処理を行わない
-            if (isReloading || GetBulletcCount() == 0) return;
-
-            //総残弾数を更新する
-            allBulletCount = Math.Clamp(allBulletCount - 1, 0, ConstData.FIRST_ALL_BULLET_COUNT);
+            //使用中の武器の残弾数が「0」以下なら、以降の処理を行わない
+            if (GetBulletcCount() <= 0) return;
 
             //使用中の武器の残弾数を更新する
-            UpdateBulletCount(currentWeapoonNo,
+            SetBulletCount(currentWeapoonNo,
                 Math.Clamp(GetWeaponInfo(currentWeapoonNo).bulletCount - 1, 0, currentWeaponData.ammunitionNo));
 
             //弾を生成する
@@ -161,13 +138,11 @@ namespace CallOfUnity
             bullet.transform.position = weaponTran.position;
 
             //生成した弾の向きを設定する
-            bullet.transform.forward= weaponTran.forward;
+            bullet.transform.forward = weaponTran.forward;
 
             //弾を発射する
             bullet.transform.GetComponent<Rigidbody>()
-                .AddForce(weaponTran.forward*currentWeaponData.shotPower,ForceMode.Impulse);
-
-            Debug.Log(GetBulletcCount());
+                .AddForce(weaponTran.forward * currentWeaponData.shotPower, ForceMode.Impulse);
         }
 
         /// <summary>
@@ -197,6 +172,9 @@ namespace CallOfUnity
         /// <returns>（データ・残弾数）</returns>
         protected (WeaponDataSO.WeaponData weaponData, int bulletCount) GetWeaponInfo(int weaponNo)
         {
+            //自分がNPCなら、NPC用の情報を返す
+            if (!isPlayer) return (currentWeaponData, bulletCountForNpc);
+
             //受け取った番号に応じて戻り値を変更
             return weaponNo switch
             {
@@ -207,12 +185,22 @@ namespace CallOfUnity
         }
 
         /// <summary>
-        /// 武器の残弾数を更新する
+        /// 武器の残弾数を設定する
         /// </summary>
         /// <param name="weaponNo">設定したい所持武器の番号</param>
         /// <param name="bulletCount">設定したい武器の残弾数</param>
-        protected void UpdateBulletCount(int weaponNo, int bulletCount)
+        protected void SetBulletCount(int weaponNo, int bulletCount)
         {
+            //自分がNPCなら
+            if (!isPlayer)
+            {
+                //NPC用の残弾数を設定する
+                bulletCountForNpc = bulletCount;
+
+                //以降の処理を行わない
+                return;
+            }
+
             //受け取った所持武器の番号に応じて処理を変更
             switch (weaponNo)
             {

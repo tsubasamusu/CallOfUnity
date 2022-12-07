@@ -55,6 +55,15 @@ namespace CallOfUnity
         }
 
         /// <summary>
+        /// 再設定する
+        /// </summary>
+        public override void ReSetUp()
+        {
+            //残弾数を最大値に設定
+            bulletCountForNpc = currentWeaponData.ammunitionNo;
+        }
+
+        /// <summary>
         /// 射撃とリロードを制御する
         /// </summary>
         /// <param name="token">CancellationToken</param>
@@ -62,10 +71,10 @@ namespace CallOfUnity
         private async UniTask ShotReloadAsync(CancellationToken token)
         {
             //無限に繰り返す
-            while(true)
+            while (true)
             {
-                //残弾数が0なら
-                if(GetBulletcCount()==0)
+                //残弾数が「0」以下なら
+                if (GetBulletcCount() <= 0)
                 {
                     //リロードする
                     ReloadAsync(this.GetCancellationTokenOnDestroy()).Forget();
@@ -74,8 +83,8 @@ namespace CallOfUnity
                     await UniTask.Delay(TimeSpan.FromSeconds(GetReloadTime()), cancellationToken: token);
                 }
 
-                //射線上に敵がいて、弾が残っているなら
-                if (CheckEnemy() && GetBulletcCount() > 0)
+                //射線上に敵がいて、弾が残っており、リロード中でないなら
+                if (CheckEnemy() && GetBulletcCount() >= 1 && !isReloading)
                 {
                     //次弾が撃てるまで待つ
                     await UniTask.Delay(TimeSpan.FromSeconds(currentWeaponData.rateOfFire), cancellationToken: token);

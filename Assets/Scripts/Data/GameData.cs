@@ -14,9 +14,6 @@ namespace CallOfUnity
         [Header("視点の滑らかさ"), Range(0.1f, 1f)]
         public float lookSmooth;//視点の滑らかさ
 
-        [HideInInspector]
-        public (int team0, int team1) score;//得点
-
         [SerializeField, Header("リスポーン地点のリスト")]
         private List<Transform> respawnTransList = new();
 
@@ -28,6 +25,9 @@ namespace CallOfUnity
 
         [SerializeField, Header("NPCのプレファブ")]
         private ControllerBase npcControllerBase;//NPCのプレファブ
+
+        [HideInInspector]
+        public (int team0, int team1) score;//得点
 
         [SerializeField]
         private WeaponDataSO weaponDataSO;//WeaponDataSO

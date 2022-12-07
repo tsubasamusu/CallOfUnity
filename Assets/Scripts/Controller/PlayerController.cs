@@ -16,8 +16,6 @@ namespace CallOfUnity
     [RequireComponent(typeof(Rigidbody))]
     public class PlayerController : ControllerBase
     {
-        private Rigidbody rb;//Rigidbody
-
         /// <summary>
         /// PlayerControllerの初期設定を行う
         /// </summary>
@@ -64,7 +62,7 @@ namespace CallOfUnity
 
             //射撃
             this.UpdateAsObservable()
-                .Where(_ => Input.GetKey(ConstData.SHOT_KEY) && GetBulletcCount() > 0)
+                .Where(_ => Input.GetKey(ConstData.SHOT_KEY) && GetBulletcCount() >= 1 && !isReloading)
                 .ThrottleFirst(TimeSpan.FromSeconds(currentWeaponData.rateOfFire))
                 .Subscribe(_ => Shot())
                 .AddTo(this);
@@ -73,13 +71,7 @@ namespace CallOfUnity
             this.UpdateAsObservable()
                 .Where(_ => Input.GetKeyDown(ConstData.STANCE_KEY))
                 .ThrottleFirst(TimeSpan.FromSeconds(ConstData.STANCE_TIME))
-                .Subscribe(_ =>Camera.main.DOFieldOfView(ConstData.STANCE_FOV, ConstData.STANCE_TIME))
-                .AddTo(this);
-
-            //ジャンプ
-            this.UpdateAsObservable()
-                .Where(_ => Input.GetKeyDown(ConstData.JUMP_KEY) && CheckGrounded())
-                .Subscribe(_ => Jump())
+                .Subscribe(_ => Camera.main.DOFieldOfView(ConstData.STANCE_FOV, ConstData.STANCE_TIME))
                 .AddTo(this);
         }
 
@@ -88,12 +80,9 @@ namespace CallOfUnity
         /// </summary>
         public override void ReSetUp()
         {
-            //親クラスの処理を行う
-            base.ReSetUp();
-
             //各武器の残弾数を最大値に設定する
-            UpdateBulletCount(0, GetWeaponInfo(0).weaponData.ammunitionNo);
-            UpdateBulletCount(1, GetWeaponInfo(1).weaponData.ammunitionNo);
+            SetBulletCount(0, GetWeaponInfo(0).weaponData.ammunitionNo);
+            SetBulletCount(1, GetWeaponInfo(1).weaponData.ammunitionNo);
         }
 
         /// <summary>
@@ -101,26 +90,17 @@ namespace CallOfUnity
         /// </summary>
         private void Reset()
         {
-            //Rigidbodyを取得
-            rb = GetComponent<Rigidbody>();
+            //自分をプレーヤーに設定する
+            isPlayer = true;
 
             //自分のチーム番号を設定
             myTeamNo = 0;
 
             //使用中の武器の番号を初期値に設定
-            currentWeapoonNo= 0;
+            currentWeapoonNo = 0;
 
             //使用中の武器のデータを初期値に設定
             currentWeaponData = GetWeaponInfo(0).weaponData;
-        }
-
-        /// <summary>
-        /// ジャンプする
-        /// </summary>
-        private void Jump()
-        {
-            //y座標を変更する
-            transform.DOMoveY(transform.position.y + 1f, 0.5f).SetEase(Ease.OutQuad).SetLoops(2, LoopType.Yoyo);
         }
 
         /// <summary>
@@ -129,7 +109,7 @@ namespace CallOfUnity
         private void ChangeWeapon()
         {
             //リロード中か、射撃中は以降の処理を行わない
-            if(isReloading||Input.GetKey(ConstData.SHOT_KEY)) return;
+            if (isReloading || Input.GetKey(ConstData.SHOT_KEY)) return;
 
             //使用中の武器のデータを更新する
             currentWeaponData = currentWeapoonNo == 0 ?
