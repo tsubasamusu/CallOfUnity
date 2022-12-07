@@ -115,6 +115,12 @@ namespace CallOfUnity
 
             //自分のチーム番号を設定
             myTeamNo = 0;
+
+            //使用中の武器の番号を初期値に設定
+            currentWeapoonNo= 0;
+
+            //使用中の武器のデータを初期値に設定
+            currentWeaponData = GetWeaponInformation(0).weaponData;
         }
 
         /// <summary>
@@ -161,6 +167,9 @@ namespace CallOfUnity
             //使用中の武器のデータを更新する
             currentWeaponData = currentWeapoonNo == 0 ?
                 GetWeaponInformation(1).weaponData : GetWeaponInformation(0).weaponData;
+
+            //使用中の武器の番号を更新する
+            currentWeapoonNo = currentWeapoonNo == 0 ? 1 : 0;
 
             ///武器のオブジェクトを表示する
             DisplayObjWeapon();
