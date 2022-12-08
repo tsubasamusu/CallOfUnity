@@ -21,8 +21,6 @@ namespace CallOfUnity
 
         public const float MAX_LENGTH_FROM_CENTER_TO_BULLET = 1000f;//弾が存在できるステージ中央からの最大距離
 
-        public const float MAX_LENGTH_TO_WALL = 45f;//プレーヤーが存在できる壁への最大距離
-
         public const int WIN_SCORE = 50;//勝利得点
 
         public const int TEAMMATE_NUMBER = 10;//1チームの人数
