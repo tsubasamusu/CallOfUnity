@@ -7,9 +7,9 @@ namespace CallOfUnity
     /// </summary>
     public static class ConstData
     {
-        public const float WALK_SPEED = 10f;//歩くスピード
+        public const float WALK_SPEED = 5f;//歩くスピード
 
-        public const float RUN_SPEED = 30f;//走るスピード
+        public const float RUN_SPEED = 10f;//走るスピード
 
         public const float STANCE_TIME = 0.25f;//構える時間
 
@@ -19,7 +19,7 @@ namespace CallOfUnity
 
         public const float STOPPING_DISTANCE = 5f;//停止距離
 
-        public const float MAX_LENGTH_FROM_CENTER_TO_BULLET = 1000f;//弾が存在できるステージ中央からの最大距離
+        public const float MAX_LENGTH_FROM_CENTER = 50f;//オブジェクトが存在できるステージ中央からの最大距離
 
         public const int WIN_SCORE = 50;//勝利得点
 

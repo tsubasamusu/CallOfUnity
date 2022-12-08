@@ -31,7 +31,14 @@ namespace CallOfUnity
             this.UpdateAsObservable()
                 .Subscribe(_ =>
                 {
-                    //バグ防止
+                    //ステージから離れすぎたら
+                    if (Mathf.Abs((transform.position - Vector3.zero).magnitude) > ConstData.MAX_LENGTH_FROM_CENTER)
+                    {
+                        //死ぬ
+                        GetComponent<CharacterHealth>().Die();
+                    }
+
+                    //無操作状態での移動を防止する
                     rb.isKinematic = Input.GetAxis("Horizontal") == 0f && Input.GetAxis("Vertical") == 0f;
 
                     //移動する

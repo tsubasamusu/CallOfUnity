@@ -42,7 +42,7 @@ namespace CallOfUnity
                     }
 
                     //ステージから離れすぎたら
-                    if (Mathf.Abs((transform.position - Vector3.zero).magnitude) > ConstData.MAX_LENGTH_FROM_CENTER_TO_BULLET)
+                    if (Mathf.Abs((transform.position - Vector3.zero).magnitude) > ConstData.MAX_LENGTH_FROM_CENTER)
                     {
                         //自滅する
                         Destroy(gameObject);
