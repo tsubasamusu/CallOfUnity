@@ -8,23 +8,29 @@ namespace CallOfUnity
     /// </summary>
     public class GameData : MonoBehaviour
     {
-        [Header("視点感度"), Range(0.1f, 10f)]
+        [Range(0.1f, 10f)]
         public float lookSensitivity;//視点感度
 
-        [Header("視点の滑らかさ"), Range(0.1f, 1f)]
+        [Range(0.1f, 1f)]
         public float lookSmooth;//視点の滑らかさ
 
-        [SerializeField, Header("リスポーン地点のリスト")]
+        [SerializeField]
         private List<Transform> respawnTransList = new();
 
-        [SerializeField, Header("ロケットランチャーのエフェクト")]
+        [SerializeField]
         private GameObject objRocketLauncherEffect;//ロケットランチャーのエフェクト
 
-        [SerializeField, Header("ゲームオブジェクトの一時的な親")]
+        [SerializeField]
         private Transform temporaryObjectContainerTran;
 
-        [SerializeField, Header("NPCのプレファブ")]
+        [SerializeField]
         private ControllerBase npcControllerBase;//NPCのプレファブ
+
+        [SerializeField]
+        private Material team0Material;//チーム0のマテリアル
+
+        [SerializeField]
+        private Material team1Material;//チーム1のマテリアル
 
         [HideInInspector]
         public (int team0, int team1) score;//得点
@@ -59,6 +65,16 @@ namespace CallOfUnity
         /// 「NPCのプレファブ」の取得用
         /// </summary>
         public ControllerBase NpcControllerBase { get => npcControllerBase; }
+
+        /// <summary>
+        /// 「チーム0のマテリアル」の取得用
+        /// </summary>
+        public Material Team0Material { get => team0Material; }
+
+        /// <summary>
+        /// 「チーム1のマテリアル」の取得用
+        /// </summary>
+        public Material Team1Material { get => team1Material; }
 
         /// <summary>
         /// 「WeaponDataSO」の取得用

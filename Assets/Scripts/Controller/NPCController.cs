@@ -40,15 +40,19 @@ namespace CallOfUnity
         /// </summary>
         private void Reset()
         {
-            //NavMeshAgentを取得
+            //NavMeshAgentを取得する
             agent = GetComponent<NavMeshAgent>();
 
-            //停止距離を設定
+            //停止距離を設定する
             agent.stoppingDistance = ConstData.STOPPING_DISTANCE;
 
             //使用武器をランダムに決定
             currentWeaponData = GameData.instance.WeaponDataSO
                 .weaponDataList[UnityEngine.Random.Range(0, GameData.instance.WeaponDataSO.weaponDataList.Count)];
+
+            //自分の色を設定する
+            transform.GetChild(0).GetComponent<MeshRenderer>().material = myTeamNo == 0 ?
+                GameData.instance.Team0Material : GameData.instance.Team1Material;
         }
 
         /// <summary>
