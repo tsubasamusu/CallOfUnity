@@ -7,6 +7,7 @@ using UniRx.Triggers;
 using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using static UnityEditor.PlayerSettings;
 
 namespace CallOfUnity
 {
@@ -39,8 +40,11 @@ namespace CallOfUnity
                     //目標地点を設定する
                     SetTargetPos(nearEnemyPos);
 
-                    //武器の向きを設定する
-                    weaponTran.forward = ((nearEnemyPos + new Vector3(0f, 1.5f, 0f)) - weaponTran.position).normalized;
+                    //適切な武器の向きを取得する
+                    Vector3 weaponDir = ((nearEnemyPos + new Vector3(0f, 1.5f, 0f)) - weaponTran.position).normalized;
+
+                    //武器を敵の方向へ滑らかに向かせる
+                    weaponTran.forward = Vector3.Lerp(weaponTran.forward, weaponDir, Time.deltaTime * ConstData.WEAPON_ROT_SMOOTH);
                 })
                 .AddTo(this);
         }

@@ -8,10 +8,10 @@ namespace CallOfUnity
     /// </summary>
     public class GameData : MonoBehaviour
     {
-        [Range(0.1f, 10f)]
+        [Range(0f, 10f)]
         public float lookSensitivity;//Ž‹“_Š´“x
 
-        [Range(0.1f, 1f)]
+        [Range(0f, 1f)]
         public float lookSmooth;//Ž‹“_‚ÌŠŠ‚ç‚©‚³
 
         [SerializeField]
