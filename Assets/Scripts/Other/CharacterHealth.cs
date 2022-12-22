@@ -21,15 +21,21 @@ namespace CallOfUnity
         /// </summary>
         public void SetUp()
         {
+            //Rigidbodyを取得する
+            Rigidbody rb= GetComponent<Rigidbody>();
+
             //弾に触れた際の処理
             this.OnCollisionEnterAsObservable()
                 .Where(collision => collision.transform.TryGetComponent(out BulletDetailBase _))
                 .Subscribe(collision =>
                 {
-                    //ダメージを取得
+                    //物理演算を無効化する
+                    if(!rb.isKinematic)rb.isKinematic = true;
+
+                    //ダメージを取得する
                     float damage = collision.transform.GetComponent<BulletDetailBase>().WeaponData.attackPower;
 
-                    //HPを更新
+                    //HPを更新する
                     hp = Mathf.Clamp(hp - damage, 0f, 100f);
 
                     //触れた弾を消す
