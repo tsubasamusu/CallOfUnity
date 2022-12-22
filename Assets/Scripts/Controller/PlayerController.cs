@@ -38,21 +38,8 @@ namespace CallOfUnity
                         GetComponent<CharacterHealth>().Die();
                     }
 
-                    //無操作状態での移動を防止する
-                    rb.isKinematic = Input.GetAxis("Horizontal") == 0f && Input.GetAxis("Vertical") == 0f;
-
                     //移動する
-                    rb.MovePosition(rb.position +
-                        //水平方向の入力を取得する
-                        Vector3.Scale((Camera.main.transform.right * Input.GetAxis("Horizontal")
-                        //垂直方向の入力を取得する
-                        + Camera.main.transform.forward * Input.GetAxis("Vertical"))
-                        //y成分を「0」にする
-                        , new Vector3(1f, 0f, 1f))
-                        //移動スピードを取得する
-                        * (Input.GetKey(ConstData.RUN_KEY) ? ConstData.RUN_SPEED : ConstData.WALK_SPEED)
-                        //時間を掛ける
-                        * Time.deltaTime);
+                    Move();
 
                     //武器チェンジキーが押されたら武器をチェンジする
                     if (Input.GetKeyDown(ConstData.CHANGE_WEAPON_KEY)) ChangeWeapon();
@@ -86,6 +73,42 @@ namespace CallOfUnity
                 .ThrottleFirst(TimeSpan.FromSeconds(ConstData.STANCE_TIME))
                 .Subscribe(_ => Camera.main.DOFieldOfView(ConstData.STANCE_FOV, ConstData.STANCE_TIME).SetLink(gameObject))
                 .AddTo(this);
+
+            //移動する
+            void Move()
+            {
+                //プレイヤーに入力された移動方向を取得する
+                Vector3 enteredMovement =
+                    Vector3.Scale((Camera.main.transform.right * Input.GetAxis("Horizontal")
+                    + Camera.main.transform.forward * Input.GetAxis("Vertical"))
+                    , new Vector3(1f, 0f, 1f));
+
+                //無操作状態での移動を防止する
+                rb.isKinematic = enteredMovement.magnitude == 0f;
+
+                //移動を実行する
+                rb.MovePosition(rb.position + (enteredMovement * GetMoveVelocity() * Time.deltaTime));
+
+                //移動速度を取得する
+                float GetMoveVelocity()
+                {
+                    //進行方向に障害物があるなら移動速度を「0」にする（移動しない）
+                    if (CheckObstacles()) return 0f;
+
+                    //移動速度を返す
+                    return Input.GetKey(ConstData.RUN_KEY) ? ConstData.RUN_SPEED : ConstData.WALK_SPEED;
+                }
+
+                //進行方向に障害物がないかを確認する
+                bool CheckObstacles()
+                {
+                    //光線を作成  
+                    var ray = new Ray(transform.position + (Vector3.up * 1f), enteredMovement.normalized);
+
+                    //光線が他のコライダーに接触したらtrueを返す 
+                    return Physics.Raycast(ray, 1f);
+                }
+            }
         }
 
         /// <summary>
