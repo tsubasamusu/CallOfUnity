@@ -29,6 +29,9 @@ namespace CallOfUnity
                 //生成したNPCにチーム番号を与える
                 npcControllerBase.myTeamNo = i <= ConstData.TEAMMATE_NUMBER - 2 ? 0 : 1;
 
+                //チーム1のNPCをステージ内側に向かせる
+                if (npcControllerBase.myTeamNo == 1) npcControllerBase.transform.Rotate(0, 180f, 0);
+
                 //生成したNPCの初期設定を行う
                 npcControllerBase.SetUp();
 
