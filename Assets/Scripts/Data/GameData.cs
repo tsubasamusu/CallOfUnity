@@ -33,7 +33,7 @@ namespace CallOfUnity
         private WeaponDataSO weaponDataSO;//WeaponDataSO
 
         [HideInInspector]
-        public List<ControllerBase> npcList = new();//NPCのリスト
+        public List<ControllerBase> npcControllerBaseList = new();//NPCのリスト
 
         [HideInInspector]
         public ((WeaponDataSO.WeaponData data, int bulletCount) info0,

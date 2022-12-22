@@ -49,9 +49,6 @@ namespace CallOfUnity
             //使用武器をランダムに決定
             currentWeaponData = GameData.instance.WeaponDataSO
                 .weaponDataList[UnityEngine.Random.Range(0, GameData.instance.WeaponDataSO.weaponDataList.Count)];
-
-            //（デバック用）
-            myTeamNo = 1;
         }
 
         /// <summary>
