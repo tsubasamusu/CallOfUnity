@@ -27,6 +27,9 @@ namespace CallOfUnity
         private ControllerBase npcControllerBase;//NPCのプレファブ
 
         [SerializeField]
+        private ControllerBase playerControllerBase;//プレイヤー
+
+        [SerializeField]
         private Material team0Material;//チーム0のマテリアル
 
         [SerializeField]
@@ -65,6 +68,11 @@ namespace CallOfUnity
         /// 「NPCのプレファブ」の取得用
         /// </summary>
         public ControllerBase NpcControllerBase { get => npcControllerBase; }
+
+        /// <summary>
+        /// 「プレイヤー」の取得用
+        /// </summary>
+        public ControllerBase PlayerControllerBase { get => playerControllerBase; }
 
         /// <summary>
         /// 「チーム0のマテリアル」の取得用

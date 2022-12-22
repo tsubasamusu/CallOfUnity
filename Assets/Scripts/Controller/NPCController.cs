@@ -43,9 +43,6 @@ namespace CallOfUnity
             //NavMeshAgentを取得する
             agent = GetComponent<NavMeshAgent>();
 
-            //停止距離を設定する
-            agent.stoppingDistance = ConstData.STOPPING_DISTANCE;
-
             //使用武器をランダムに決定
             currentWeaponData = GameData.instance.WeaponDataSO
                 .weaponDataList[UnityEngine.Random.Range(0, GameData.instance.WeaponDataSO.weaponDataList.Count)];
@@ -134,8 +131,39 @@ namespace CallOfUnity
         /// <returns>最も近くにいる敵の位置</returns>
         private Vector3 GetNearEnemyPos()
         {
-            //TODO:近くの敵を探す処理
-            return Vector3.zero;//（仮）
+            //「最も近くにいる敵」を仮登録する
+            ControllerBase nearEnemy = myTeamNo == 0 ?
+                GameData.instance.npcControllerBaseList[ConstData.TEAMMATE_NUMBER - 1]
+                : GameData.instance.PlayerControllerBase;
+
+            //「最も近くにいる敵との距離」を仮登録する
+            float nearLength =
+                ((myTeamNo == 0 ?
+                GameData.instance.npcControllerBaseList[ConstData.TEAMMATE_NUMBER - 1]
+                : GameData.instance.PlayerControllerBase).transform.position - transform.position).magnitude;
+
+            //NPCの数だけ繰り返す
+            for (int i = 0; i < GameData.instance.npcControllerBaseList.Count; i++)
+            {
+                //繰り返し処理で取得したNPCが味方なら、次の繰り返し処理に移る
+                if (GameData.instance.npcControllerBaseList[i].myTeamNo == myTeamNo) continue;
+
+                //繰り返し処理で取得したNPCとの距離を取得する
+                float length = (GameData.instance.npcControllerBaseList[i].transform.position - transform.position).magnitude;
+
+                //記録を更新したら
+                if (length < nearLength) 
+                {
+                    //「最も近くにいる敵」を更新する
+                    nearEnemy = GameData.instance.npcControllerBaseList[i];
+
+                    //「最も近くにいる敵との距離」を更新する
+                    nearLength = length; 
+                }
+            }
+
+            //「最も近くにいる敵の位置」を返す
+            return nearEnemy.transform.position;
         }
     }
 }

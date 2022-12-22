@@ -192,6 +192,7 @@ MonoBehaviour:
   objRocketLauncherEffect: {fileID: 0}
   temporaryObjectContainerTran: {fileID: 792112938}
   npcControllerBase: {fileID: 3504350347792696179, guid: b5b491b7a4a0e7a4d8bfe81b9fb86d35, type: 3}
+  playerControllerBase: {fileID: 1519644928}
   team0Material: {fileID: 2100000, guid: 8b4da37a5ac03f149a7ac4d41bf969d7, type: 2}
   team1Material: {fileID: 2100000, guid: aa224ecd54f90594086936a61336859d, type: 2}
   weaponDataSO: {fileID: 11400000, guid: 57a443bdb75a4c042a0ee2d2e38612af, type: 2}

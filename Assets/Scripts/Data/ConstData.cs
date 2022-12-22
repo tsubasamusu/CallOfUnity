@@ -16,9 +16,7 @@ namespace CallOfUnity
         public const float NORMAL_FOV = 60f;//基本の視野角
 
         public const float STANCE_FOV = 30f;//構える時の視野角
-
-        public const float STOPPING_DISTANCE = 5f;//停止距離
-
+        
         public const float MAX_LENGTH_FROM_CENTER = 50f;//オブジェクトが存在できるステージ中央からの最大距離
 
         public const int WIN_SCORE = 50;//勝利得点
