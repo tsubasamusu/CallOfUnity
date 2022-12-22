@@ -189,7 +189,10 @@ MonoBehaviour:
   respawnTransList:
   - {fileID: 1968674595}
   - {fileID: 1820768920}
-  objRocketLauncherEffect: {fileID: 0}
+  objRocketLauncherEffect: {fileID: 1973075987484898, guid: bccc7a794e75b2a44a4b0dac69160b7b,
+    type: 3}
+  objExplosionEffect: {fileID: 1121192042590650, guid: e1b08032bec16ba4eb1ae23cbd572664,
+    type: 3}
   temporaryObjectContainerTran: {fileID: 792112938}
   npcControllerBase: {fileID: 3504350347792696179, guid: b5b491b7a4a0e7a4d8bfe81b9fb86d35,
     type: 3}

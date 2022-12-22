@@ -21,6 +21,9 @@ namespace CallOfUnity
         private GameObject objRocketLauncherEffect;//ロケットランチャーのエフェクト
 
         [SerializeField]
+        private GameObject objExplosionEffect;//爆発のエフェクト
+
+        [SerializeField]
         private Transform temporaryObjectContainerTran;
 
         [SerializeField]
@@ -58,6 +61,11 @@ namespace CallOfUnity
         /// 「ロケットランチャーのエフェクト」の取得用
         /// </summary>
         public GameObject ObjRocketLauncherEffect { get => objRocketLauncherEffect; }
+
+        /// <summary>
+        /// 「爆発のエフェクト」の取得用
+        /// </summary>
+        public GameObject ObjExplosionEffect { get => objExplosionEffect; }
 
         /// <summary>
         /// 「ゲームオブジェクトの一時的な親」の取得用

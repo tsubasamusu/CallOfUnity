@@ -27,6 +27,9 @@ namespace CallOfUnity
             //使用された武器のデータを取得
             this.weaponData = weaponData;
 
+            //初期設定を行う
+            SetUp();
+
             //自滅
             this.UpdateAsObservable()
                 .Subscribe(_ =>
@@ -62,6 +65,14 @@ namespace CallOfUnity
                     }
                 })
                 .AddTo(this);
+        }
+
+        /// <summary>
+        /// 初期設定を行う
+        /// </summary>
+        protected virtual void SetUp()
+        {
+            //各子クラスで処理を記述する
         }
     }
 }
