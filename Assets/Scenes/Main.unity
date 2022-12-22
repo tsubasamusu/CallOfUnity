@@ -345,8 +345,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 427501856}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -712,19 +712,11 @@ MonoBehaviour:
     rawReference:
       rid: -2
   - mode: 0
-    unityReference: {fileID: 0}
-    rawReference:
-      rid: -2
-  - mode: 0
-    unityReference: {fileID: 1329190542}
-    rawReference:
-      rid: -2
-  - mode: 0
     unityReference: {fileID: 1519644928}
     rawReference:
       rid: -2
   - mode: 0
-    unityReference: {fileID: 0}
+    unityReference: {fileID: 1329190542}
     rawReference:
       rid: -2
   playerControllerBase: {fileID: 1519644928}
@@ -952,7 +944,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1519644926}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -23}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

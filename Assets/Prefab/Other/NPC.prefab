@@ -134,41 +134,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myTeamNo: 0
-  weaponDatas:
-  - name: 0
-    objWeapon: {fileID: 0}
-    impactEffect: {fileID: 0}
-    sprWeapon: {fileID: 0}
-    bullet: {fileID: 0}
-    ammunitionNo: 0
-    reloadTime: 0
-    rateOfFire: 0
-    firingRange: 0
-    bulletVelocity: 0
-    attackPower: 0
-  - name: 0
-    objWeapon: {fileID: 0}
-    impactEffect: {fileID: 0}
-    sprWeapon: {fileID: 0}
-    bullet: {fileID: 0}
-    ammunitionNo: 0
-    reloadTime: 0
-    rateOfFire: 0
-    firingRange: 0
-    bulletVelocity: 0
-    attackPower: 0
-  currentWeapon:
-    name: 0
-    objWeapon: {fileID: 0}
-    impactEffect: {fileID: 0}
-    sprWeapon: {fileID: 0}
-    bullet: {fileID: 0}
-    ammunitionNo: 0
-    reloadTime: 0
-    rateOfFire: 0
-    firingRange: 0
-    bulletVelocity: 0
-    attackPower: 0
 --- !u!114 &3504350347792696180
 MonoBehaviour:
   m_ObjectHideFlags: 0
