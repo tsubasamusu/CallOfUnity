@@ -26,12 +26,22 @@ namespace CallOfUnity
             //リセット時の処理を呼び出す
             Reset();
 
-            //射撃とリロードの制御を開始
+            //射撃とリロードの制御を開始する
             ShotReloadAsync(this.GetCancellationTokenOnDestroy()).Forget();
 
-            //移動
+            //移動・武器の向きの調整
             this.UpdateAsObservable()
-                .Subscribe(_ => SetTargetPos(GetNearEnemyPos()))
+                .Subscribe(_ =>
+                {
+                    //近くの敵の座標を取得する
+                    Vector3 nearEnemyPos = GetNearEnemyPos();
+
+                    //目標地点を設定する
+                    SetTargetPos(nearEnemyPos);
+
+                    //武器の向きを設定する
+                    weaponTran.forward = ((nearEnemyPos + new Vector3(0f, 1.5f, 0f)) - weaponTran.position).normalized;
+                })
                 .AddTo(this);
         }
 
@@ -116,7 +126,7 @@ namespace CallOfUnity
         private bool CheckEnemy()
         {
             //光線を作成  
-            var ray = new Ray(weaponTran.position, transform.forward);
+            var ray = new Ray(weaponTran.position, weaponTran.forward);
 
             //光線を発射し、光線が何にも触れなかったらfalseを返す
             if (!Physics.Raycast(ray, out RaycastHit hit, currentWeaponData.firingRange)) return false;
