@@ -53,6 +53,9 @@ namespace CallOfUnity
             //©•ª‚ÌF‚ğİ’è‚·‚é
             transform.GetChild(0).GetComponent<MeshRenderer>().material = myTeamNo == 0 ?
                 GameData.instance.Team0Material : GameData.instance.Team1Material;
+
+            //CharacterHealth‚Ì‰Šúİ’è‚ğs‚¤
+            GetComponent<CharacterHealth>().SetUp();
         }
 
         /// <summary>

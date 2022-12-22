@@ -26,8 +26,6 @@ namespace CallOfUnity
                 .Where(collision => collision.transform.TryGetComponent(out BulletDetailBase _))
                 .Subscribe(collision =>
                 {
-                    Debug.Log("HIT");
-
                     //ƒ_ƒ[ƒW‚ğæ“¾
                     float damage = collision.transform.GetComponent<BulletDetailBase>().WeaponData.attackPower;
 
