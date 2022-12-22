@@ -189,7 +189,9 @@ MonoBehaviour:
   respawnTransList:
   - {fileID: 1968674595}
   - {fileID: 1820768920}
-  objRocketLauncherEffect: {fileID: 1973075987484898, guid: bccc7a794e75b2a44a4b0dac69160b7b,
+  objMuzzleFlashEffect: {fileID: 1743301284569550, guid: ad2ab49d0a2a17148bd51c93d977bdbc,
+    type: 3}
+  objRocketLauncherEffect: {fileID: 1533138625715334, guid: 61bb62591466c3649bdf4905822d72f6,
     type: 3}
   objExplosionEffect: {fileID: 1121192042590650, guid: e1b08032bec16ba4eb1ae23cbd572664,
     type: 3}

@@ -18,6 +18,9 @@ namespace CallOfUnity
         private List<Transform> respawnTransList = new();
 
         [SerializeField]
+        private GameObject objMuzzleFlashEffect;//発射口のエフェクト
+
+        [SerializeField]
         private GameObject objRocketLauncherEffect;//ロケットランチャーのエフェクト
 
         [SerializeField]
@@ -56,6 +59,11 @@ namespace CallOfUnity
         /// 「リスポーン地点のリスト」の取得用
         /// </summary>
         public List<Transform> RespawnTransList { get => respawnTransList; }
+
+        /// <summary>
+        /// 「発射口のエフェクト」の取得用
+        /// </summary>
+        public GameObject ObjMuzzleFlashEffect { get => objMuzzleFlashEffect; }
 
         /// <summary>
         /// 「ロケットランチャーのエフェクト」の取得用

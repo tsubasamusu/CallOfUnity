@@ -72,6 +72,18 @@ namespace CallOfUnity
         /// </summary>
         protected virtual void SetUp()
         {
+            //エフェクトを生成する
+            Transform effectTran = Instantiate(GameData.instance.ObjMuzzleFlashEffect.transform);
+
+            //生成したエフェクトの親を設定する
+            effectTran.SetParent(transform);
+
+            //生成したエフェクトの位置を設定する
+            effectTran.position = transform.position;
+
+            //生成したエフェクトを消す
+            Destroy(effectTran.gameObject, 0.2f);
+
             //各子クラスで処理を記述する
         }
     }

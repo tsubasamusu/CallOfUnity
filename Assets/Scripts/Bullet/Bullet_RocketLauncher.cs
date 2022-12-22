@@ -17,6 +17,9 @@ namespace CallOfUnity
         /// </summary>
         protected override void SetUp()
         {
+            //親の処理を行う
+            base.SetUp();
+
             //エフェクトを生成する
             Transform effectTran = Instantiate(GameData.instance.ObjRocketLauncherEffect.transform);
 
