@@ -129,7 +129,7 @@ namespace CallOfUnity
             BulletDetailBase bullet = Instantiate(currentWeaponData.bullet);
 
             //¶¬‚µ‚½’e‚Ì‰Šúİ’è‚ğs‚¤
-            bullet.SetUpBullet(currentWeaponData);
+            bullet.SetUpBullet(currentWeaponData,myTeamNo);
 
             //¶¬‚µ‚½’e‚Ìe‚ğİ’è‚·‚é
             bullet.transform.SetParent(GameData.instance.TemporaryObjectContainerTran);

@@ -13,6 +13,8 @@ namespace CallOfUnity
     {
         private float hp = 100f;//HP
 
+        private ControllerBase controllerBase;//ControllerBase
+
         //HPの取得用
         public float Hp { get => hp; }
 
@@ -22,7 +24,10 @@ namespace CallOfUnity
         public void SetUp()
         {
             //Rigidbodyを取得する
-            Rigidbody rb= GetComponent<Rigidbody>();
+            Rigidbody rb = GetComponent<Rigidbody>();
+
+            //ControllerBaseを取得する
+            controllerBase = GetComponent<ControllerBase>();
 
             //弾に触れた際の処理
             this.OnCollisionEnterAsObservable()
@@ -30,13 +35,17 @@ namespace CallOfUnity
                 .Subscribe(collision =>
                 {
                     //物理演算を無効化する
-                    if(!rb.isKinematic)rb.isKinematic = true;
+                    if (!rb.isKinematic) rb.isKinematic = true;
 
-                    //ダメージを取得する
-                    float damage = collision.transform.GetComponent<BulletDetailBase>().WeaponData.attackPower;
+                    //BulletdetailBaseを取得する
+                    BulletDetailBase bulletDetailBase = collision.transform.GetComponent<BulletDetailBase>();
 
-                    //HPを更新する
-                    hp = Mathf.Clamp(hp - damage, 0f, 100f);
+                    //触れた弾が敵チームの弾なら
+                    if (bulletDetailBase.MyTeamNo != controllerBase.myTeamNo)
+                    {
+                        //HPを更新する
+                        hp = Mathf.Clamp(hp - bulletDetailBase.WeaponData.attackPower, 0f, 100f);
+                    }
 
                     //触れた弾を消す
                     Destroy(collision.gameObject);
@@ -52,16 +61,6 @@ namespace CallOfUnity
         /// </summary>
         public void Die()
         {
-            //ControllerBaseを取得できなかったら
-            if (!TryGetComponent(out ControllerBase controllerBase))
-            {
-                //問題を報告
-                Debug.Log("ControllerBaseを取得できませんでした");
-
-                //以降の処理を行わない
-                return;
-            }
-
             //自分がチーム0なら
             if (controllerBase.myTeamNo == 0)
             {

@@ -13,19 +13,30 @@ namespace CallOfUnity
     {
         private WeaponDataSO.WeaponData weaponData;//使用された武器のデータ
 
+        private int myTeamNo;//自分のチーム番号
+
         /// <summary>
         /// 「使用された武器のデータ」の取得用
         /// </summary>
         public WeaponDataSO.WeaponData WeaponData { get => weaponData; }
 
         /// <summary>
-        /// 弾の初期設定を行う
+        /// 「自分のチーム番号」の取得用
         /// </summary>
-        /// <param name="weaponData">使用した武器のデータ</param>
-        public void SetUpBullet(WeaponDataSO.WeaponData weaponData)
+        public int MyTeamNo { get => myTeamNo; }
+
+       /// <summary>
+       /// 弾の初期設定を行う
+       /// </summary>
+       /// <param name="weaponData">使用した武器のデータ</param>
+       /// <param name="myTeamNo">自分のチーム番号</param>
+        public void SetUpBullet(WeaponDataSO.WeaponData weaponData,int myTeamNo)
         {
             //使用された武器のデータを取得
             this.weaponData = weaponData;
+
+            //自分のチーム番号を取得
+            this.myTeamNo = myTeamNo;
 
             //初期設定を行う
             SetUp();
