@@ -51,7 +51,7 @@ namespace CallOfUnity
                     Destroy(collision.gameObject);
 
                     //HPが0なら死亡処理を行う
-                    if (hp == 0f) Die();
+                    if (hp == 0f) Die(bulletDetailBase);
                 })
                 .AddTo(this);
         }
@@ -59,8 +59,16 @@ namespace CallOfUnity
         /// <summary>
         /// 死亡処理
         /// </summary>
-        public void Die()
+        /// <param name="bulletDetailBase">BulletDetailBase</param>
+        public void Die(BulletDetailBase bulletDetailBase = null)
         {
+            //プレイヤーの弾によって死亡したら
+            if (bulletDetailBase != null && bulletDetailBase.IsPlayerBullet)
+            {
+                ///プレーヤーのキル数を「1」増やす
+                GameData.instance.playerKillCount++;
+            }
+
             //自分がチーム0なら
             if (controllerBase.myTeamNo == 0)
             {

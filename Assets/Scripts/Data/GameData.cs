@@ -14,6 +14,9 @@ namespace CallOfUnity
         [Range(0f, 1f)]
         public float lookSmooth;//視点の滑らかさ
 
+        [HideInInspector]
+        public int playerKillCount;//プレイヤーのキル数
+
         [SerializeField]
         private List<Transform> respawnTransList = new();
 

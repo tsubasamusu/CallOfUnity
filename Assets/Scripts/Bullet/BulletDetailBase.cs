@@ -15,6 +15,8 @@ namespace CallOfUnity
 
         private int myTeamNo;//自分のチーム番号
 
+        private bool isPlayerBullet;//プレイヤーの弾かどうか
+
         /// <summary>
         /// 「使用された武器のデータ」の取得用
         /// </summary>
@@ -25,18 +27,27 @@ namespace CallOfUnity
         /// </summary>
         public int MyTeamNo { get => myTeamNo; }
 
-       /// <summary>
-       /// 弾の初期設定を行う
-       /// </summary>
-       /// <param name="weaponData">使用した武器のデータ</param>
-       /// <param name="myTeamNo">自分のチーム番号</param>
-        public void SetUpBullet(WeaponDataSO.WeaponData weaponData,int myTeamNo)
+        /// <summary>
+        /// 「プレイヤーの弾かどうか」の取得用
+        /// </summary>
+        public bool IsPlayerBullet { get => isPlayerBullet; }
+
+        /// <summary>
+        /// 弾の初期設定を行う
+        /// </summary>
+        /// <param name="weaponData">使用した武器のデータ</param>
+        /// <param name="myTeamNo">自分のチーム番号</param>
+        /// <param name="isPlayerBullet">プレイヤーの弾かどうか</param>
+        public void SetUpBullet(WeaponDataSO.WeaponData weaponData,int myTeamNo,bool isPlayerBullet)
         {
-            //使用された武器のデータを取得
+            //使用された武器のデータを取得する
             this.weaponData = weaponData;
 
-            //自分のチーム番号を取得
+            //自分のチーム番号を取得する
             this.myTeamNo = myTeamNo;
+
+            //「プレイヤーの弾かどうか」を取得する
+            this.isPlayerBullet = isPlayerBullet;
 
             //初期設定を行う
             SetUp();
