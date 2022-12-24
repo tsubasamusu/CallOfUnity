@@ -143,6 +143,18 @@ namespace CallOfUnity
             //弾を発射する
             bullet.transform.GetComponent<Rigidbody>()
                 .AddForce(weaponTran.forward * currentWeaponData.shotPower, ForceMode.Impulse);
+
+            //エフェクトを生成する
+            Transform effectTran = Instantiate(GameData.instance.ObjMuzzleFlashEffect.transform);
+
+            //生成したエフェクトの位置を設定する
+            effectTran.position = weaponTran.position;
+
+            //生成したエフェクトの親を設定する
+            effectTran.SetParent(GameData.instance.TemporaryObjectContainerTran);
+
+            //生成したエフェクトを0.2秒後に消す
+            Destroy(effectTran.gameObject, 0.2f);
         }
 
         /// <summary>

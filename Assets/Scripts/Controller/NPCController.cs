@@ -24,13 +24,16 @@ namespace CallOfUnity
         /// </summary>
         protected override void SetUpController()
         {
+            //体の位置情報を取得
+            Transform bodyTran = transform.GetChild(0);
+
             //リセット時の処理を呼び出す
             Reset();
 
             //射撃とリロードの制御を開始する
             ShotReloadAsync(this.GetCancellationTokenOnDestroy()).Forget();
 
-            //移動・武器の向きの調整
+            //移動・体の向きの調整
             this.UpdateAsObservable()
                 .Subscribe(_ =>
                 {
@@ -40,11 +43,12 @@ namespace CallOfUnity
                     //目標地点を設定する
                     SetTargetPos(nearEnemyPos);
 
-                    //適切な武器の向きを取得する
-                    Vector3 weaponDir = ((nearEnemyPos + new Vector3(0f, 1.5f, 0f)) - weaponTran.position).normalized;
+                    //適切な体の向きを取得する
+                    Vector3 bodyDir =
+                    ((nearEnemyPos + new Vector3(0f, 1.5f, 0f)) - (transform.position + new Vector3(0f, 1.5f, 0f))).normalized;
 
-                    //武器を敵の方向へ滑らかに向かせる
-                    weaponTran.forward = Vector3.Lerp(weaponTran.forward, weaponDir, Time.deltaTime * ConstData.WEAPON_ROT_SMOOTH);
+                    //NPCを敵の方向へ滑らかに向かせる
+                    bodyTran.forward = Vector3.Lerp(bodyTran.forward, bodyDir, Time.deltaTime * ConstData.WEAPON_ROT_SMOOTH);
                 })
                 .AddTo(this);
         }

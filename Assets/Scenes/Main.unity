@@ -343,7 +343,7 @@ GameObject:
   - component: {fileID: 427501860}
   - component: {fileID: 427501859}
   m_Layer: 0
-  m_Name: Capsule
+  m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1029,7 +1029,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1658108848}
   m_Layer: 0
-  m_Name: WeaponTran
+  m_Name: Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
