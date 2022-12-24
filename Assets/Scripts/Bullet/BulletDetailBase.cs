@@ -57,12 +57,27 @@ namespace CallOfUnity
             this.OnCollisionEnterAsObservable()
                 .Subscribe(collision =>
                 {
-                    //プレイヤーとNPC以外のものに接触したら
-                    if (!collision.transform.TryGetComponent(out ControllerBase controllerBase))
+                    //プレイヤーかNPCに接触したら
+                    if (collision.transform.TryGetComponent(out ControllerBase controllerBase))
                     {
-                        //弾を消す
-                        Destroy(gameObject);
+                        //エフェクトを生成する
+                        Transform effectTran = Instantiate(GameData.instance.ObjBleedingEffect.transform);
+
+                        ///生成したエフェクトの位置を設定する
+                        effectTran.position = transform.position;
+
+                        //生成したエフェクトの向きを設定する
+                        effectTran.forward = -transform.forward;
+
+                        //生成したエフェクトの親を設定する
+                        effectTran.SetParent(controllerBase.transform);
+
+                        //生成したエフェクトを消す
+                        Destroy(effectTran.gameObject, 0.2f);
                     }
+
+                    //弾を消す
+                    Destroy(gameObject);
                 })
                 .AddTo(this);
         }
@@ -81,7 +96,7 @@ namespace CallOfUnity
             //生成したエフェクトの位置を設定する
             effectTran.position = transform.position;
 
-            //生成したエフェクトを消す
+            //生成したエフェクトを0.2秒後に消す
             Destroy(effectTran.gameObject, 0.2f);
 
             //各子クラスで処理を記述する

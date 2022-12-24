@@ -191,6 +191,8 @@ MonoBehaviour:
   - {fileID: 1820768920}
   objMuzzleFlashEffect: {fileID: 1743301284569550, guid: ad2ab49d0a2a17148bd51c93d977bdbc,
     type: 3}
+  objBleedingEffect: {fileID: 1240250018707908, guid: 5656e7ea1f1a75d4c895547ec2b824b3,
+    type: 3}
   objRocketLauncherEffect: {fileID: 1533138625715334, guid: 61bb62591466c3649bdf4905822d72f6,
     type: 3}
   objExplosionEffect: {fileID: 1121192042590650, guid: e1b08032bec16ba4eb1ae23cbd572664,

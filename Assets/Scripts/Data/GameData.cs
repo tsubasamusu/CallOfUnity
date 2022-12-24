@@ -21,13 +21,16 @@ namespace CallOfUnity
         private GameObject objMuzzleFlashEffect;//発射口のエフェクト
 
         [SerializeField]
+        private GameObject objBleedingEffect;//出血のエフェクト
+
+        [SerializeField]
         private GameObject objRocketLauncherEffect;//ロケットランチャーのエフェクト
 
         [SerializeField]
         private GameObject objExplosionEffect;//爆発のエフェクト
 
         [SerializeField]
-        private Transform temporaryObjectContainerTran;
+        private Transform temporaryObjectContainerTran;//ゲームオブジェクトの一時的な親
 
         [SerializeField]
         private ControllerBase npcControllerBase;//NPCのプレファブ
@@ -64,6 +67,11 @@ namespace CallOfUnity
         /// 「発射口のエフェクト」の取得用
         /// </summary>
         public GameObject ObjMuzzleFlashEffect { get => objMuzzleFlashEffect; }
+
+        /// <summary>
+        /// 「出血のエフェクト」の取得用
+        /// </summary>
+        public GameObject ObjBleedingEffect { get=> objBleedingEffect; }
 
         /// <summary>
         /// 「ロケットランチャーのエフェクト」の取得用
