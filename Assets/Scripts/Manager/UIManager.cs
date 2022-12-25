@@ -11,7 +11,7 @@ namespace CallOfUnity
     /// <summary>
     /// UIを制御する
     /// </summary>
-    public class UIManager : MonoBehaviour,ISetUp
+    public class UIManager : MonoBehaviour, ISetUp
     {
         /// <summary>
         /// ロゴの種類
@@ -81,6 +81,9 @@ namespace CallOfUnity
         [SerializeField]
         private Slider sldLookSmooth;//視点の滑らかさのスライダー
 
+        [SerializeField]
+        private Text txtData;//データのテキスト
+
         [HideInInspector]
         public ReactiveProperty<bool> endedStartPerformance = new(false);//ゲームスタート演出が終わったかどうか
 
@@ -93,13 +96,16 @@ namespace CallOfUnity
             btnMain.interactable = cgOtherButtons.interactable = false;
 
             //不必要なキャンバスグループを非表示にする
-            cgGameUI.alpha = cgOtherButtons.alpha= 0f;
+            cgGameUI.alpha = cgOtherButtons.alpha = 0f;
 
             //設定を表示する
             cgSettings.alpha = 1f;
 
             //設定のキャンバスグループを非活性化する
             cgSettings.gameObject.SetActive(false);
+
+            //データのテキストを非表示にする
+            txtData.color = new Color(Color.black.r, Color.black.g, Color.black.b, 0f);
 
             //背景を白色に設定する
             imgBackground.color = new Color(Color.white.r, Color.white.g, Color.white.b, 1f);
@@ -148,13 +154,14 @@ namespace CallOfUnity
 
             //設定ボタンが押された際の処理
             btnSetting.OnClickAsObservable()
+                .Where(_=>txtData.color.a== 0)
                 .Subscribe(_ =>
                 {
                     //設定のキャンバスグループが表示されているなら
-                    if(cgSettings.gameObject.activeSelf)
+                    if (cgSettings.gameObject.activeSelf)
                     {
                         //視点感度を更新
-                        GameData.instance.lookSensitivity= sldLookSensitivity.value * 10f;
+                        GameData.instance.lookSensitivity = sldLookSensitivity.value * 10f;
 
                         //視点の滑らかさを更新
                         GameData.instance.lookSmooth = sldLookSmooth.value;
@@ -170,6 +177,32 @@ namespace CallOfUnity
                     {
                         //設定のキャンバスグループを活性化する
                         cgSettings.gameObject.SetActive(true);
+
+                        //メインボタンのゲームオブジェクトを非活性化する
+                        btnMain.gameObject.SetActive(false);
+                    }
+                })
+                .AddTo(this);
+
+            //データボタンが押された際の処理
+            btnData.OnClickAsObservable()
+                .Where(_=>!cgSettings.gameObject.activeSelf)
+                .Subscribe(_ =>
+                {
+                    //データが表示されているなら
+                    if(txtData.color.a==1f)
+                    {
+                        //データのテキストを非表示にする
+                        txtData.color = new Color(Color.black.r, Color.black.g, Color.black.b, 0f);
+
+                        //メインボタンのゲームオブジェクトを活性化する
+                        btnMain.gameObject.SetActive(true);
+                    }
+                    //データが表示されていないなら
+                    else
+                    {
+                        //データのテキストを表示する
+                        txtData.color = Color.black;
 
                         //メインボタンのゲームオブジェクトを非活性化する
                         btnMain.gameObject.SetActive(false);
