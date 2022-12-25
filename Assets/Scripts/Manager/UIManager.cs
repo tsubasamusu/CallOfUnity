@@ -119,24 +119,18 @@ namespace CallOfUnity
             //メインボタンのテキストを「Game Start」に設定する
             txtMainButton.text = "Game Start";
 
-            //総デス数が「0」ではないかつ、総発射数が「0」ではないなら
-            if (GameData.instance.playerTotalDeathCount > 0 && GameData.instance.playerTotalShotCount > 0)
-            {
-                //データのテキストを更新する
-                txtData.text
-                    = "Total Kill => "
-                    + GameData.instance.playerTotalKillCount.ToString() + "\n"
-                    + "Kill-Death Ratio => "
-                    + (GameData.instance.playerTotalKillCount / GameData.instance.playerTotalDeathCount).ToString("F2") + "\n"
-                    + "Hit Rate => "
-                    + (GameData.instance.playerTotalAttackCount / GameData.instance.playerTotalShotCount).ToString("F2") + "%";
-            }
-            //1回も発射していないか、1回も死んでいないなら
-            else
-            {
-                //「No Record」と表示する
-                txtData.text = "No Record";
-            }
+            //データのテキストを更新する
+            txtData.text
+                = "Total Kill : "
+                + GameData.instance.playerTotalKillCount.ToString() + "\n"
+                + "Kill-Death Ratio : "
+                + (GameData.instance.playerTotalKillCount
+                / (GameData.instance.playerTotalDeathCount == 0 ? 1f : GameData.instance.playerTotalDeathCount)).ToString("F2")
+                + "\n"
+                + "Hit Rate : "
+                + (GameData.instance.playerTotalAttackCount
+                / (GameData.instance.playerTotalShotCount == 0 ? 1f : GameData.instance.playerTotalShotCount)).ToString("F2")
+                + "%";
 
             //メインボタンを非表示にする
             imgMainButton.DOFade(0f, 0f);
