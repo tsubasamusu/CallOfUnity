@@ -26,10 +26,10 @@ namespace CallOfUnity
 
         protected bool isReloading;//リロード中かどうか
 
-        protected bool isPlayer;//自分がプレーヤーかどうか
+        protected bool isPlayer;//自分がプレイヤーかどうか
 
         /// <summary>
-        /// 「自分がプレーヤーかどうか」の取得用
+        /// 「自分がプレイヤーかどうか」の取得用
         /// </summary>
         public bool IsPlayer { get => isPlayer; }
 
@@ -125,6 +125,9 @@ namespace CallOfUnity
         {
             //使用中の武器の残弾数が「0」以下なら、以降の処理を行わない
             if (GetBulletcCount() <= 0) return;
+
+            //自分がプレイヤーなら、プレイヤーの発射数を「1」増やす
+            if (isPlayer) GameData.instance.playerShotCount++;
 
             //使用中の武器の残弾数を更新する
             SetBulletCount(currentWeapoonNo,

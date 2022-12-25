@@ -18,7 +18,13 @@ namespace CallOfUnity
         public int playerKillCount;//プレイヤーのキル数
 
         [HideInInspector]
-        public int playerDieCount;//プレーヤーのデス数
+        public int playerDieCount;//プレイヤーのデス数
+
+        [HideInInspector]
+        public int playerAttackCount;//プレイヤーの命中数
+
+        [HideInInspector]
+        public int playerShotCount;//プレイヤーの発射数
 
         [SerializeField]
         private List<Transform> respawnTransList = new();

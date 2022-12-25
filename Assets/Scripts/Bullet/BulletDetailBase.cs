@@ -59,8 +59,8 @@ namespace CallOfUnity
                     //弾のy座標が戦場外に行ったら
                     if (transform.position.y < 0f || transform.position.y > 5f)
                     {
-                        //弾を消す
-                        Destroy(gameObject);
+                        //自滅する
+                        DestroyBullet(false);
 
                         //以降の処理を行わない
                         return;
@@ -70,7 +70,7 @@ namespace CallOfUnity
                     if (Mathf.Abs((transform.position - Vector3.zero).magnitude) > ConstData.MAX_LENGTH_FROM_CENTER)
                     {
                         //自滅する
-                        Destroy(gameObject);
+                        DestroyBullet(false);
                     }
                 })
                 .AddTo(this);
@@ -85,7 +85,7 @@ namespace CallOfUnity
                         //エフェクトを生成する
                         Transform effectTran = Instantiate(GameData.instance.ObjBleedingEffect.transform);
 
-                        ///生成したエフェクトの位置を設定する
+                        //生成したエフェクトの位置を設定する
                         effectTran.position = transform.position;
 
                         //生成したエフェクトの向きを設定する
@@ -96,12 +96,34 @@ namespace CallOfUnity
 
                         //生成したエフェクトを消す
                         Destroy(effectTran.gameObject, 0.2f);
+
+                        //自滅する
+                        DestroyBullet(controllerBase.myTeamNo != myTeamNo);
                     }
 
-                    //弾を消す
-                    Destroy(gameObject);
+                    //自滅する
+                    DestroyBullet(false);
                 })
                 .AddTo(this);
+
+            //自滅する
+            void DestroyBullet(bool attackedEnemy)
+            {
+                Debug.Log(GameData.instance.playerAttackCount);
+
+                //敵に攻撃していないなら
+                if (!attackedEnemy)
+                {
+                    //弾を消す
+                    Destroy(gameObject);
+                }
+                //自分がプレイヤーかつ、敵に攻撃したなら
+                else if(isPlayerBullet&&attackedEnemy)
+                {
+                    //プレイヤーの命中数を「1」増やす
+                    GameData.instance.playerAttackCount++;
+                }
+            }
         }
 
         /// <summary>

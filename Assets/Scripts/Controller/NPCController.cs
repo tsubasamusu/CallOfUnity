@@ -7,7 +7,6 @@ using UniRx.Triggers;
 using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using static UnityEditor.PlayerSettings;
 
 namespace CallOfUnity
 {

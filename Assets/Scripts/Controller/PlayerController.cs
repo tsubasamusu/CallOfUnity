@@ -126,7 +126,7 @@ namespace CallOfUnity
         /// </summary>
         private void Reset()
         {
-            //自分をプレーヤーに設定する
+            //自分をプレイヤーに設定する
             isPlayer = true;
 
             //自分のチーム番号を設定
@@ -154,7 +154,7 @@ namespace CallOfUnity
             //使用中の武器の番号を更新する
             currentWeapoonNo = currentWeapoonNo == 0 ? 1 : 0;
 
-            ///武器のオブジェクトを表示する
+            //武器のオブジェクトを表示する
             DisplayObjWeapon();
         }
     }
