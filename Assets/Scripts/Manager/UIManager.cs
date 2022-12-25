@@ -85,6 +85,9 @@ namespace CallOfUnity
         private Text txtData;//データのテキスト
 
         [SerializeField]
+        private Text txtTimeLimit;//制限時間のテキスト
+
+        [SerializeField]
         private WeaponButtonDetail BtnWeaponPrefab;//武器のボタンのプレファブ
 
         [HideInInspector]
@@ -326,6 +329,16 @@ namespace CallOfUnity
             cgOtherButtons.DOFade(1f, 1f)
                 .OnComplete(() =>
                     btnMain.interactable = btnSetting.interactable = btnData.interactable = true);
+        }
+
+        /// <summary>
+        /// 制限時間のテキストを設定する
+        /// </summary>
+        /// <param name="timeLimit">制限時間</param>
+        public void SetTxtTimeLimit(float timeLimit)
+        {
+            //制限時間のテキストを設定する
+            txtTimeLimit.text = timeLimit.ToString("F1");
         }
     }
 }

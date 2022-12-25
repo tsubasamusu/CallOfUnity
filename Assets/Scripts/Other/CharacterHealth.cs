@@ -85,23 +85,6 @@ namespace CallOfUnity
                 GameData.instance.score.team0++;
             }
 
-            //チーム0が勝利したら
-            if (GameData.instance.score.team0 >= ConstData.WIN_SCORE)
-            {
-                //TODO:チーム0勝利時の処理
-
-                //以降の処理を行わない
-                return;
-            }
-            //チーム1が勝利したら
-            else if (GameData.instance.score.team1 >= ConstData.WIN_SCORE)
-            {
-                //TODO:チーム1勝利時の処理
-
-                //以降の処理を行わない
-                return;
-            }
-
             //再設定する
             controllerBase.ReSetUp();
 
