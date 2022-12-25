@@ -11,33 +11,44 @@ namespace CallOfUnity
     public class GameManager : MonoBehaviour
     {
         [SerializeField]
-        private List<SerializableInterface<ISetUp>> iSetUpList = new();//ISetUpインターフェイスのリスト
+        private List<SerializableInterface<ISetUp>> iSetUpList0 = new();//ISetUpインターフェイスのリスト0
+
+        [SerializeField]
+        private List<SerializableInterface<ISetUp>> iSetUpList1 = new();//ISetUpインターフェイスのリスト1
 
         [SerializeField]
         private ControllerBase playerControllerBase;//プレイヤーのControllerBase
 
+        [SerializeField]
+        private UIManager uIManager;//UIManager
+
         /// <summary>
         /// ゲーム開始直後に呼び出される
         /// </summary>
-        void Start()
+        /// <returns>待ち時間</returns>
+        private IEnumerator Start()
         {
-            //TODO:プレイヤーの所持武器の指定の確認と設定
+            //各クラスの初期設定を行う（1回目）
+            SetUp(0);
 
-            //仮
+            //ゲームスタート演出を行う
+            yield return StartCoroutine(uIManager.PlayGameStart());
+
+            //TODO:プレイヤーの所持武器の指定の確認と設定
             GameData.instance.playerWeaponInfo.info0.data = GameData.instance.WeaponDataSO.weaponDataList[0];
             GameData.instance.playerWeaponInfo.info1.data = GameData.instance.WeaponDataSO.weaponDataList[2];
 
-            //各クラスの初期設定を行う
-            SetUp();
+            //各クラスの初期設定を行う（2回目）
+            SetUp(1);
 
             //各クラスの初期設定を行う
-            void SetUp()
+            void SetUp(int setUpNo)
             {
                 //ISetUpインターフェイスのリストの要素数だけ繰り返す
-                for (int i = 0; i < iSetUpList.Count; i++)
+                for (int i = 0; i < (setUpNo == 0 ? iSetUpList0 : iSetUpList1).Count; i++)
                 {
                     //各クラスの初期設定を行う
-                    iSetUpList[i].Value.SetUp();
+                    (setUpNo == 0 ? iSetUpList0 : iSetUpList1)[i].Value.SetUp();
                 }
             }
         }
