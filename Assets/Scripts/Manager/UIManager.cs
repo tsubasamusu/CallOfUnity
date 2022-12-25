@@ -101,6 +101,10 @@ namespace CallOfUnity
             //設定を表示する
             cgSettings.alpha = 1f;
 
+            //スライダーを既定値に設定する
+            sldLookSensitivity.value = GameData.instance.lookSensitivity / 10f;
+            sldLookSmooth.value = GameData.instance.lookSmooth;
+
             //設定のキャンバスグループを非活性化する
             cgSettings.gameObject.SetActive(false);
 
@@ -122,14 +126,17 @@ namespace CallOfUnity
             //データのテキストを更新する
             txtData.text
                 = "Total Kill : "
-                + GameData.instance.playerTotalKillCount.ToString() + "\n"
+                + GameData.instance.playerTotalKillCount.ToString()
+                + "\n"
                 + "Kill-Death Ratio : "
                 + (GameData.instance.playerTotalKillCount
-                / (GameData.instance.playerTotalDeathCount == 0 ? 1f : GameData.instance.playerTotalDeathCount)).ToString("F2")
+                / (GameData.instance.playerTotalDeathCount == 0 ? 1f : GameData.instance.playerTotalDeathCount))
+                .ToString("F2")
                 + "\n"
                 + "Hit Rate : "
                 + (GameData.instance.playerTotalAttackCount
-                / (GameData.instance.playerTotalShotCount == 0 ? 1f : GameData.instance.playerTotalShotCount)).ToString("F2")
+                / (GameData.instance.playerTotalShotCount == 0 ? 1f : GameData.instance.playerTotalShotCount))
+                .ToString("F2")
                 + "%";
 
             //メインボタンを非表示にする
