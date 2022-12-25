@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TNRD;
+using UniRx;
 using UnityEngine;
 
 namespace CallOfUnity
@@ -25,21 +26,23 @@ namespace CallOfUnity
         /// <summary>
         /// ゲーム開始直後に呼び出される
         /// </summary>
-        /// <returns>待ち時間</returns>
-        private IEnumerator Start()
+        private void Start()
         {
             //各クラスの初期設定を行う（1回目）
             SetUp(0);
 
-            //ゲームスタート演出を行う
-            yield return StartCoroutine(uIManager.PlayGameStart());
+            //ゲームスタート演出が終わった際の処理
+            uIManager.endedStartPerformance
+                .Where(_ => uIManager.endedStartPerformance.Value == true)
+                .Subscribe(_ => StartGame())
+                .AddTo(this);
 
-            //TODO:プレイヤーの所持武器の指定の確認と設定
-            GameData.instance.playerWeaponInfo.info0.data = GameData.instance.WeaponDataSO.weaponDataList[0];
-            GameData.instance.playerWeaponInfo.info1.data = GameData.instance.WeaponDataSO.weaponDataList[2];
-
-            //各クラスの初期設定を行う（2回目）
-            SetUp(1);
+            //試合を開始する
+            void StartGame()
+            {
+                //各クラスの初期設定を行う（2回目）
+                SetUp(1);
+            }
 
             //各クラスの初期設定を行う
             void SetUp(int setUpNo)

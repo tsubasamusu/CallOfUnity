@@ -89,7 +89,6 @@ namespace CallOfUnity
             if (GameData.instance.score.team0 >= ConstData.WIN_SCORE)
             {
                 //TODO:チーム0勝利時の処理
-                Debug.Log("チーム0の勝ち");
 
                 //以降の処理を行わない
                 return;
@@ -98,7 +97,6 @@ namespace CallOfUnity
             else if (GameData.instance.score.team1 >= ConstData.WIN_SCORE)
             {
                 //TODO:チーム1勝利時の処理
-                Debug.Log("チーム1の勝ち");
 
                 //以降の処理を行わない
                 return;

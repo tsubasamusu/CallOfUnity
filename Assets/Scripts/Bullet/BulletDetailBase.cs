@@ -109,8 +109,6 @@ namespace CallOfUnity
             //©–Å‚·‚é
             void DestroyBullet(bool attackedEnemy)
             {
-                Debug.Log(GameData.instance.playerAttackCount);
-
                 //“G‚ÉUŒ‚‚µ‚Ä‚¢‚È‚¢‚È‚ç
                 if (!attackedEnemy)
                 {
