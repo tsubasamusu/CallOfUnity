@@ -72,6 +72,15 @@ namespace CallOfUnity
         [SerializeField]
         private Text txtMainButton;//メインボタンのテキスト
 
+        [SerializeField]
+        private CanvasGroup cgSettings;//設定のキャンバスグループ
+
+        [SerializeField]
+        private Slider sldLookSensitivity;//視点感度のスライダー
+
+        [SerializeField]
+        private Slider sldLookSmooth;//視点の滑らかさのスライダー
+
         [HideInInspector]
         public ReactiveProperty<bool> endedStartPerformance = new(false);//ゲームスタート演出が終わったかどうか
 
@@ -83,8 +92,14 @@ namespace CallOfUnity
             //メインボタンとその他のボタンを非活性化する
             btnMain.interactable = cgOtherButtons.interactable = false;
 
-            //試合中のUIのキャンバスグループと、その他のボタンのキャンバスグループを非表示にする
-            cgGameUI.alpha = cgOtherButtons.alpha = 0f;
+            //不必要なキャンバスグループを非表示にする
+            cgGameUI.alpha = cgOtherButtons.alpha= 0f;
+
+            //設定を表示する
+            cgSettings.alpha = 1f;
+
+            //設定のキャンバスグループを非活性化する
+            cgSettings.gameObject.SetActive(false);
 
             //背景を白色に設定する
             imgBackground.color = new Color(Color.white.r, Color.white.g, Color.white.b, 1f);
@@ -128,6 +143,37 @@ namespace CallOfUnity
                     cgOtherButtons.DOFade(0f, 1f);
                     txtMainButton.DOFade(0f, 1f).OnComplete(() => cgGameUI.alpha = 1f);
                     imgMainButton.DOFade(0f, 1f).OnComplete(() => endedStartPerformance.Value = true);
+                })
+                .AddTo(this);
+
+            //設定ボタンが押された際の処理
+            btnSetting.OnClickAsObservable()
+                .Subscribe(_ =>
+                {
+                    //設定のキャンバスグループが表示されているなら
+                    if(cgSettings.gameObject.activeSelf)
+                    {
+                        //視点感度を更新
+                        GameData.instance.lookSensitivity= sldLookSensitivity.value * 10f;
+
+                        //視点の滑らかさを更新
+                        GameData.instance.lookSmooth = sldLookSmooth.value;
+
+                        //設定のキャンバスグループを非活性化する
+                        cgSettings.gameObject.SetActive(false);
+
+                        //メインボタンのゲームオブジェクトを活性化する
+                        btnMain.gameObject.SetActive(true);
+                    }
+                    //設定のキャンバスグループが表示されていないなら
+                    else
+                    {
+                        //設定のキャンバスグループを活性化する
+                        cgSettings.gameObject.SetActive(true);
+
+                        //メインボタンのゲームオブジェクトを非活性化する
+                        btnMain.gameObject.SetActive(false);
+                    }
                 })
                 .AddTo(this);
         }
