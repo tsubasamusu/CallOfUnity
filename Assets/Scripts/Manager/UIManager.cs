@@ -90,6 +90,8 @@ namespace CallOfUnity
         [HideInInspector]
         public ReactiveProperty<bool> endedStartPerformance = new(false);//ゲームスタート演出が終わったかどうか
 
+        private List<WeaponButtonDetail> btnWeaponList = new();//武器のボタンのリスト
+
         /// <summary>
         /// UIManagerの初期設定を行う
         /// </summary>
@@ -267,7 +269,7 @@ namespace CallOfUnity
                             WeaponButtonDetail btnWeapon = Instantiate(BtnWeaponPrefab);
 
                             //生成したボタンの初期設定を行う
-                            btnWeapon.SetUpWeaponButton(GameData.instance.WeaponDataSO.weaponDataList[i],this);
+                            btnWeapon.SetUpWeaponButton(GameData.instance.WeaponDataSO.weaponDataList[i], this);
 
                             RectTransform btnWeaponRectTran = btnWeapon.GetComponent<RectTransform>();
 
@@ -279,6 +281,9 @@ namespace CallOfUnity
 
                             //生成したボタンの位置を設定する
                             btnWeaponRectTran.localPosition = new Vector3(0f, y, 0f);
+
+                            //生成したボタンをリストに追加する
+                            btnWeaponList.Add(btnWeapon);
                         }
                     });
                 })
@@ -301,8 +306,26 @@ namespace CallOfUnity
         /// </summary>
         public void EndChooseWeapon()
         {
-            Debug.Log("武器の選択を終えた");
-            //TODO:武器の選択を終える処理
+            //武器のボタンの数だけ繰り返す
+            while (btnWeaponList.Count > 0)
+            {
+                //武器のボタンを消す
+                Destroy(btnWeaponList[0].gameObject);
+
+                //リストを消す
+                btnWeaponList.RemoveAt(0);
+            }
+
+            //武器選択ボタンを消す
+            Destroy(btnChooseWeapon.gameObject);
+
+            //全てのUIを再表示する
+            imgLogo.DOFade(1f, 1f);
+            imgMainButton.DOFade(1f, 1f);
+            txtMainButton.DOFade(1f, 1f);
+            cgOtherButtons.DOFade(1f, 1f)
+                .OnComplete(() =>
+                    btnMain.interactable = btnSetting.interactable = btnData.interactable = true);
         }
     }
 }
