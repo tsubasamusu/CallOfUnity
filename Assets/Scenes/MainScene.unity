@@ -666,6 +666,8 @@ MonoBehaviour:
   sldLookSensitivity: {fileID: 554327816}
   sldLookSmooth: {fileID: 459775223}
   txtData: {fileID: 2009392878}
+  BtnWeaponPrefab: {fileID: 2347266133493539186, guid: 7b49c422603307f4da49dadfd758c028,
+    type: 3}
   endedStartPerformance:
     value: 0
 --- !u!1 &307523560

@@ -84,6 +84,9 @@ namespace CallOfUnity
         [SerializeField]
         private Text txtData;//データのテキスト
 
+        [SerializeField]
+        private WeaponButtonDetail BtnWeaponPrefab;//武器のボタンのプレファブ
+
         [HideInInspector]
         public ReactiveProperty<bool> endedStartPerformance = new(false);//ゲームスタート演出が終わったかどうか
 
@@ -153,9 +156,18 @@ namespace CallOfUnity
 
             //メインボタンが押された際の処理
             btnMain.OnClickAsObservable()
-                .Where(_ => GameData.instance.playerWeaponInfo.info0.data != null && GameData.instance.playerWeaponInfo.info1.data != null)
                 .Subscribe(_ =>
                 {
+                    //武器が選択されていなければ
+                    if (GameData.instance.playerWeaponInfo.info0.data == null || GameData.instance.playerWeaponInfo.info1.data == null)
+                    {
+                        //武器選択ボタンのアニメーションを行う
+                        btnChooseWeapon.gameObject.transform.DOScale(1.3f, 0.25f).SetLoops(2, LoopType.Yoyo);
+
+                        //以降の処理を行わない
+                        return;
+                    }
+
                     //全てのボタンを非活性化する
                     btnMain.interactable = cgOtherButtons.interactable = false;
 
@@ -229,6 +241,48 @@ namespace CallOfUnity
                     }
                 })
                 .AddTo(this);
+
+            //キャンバスの位置情報を取得する
+            Transform canvasTran = GameObject.Find("Canvas").transform;
+
+            //武器選択ボタンを押された際の処理
+            btnChooseWeapon.OnClickAsObservable()
+                .Where(_ => txtData.color.a == 0 && !cgSettings.gameObject.activeSelf)
+                .Subscribe(_ =>
+                {
+                    //全てのボタンを非活性化する
+                    btnMain.interactable = btnSetting.interactable = btnChooseWeapon.interactable = btnData.interactable = false;
+
+                    //全ての不必要なUIを一定時間かけて非表示にする
+                    imgLogo.DOFade(0f, 1f);
+                    imgMainButton.DOFade(0f, 1f);
+                    txtMainButton.DOFade(0f, 1f);
+                    cgOtherButtons.DOFade(0f, 1f)
+                    .OnComplete(() =>
+                    {
+                        //全ての武器の数だけ繰り返す
+                        for (int i = 0; i < GameData.instance.WeaponDataSO.weaponDataList.Count; i++)
+                        {
+                            //武器のボタンを生成
+                            WeaponButtonDetail btnWeapon = Instantiate(BtnWeaponPrefab);
+
+                            //生成したボタンの初期設定を行う
+                            btnWeapon.SetUpWeaponButton(GameData.instance.WeaponDataSO.weaponDataList[i],this);
+
+                            RectTransform btnWeaponRectTran = btnWeapon.GetComponent<RectTransform>();
+
+                            //生成したボタンの親を設定する
+                            btnWeaponRectTran.SetParent(canvasTran);
+
+                            //適切なy座標を取得する
+                            float y = -400f + (800f / (GameData.instance.WeaponDataSO.weaponDataList.Count - 1) * i);
+
+                            //生成したボタンの位置を設定する
+                            btnWeaponRectTran.localPosition = new Vector3(0f, y, 0f);
+                        }
+                    });
+                })
+                .AddTo(this);
         }
 
         /// <summary>
@@ -240,6 +294,15 @@ namespace CallOfUnity
         {
             //適切なロゴのスプライトを返す
             return logoDatasList.Find(x => x.LogoType == logoType).sprite;
+        }
+
+        /// <summary>
+        /// 武器選択を終える
+        /// </summary>
+        public void EndChooseWeapon()
+        {
+            Debug.Log("武器の選択を終えた");
+            //TODO:武器の選択を終える処理
         }
     }
 }
