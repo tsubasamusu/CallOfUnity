@@ -63,13 +63,13 @@ namespace CallOfUnity
         public void Die(BulletDetailBase bulletDetailBase = null)
         {
             //自分がプレイヤーなら、プレイヤーのデス数を「1」増やす
-            if(controllerBase.IsPlayer)GameData.instance.playerDieCount++;
+            if(controllerBase.IsPlayer)GameData.instance.playerTotalDeathCount++;
 
             //プレイヤーの弾によって死亡したら
             if (bulletDetailBase != null && bulletDetailBase.IsPlayerBullet)
             {
                 //プレイヤーのキル数を「1」増やす
-                GameData.instance.playerKillCount++;
+                GameData.instance.playerTotalKillCount++;
             }
 
             //自分がチーム0なら

@@ -119,7 +119,7 @@ namespace CallOfUnity
                 else if(isPlayerBullet&&attackedEnemy)
                 {
                     //プレイヤーの命中数を「1」増やす
-                    GameData.instance.playerAttackCount++;
+                    GameData.instance.playerTotalAttackCount++;
                 }
             }
         }

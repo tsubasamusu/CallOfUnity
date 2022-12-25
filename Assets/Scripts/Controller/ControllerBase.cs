@@ -127,7 +127,7 @@ namespace CallOfUnity
             if (GetBulletcCount() <= 0) return;
 
             //自分がプレイヤーなら、プレイヤーの発射数を「1」増やす
-            if (isPlayer) GameData.instance.playerShotCount++;
+            if (isPlayer) GameData.instance.playerTotalShotCount++;
 
             //使用中の武器の残弾数を更新する
             SetBulletCount(currentWeapoonNo,

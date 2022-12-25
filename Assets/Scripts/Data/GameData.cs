@@ -15,16 +15,16 @@ namespace CallOfUnity
         public float lookSmooth;//視点の滑らかさ
 
         [HideInInspector]
-        public int playerKillCount;//プレイヤーのキル数
+        public int playerTotalKillCount;//プレイヤーの総キル数
 
         [HideInInspector]
-        public int playerDieCount;//プレイヤーのデス数
+        public int playerTotalDeathCount;//プレイヤーの総デス数
 
         [HideInInspector]
-        public int playerAttackCount;//プレイヤーの命中数
+        public int playerTotalAttackCount;//プレイヤーの総命中数
 
         [HideInInspector]
-        public int playerShotCount;//プレイヤーの発射数
+        public int playerTotalShotCount;//プレイヤーの総発射数
 
         [SerializeField]
         private List<Transform> respawnTransList = new();

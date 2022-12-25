@@ -119,6 +119,25 @@ namespace CallOfUnity
             //メインボタンのテキストを「Game Start」に設定する
             txtMainButton.text = "Game Start";
 
+            //総デス数が「0」ではないかつ、総発射数が「0」ではないなら
+            if (GameData.instance.playerTotalDeathCount > 0 && GameData.instance.playerTotalShotCount > 0)
+            {
+                //データのテキストを更新する
+                txtData.text
+                    = "Total Kill => "
+                    + GameData.instance.playerTotalKillCount.ToString() + "\n"
+                    + "Kill-Death Ratio => "
+                    + (GameData.instance.playerTotalKillCount / GameData.instance.playerTotalDeathCount).ToString("F2") + "\n"
+                    + "Hit Rate => "
+                    + (GameData.instance.playerTotalAttackCount / GameData.instance.playerTotalShotCount).ToString("F2") + "%";
+            }
+            //1回も発射していないか、1回も死んでいないなら
+            else
+            {
+                //「No Record」と表示する
+                txtData.text = "No Record";
+            }
+
             //メインボタンを非表示にする
             imgMainButton.DOFade(0f, 0f);
             txtMainButton.DOFade(0f, 0f);
@@ -154,7 +173,7 @@ namespace CallOfUnity
 
             //設定ボタンが押された際の処理
             btnSetting.OnClickAsObservable()
-                .Where(_=>txtData.color.a== 0)
+                .Where(_ => txtData.color.a == 0)
                 .Subscribe(_ =>
                 {
                     //設定のキャンバスグループが表示されているなら
@@ -186,11 +205,11 @@ namespace CallOfUnity
 
             //データボタンが押された際の処理
             btnData.OnClickAsObservable()
-                .Where(_=>!cgSettings.gameObject.activeSelf)
+                .Where(_ => !cgSettings.gameObject.activeSelf)
                 .Subscribe(_ =>
                 {
                     //データが表示されているなら
-                    if(txtData.color.a==1f)
+                    if (txtData.color.a == 1f)
                     {
                         //データのテキストを非表示にする
                         txtData.color = new Color(Color.black.r, Color.black.g, Color.black.b, 0f);
