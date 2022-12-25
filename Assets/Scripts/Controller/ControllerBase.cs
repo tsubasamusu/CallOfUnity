@@ -29,6 +29,11 @@ namespace CallOfUnity
         protected bool isPlayer;//自分がプレーヤーかどうか
 
         /// <summary>
+        /// 「自分がプレーヤーかどうか」の取得用
+        /// </summary>
+        public bool IsPlayer { get => isPlayer; }
+
+        /// <summary>
         /// ControllerBaseの初期設定を行う
         /// </summary>
         public void SetUp()

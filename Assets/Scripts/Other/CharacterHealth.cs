@@ -62,6 +62,9 @@ namespace CallOfUnity
         /// <param name="bulletDetailBase">BulletDetailBase</param>
         public void Die(BulletDetailBase bulletDetailBase = null)
         {
+            //自分がプレーヤーなら、プレイヤーのデス数を「1」増やす
+            if(controllerBase.IsPlayer)GameData.instance.playerDieCount++;
+
             //プレイヤーの弾によって死亡したら
             if (bulletDetailBase != null && bulletDetailBase.IsPlayerBullet)
             {
