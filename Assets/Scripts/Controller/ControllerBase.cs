@@ -108,6 +108,9 @@ namespace CallOfUnity
             //リロード中に変更する
             isReloading = true;
 
+            //自分がプレイヤーなら、リロードゲージのアニメーションを行う
+            if(isPlayer)GameData.instance.UiManager.PlayImgReloadGaugeAnimation(currentWeaponData.reloadTime);
+
             //一定時間待つ
             await UniTask.Delay(TimeSpan.FromSeconds(currentWeaponData.reloadTime), cancellationToken: token);
 

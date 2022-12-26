@@ -92,6 +92,9 @@ namespace CallOfUnity
         private Text txtBulletCount;//残弾数のテキスト
 
         [SerializeField]
+        private Image imgReloadGauge;//リロードゲージ
+
+        [SerializeField]
         private WeaponButtonDetail BtnWeaponPrefab;//武器のボタンのプレファブ
 
         [HideInInspector]
@@ -107,8 +110,8 @@ namespace CallOfUnity
             //メインボタンとその他のボタンを非活性化する
             btnMain.interactable = cgOtherButtons.interactable = false;
 
-            //不必要なキャンバスグループを非表示にする
-            cgGameUI.alpha = cgOtherButtons.alpha = 0f;
+            //不必要なUIを非表示にする
+            cgGameUI.alpha = cgOtherButtons.alpha =imgReloadGauge.fillAmount= 0f;
 
             //設定を表示する
             cgSettings.alpha = 1f;
@@ -407,6 +410,19 @@ namespace CallOfUnity
 
             //チーム1の得点のテキストを更新する
             txtScoreTeam1.text = GameData.instance.score.team1.ToString();
+        }
+
+        /// <summary>
+        /// リロードゲージのアニメーションを行う
+        /// </summary>
+        /// <param name="animationTime">アニメーション時間</param>
+        public void PlayImgReloadGaugeAnimation(float animationTime)
+        {
+            //リロードゲージを表示する
+            imgReloadGauge.fillAmount = 1f;
+
+            //アニメーションを行う
+            imgReloadGauge.DOFillAmount(0f,animationTime);
         }
     }
 }
