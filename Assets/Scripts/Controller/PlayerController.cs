@@ -77,6 +77,23 @@ namespace CallOfUnity
                 .Subscribe(_ => Camera.main.DOFieldOfView(ConstData.STANCE_FOV, ConstData.STANCE_TIME).SetLink(gameObject))
                 .AddTo(this);
 
+            //武器を変更する
+            void ChangeWeapon()
+            {
+                //リロード中か、射撃中は以降の処理を行わない
+                if (isReloading || Input.GetKey(ConstData.SHOT_KEY)) return;
+
+                //使用中の武器のデータを更新する
+                currentWeaponData = currentWeapoonNo == 0 ?
+                    GetWeaponInfo(1).weaponData : GetWeaponInfo(0).weaponData;
+
+                //使用中の武器の番号を更新する
+                currentWeapoonNo = currentWeapoonNo == 0 ? 1 : 0;
+
+                //武器のオブジェクトを表示する
+                DisplayObjWeapon();
+            }
+
             //移動する
             void Move()
             {
@@ -140,25 +157,6 @@ namespace CallOfUnity
 
             //使用中の武器のデータを初期値に設定
             currentWeaponData = GetWeaponInfo(0).weaponData;
-        }
-
-        /// <summary>
-        /// 武器をチェンジする
-        /// </summary>
-        private void ChangeWeapon()
-        {
-            //リロード中か、射撃中は以降の処理を行わない
-            if (isReloading || Input.GetKey(ConstData.SHOT_KEY)) return;
-
-            //使用中の武器のデータを更新する
-            currentWeaponData = currentWeapoonNo == 0 ?
-                GetWeaponInfo(1).weaponData : GetWeaponInfo(0).weaponData;
-
-            //使用中の武器の番号を更新する
-            currentWeapoonNo = currentWeapoonNo == 0 ? 1 : 0;
-
-            //武器のオブジェクトを表示する
-            DisplayObjWeapon();
         }
     }
 }
