@@ -6,7 +6,7 @@ namespace CallOfUnity
     /// <summary>
     /// 変動値を管理
     /// </summary>
-    public class GameData : MonoBehaviour
+    public class GameData : MonoBehaviour,ISetUp
     {
         [Range(0f, 10f)]
         public float lookSensitivity;//視点感度
@@ -48,7 +48,13 @@ namespace CallOfUnity
         private ControllerBase npcControllerBase;//NPCのプレファブ
 
         [SerializeField]
-        private ControllerBase playerControllerBase;//プレイヤー
+        private ControllerBase playerControllerBase;//プレイヤーのControllerBase
+
+        [SerializeField]
+        private CharacterHealth playerCharacterHealth;//プレイヤーのCharacterHealth
+
+        [SerializeField]
+        private UIManager uiManager;//UIManager
 
         [SerializeField]
         private Material team0Material;//チーム0のマテリアル
@@ -106,9 +112,19 @@ namespace CallOfUnity
         public ControllerBase NpcControllerBase { get => npcControllerBase; }
 
         /// <summary>
-        /// 「プレイヤー」の取得用
+        /// 「プレイヤーのControllerBase」の取得用
         /// </summary>
         public ControllerBase PlayerControllerBase { get => playerControllerBase; }
+
+        /// <summary>
+        /// 「プレイヤーのCharacterHealth」の取得用
+        /// </summary>
+        public CharacterHealth PlayerCharacterHealth { get => playerCharacterHealth; }
+
+        /// <summary>
+        /// 「UIManager」の取得用
+        /// </summary>
+        public UIManager UiManager { get => uiManager; }
 
         /// <summary>
         /// 「チーム0のマテリアル」の取得用
@@ -141,6 +157,14 @@ namespace CallOfUnity
             {
                 Destroy(gameObject);
             }
+        }
+
+        /// <summary>
+        /// GameDataの初期設定を行う
+        /// </summary>
+        public void SetUp()
+        {
+            
         }
     }
 }

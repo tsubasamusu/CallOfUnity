@@ -11,23 +11,19 @@ namespace CallOfUnity
     /// </summary>
     public class CharacterHealth : MonoBehaviour, ISetUp
     {
-        private float hp = 100f;//HP
-
-        private ControllerBase controllerBase;//ControllerBase
-
-        //HPの取得用
-        public float Hp { get => hp; }
-
         /// <summary>
         /// CharacterHealthの初期設定を行う
         /// </summary>
         public void SetUp()
         {
+            //HP保持用
+            float hp = 100f;
+
             //Rigidbodyを取得する
             Rigidbody rb = GetComponent<Rigidbody>();
 
             //ControllerBaseを取得する
-            controllerBase = GetComponent<ControllerBase>();
+            ControllerBase controllerBase = GetComponent<ControllerBase>();
 
             //弾に触れた際の処理
             this.OnCollisionEnterAsObservable()
@@ -47,11 +43,14 @@ namespace CallOfUnity
                         hp = Mathf.Clamp(hp - bulletDetailBase.WeaponData.attackPower, 0f, 100f);
                     }
 
+                    //自分がプレイヤーなら、HPのスライダーを設定する
+                    if (controllerBase.IsPlayer) GameData.instance.UiManager.SetSldHp(hp / 100f);
+
                     //触れた弾を消す
                     Destroy(collision.gameObject);
 
                     //HPが0なら死亡処理を行う
-                    if (hp == 0f) Die(bulletDetailBase);
+                    if (hp == 0f) Die( ref hp, controllerBase,bulletDetailBase);
                 })
                 .AddTo(this);
         }
@@ -59,11 +58,13 @@ namespace CallOfUnity
         /// <summary>
         /// 死亡処理
         /// </summary>
-        /// <param name="bulletDetailBase">BulletDetailBase</param>
-        public void Die(BulletDetailBase bulletDetailBase = null)
+        /// <param name="hp">自分のHP</param>
+        /// <param name="controllerBase">自分のControllerBase</param>
+        /// <param name="bulletDetailBase">接触相手のBulletDetailBase</param>
+        public void Die(ref float hp,ControllerBase controllerBase,BulletDetailBase bulletDetailBase = null)
         {
             //自分がプレイヤーなら、プレイヤーのデス数を「1」増やす
-            if(controllerBase.IsPlayer)GameData.instance.playerTotalDeathCount++;
+            if (controllerBase.IsPlayer) GameData.instance.playerTotalDeathCount++;
 
             //プレイヤーの弾によって死亡したら
             if (bulletDetailBase != null && bulletDetailBase.IsPlayerBullet)
@@ -90,6 +91,9 @@ namespace CallOfUnity
 
             //HPを初期値に戻す
             hp = 100f;
+
+            //自分がプレイヤーなら、HPのスライダーを初期値に設定する
+            if (controllerBase.IsPlayer) GameData.instance.UiManager.SetSldHp(1f);
 
             //リスポーンする
             transform.position = controllerBase.myTeamNo == 0 ?

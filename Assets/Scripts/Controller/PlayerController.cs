@@ -34,8 +34,11 @@ namespace CallOfUnity
                     //ステージから離れすぎたら
                     if (Mathf.Abs((transform.position - Vector3.zero).magnitude) > ConstData.MAX_LENGTH_FROM_CENTER)
                     {
+                        //仮
+                        float num = 0f;
+
                         //死ぬ
-                        GetComponent<CharacterHealth>().Die();
+                        GetComponent<CharacterHealth>().Die(ref num,this);
                     }
 
                     //移動する

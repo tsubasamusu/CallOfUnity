@@ -85,6 +85,9 @@ namespace CallOfUnity
         private Text txtData;//データのテキスト
 
         [SerializeField]
+        private Slider sldHp;//HPのスライダー
+
+        [SerializeField]
         private WeaponButtonDetail BtnWeaponPrefab;//武器のボタンのプレファブ
 
         [HideInInspector]
@@ -106,9 +109,10 @@ namespace CallOfUnity
             //設定を表示する
             cgSettings.alpha = 1f;
 
-            //スライダーを既定値に設定する
+            //スライダーを初期値に設定する
             sldLookSensitivity.value = GameData.instance.lookSensitivity / 10f;
             sldLookSmooth.value = GameData.instance.lookSmooth;
+            sldHp.value = 1f;
 
             //設定のキャンバスグループを非活性化する
             cgSettings.gameObject.SetActive(false);
@@ -326,6 +330,16 @@ namespace CallOfUnity
             cgOtherButtons.DOFade(1f, 1f)
                 .OnComplete(() =>
                     btnMain.interactable = btnSetting.interactable = btnData.interactable = true);
+        }
+
+        /// <summary>
+        /// HPのスライダーを設定する
+        /// </summary>
+        /// <param name="setValue">設定値（0～1）</param>
+        public void SetSldHp(float setValue)
+        {
+            //HPのスライダーの値を設定する
+            sldHp.DOValue(setValue, 0.25f);
         }
     }
 }
