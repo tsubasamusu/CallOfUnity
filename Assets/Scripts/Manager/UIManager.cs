@@ -6,6 +6,7 @@ using DG.Tweening;
 using UnityEngine;
 using UniRx;
 using UniRx.Triggers;
+using UnityEditor.PackageManager.Requests;
 
 namespace CallOfUnity
 {
@@ -107,68 +108,8 @@ namespace CallOfUnity
         /// </summary>
         public void SetUp()
         {
-            //メインボタンとその他のボタンを非活性化する
-            btnMain.interactable = cgOtherButtons.interactable = false;
-
-            //不必要なUIを非表示にする
-            cgGameUI.alpha = cgOtherButtons.alpha =imgReloadGauge.fillAmount= 0f;
-
-            //設定を表示する
-            cgSettings.alpha = 1f;
-
-            //スライダーを初期値に設定する
-            sldLookSensitivity.value = GameData.instance.lookSensitivity / 10f;
-            sldLookSmooth.value = GameData.instance.lookSmooth;
-            sldHp.value = 1f;
-
-            //得点のテキストを初期値に設定する
-            UpdateTxtScore();
-
-            //設定のキャンバスグループを非活性化する
-            cgSettings.gameObject.SetActive(false);
-
-            //データのテキストを非表示にする
-            txtData.color = new Color(Color.black.r, Color.black.g, Color.black.b, 0f);
-
-            //背景を白色に設定する
-            imgBackground.color = new Color(Color.white.r, Color.white.g, Color.white.b, 1f);
-
-            //ロゴをタイトルに設定する
-            imgLogo.sprite = GetLogoSprite(LogoType.GameTitle);
-
-            //メインボタンを青色に設定する
-            imgMainButton.color = Color.blue;
-
-            //メインボタンのテキストを「Game Start」に設定する
-            txtMainButton.text = "Game Start";
-
-            //データのテキストを更新する
-            txtData.text
-                = "Total Kill : "
-                + GameData.instance.playerTotalKillCount.ToString()
-                + "\n"
-                + "Kill-Death Ratio : "
-                + (GameData.instance.playerTotalKillCount
-                / (GameData.instance.playerTotalDeathCount == 0 ? 1f : GameData.instance.playerTotalDeathCount))
-                .ToString("F2")
-                + "\n"
-                + "Hit Rate : "
-                + (GameData.instance.playerTotalAttackCount
-                / (GameData.instance.playerTotalShotCount == 0 ? 1f : GameData.instance.playerTotalShotCount))
-                .ToString("F2")
-                + "%";
-
-            //メインボタンを非表示にする
-            imgMainButton.DOFade(0f, 0f);
-            txtMainButton.DOFade(0f, 0f);
-
-            //ロゴを一定時間かけて表示する
-            imgLogo.DOFade(1f, 1f);
-
-            //全てののボタンを一定時間かけて表示し、活性化する
-            txtMainButton.DOFade(1f, 1f);
-            cgOtherButtons.DOFade(1f, 1f).OnComplete(() => cgOtherButtons.interactable = true);
-            imgMainButton.DOFade(1f, 1f).OnComplete(() => btnMain.interactable = true);
+            //リセットする
+            Reset();
 
             //メインボタンが押された際の処理
             btnMain.OnClickAsObservable()
@@ -348,19 +289,92 @@ namespace CallOfUnity
                 .Subscribe(_ => txtBulletCount.text = GameData.instance.PlayerControllerBase.GetBulletcCount().ToString())
                 .AddTo(this);
 
-            //ロゴのスプライトを取得する
-            Sprite GetLogoSprite(LogoType logoType)
-            {
-                //適切なロゴのスプライトを返す
-                return logoDatasList.Find(x => x.logoType == logoType).sprite;
-            }
-
             //ボタンのアニメーションを行う
             void PlayButtonAnimation(Button button)
             {
                 //ボタンのアニメーションを行う
                 button.gameObject.transform.DOScale(1.3f, 0.25f).SetLoops(2, LoopType.Yoyo);
             }
+        }
+
+        /// <summary>
+        /// リセットする
+        /// </summary>
+        private void Reset()
+        {
+            //メインボタンとその他のボタンを非活性化する
+            btnMain.interactable = cgOtherButtons.interactable = false;
+
+            //不必要なUIを非表示にする
+            cgGameUI.alpha = cgOtherButtons.alpha = imgReloadGauge.fillAmount = 0f;
+
+            //設定を表示する
+            cgSettings.alpha = 1f;
+
+            //スライダーを初期値に設定する
+            sldLookSensitivity.value = GameData.instance.lookSensitivity / 10f;
+            sldLookSmooth.value = GameData.instance.lookSmooth;
+            sldHp.value = 1f;
+
+            //得点のテキストを初期値に設定する
+            UpdateTxtScore();
+
+            //設定のキャンバスグループを非活性化する
+            cgSettings.gameObject.SetActive(false);
+
+            //データのテキストを非表示にする
+            txtData.color = new Color(Color.black.r, Color.black.g, Color.black.b, 0f);
+
+            //背景を白色に設定する
+            imgBackground.color = new Color(Color.white.r, Color.white.g, Color.white.b, 1f);
+
+            //ロゴをタイトルに設定する
+            imgLogo.sprite = GetLogoSprite(LogoType.GameTitle);
+
+            //メインボタンを青色に設定する
+            imgMainButton.color = Color.blue;
+
+            //メインボタンのテキストを「Game Start」に設定する
+            txtMainButton.text = "Game Start";
+
+            //データのテキストを更新する
+            txtData.text
+                = "Total Kill : "
+                + GameData.instance.playerTotalKillCount.ToString()
+                + "\n"
+                + "Kill-Death Ratio : "
+                + (GameData.instance.playerTotalKillCount
+                / (GameData.instance.playerTotalDeathCount == 0 ? 1f : GameData.instance.playerTotalDeathCount))
+                .ToString("F2")
+                + "\n"
+                + "Hit Rate : "
+                + (GameData.instance.playerTotalAttackCount
+                / (GameData.instance.playerTotalShotCount == 0 ? 1f : GameData.instance.playerTotalShotCount))
+                .ToString("F2")
+                + "%";
+
+            //メインボタンを非表示にする
+            imgMainButton.DOFade(0f, 0f);
+            txtMainButton.DOFade(0f, 0f);
+
+            //ロゴを一定時間かけて表示する
+            imgLogo.DOFade(1f, 1f);
+
+            //全てののボタンを一定時間かけて表示し、活性化する
+            txtMainButton.DOFade(1f, 1f);
+            cgOtherButtons.DOFade(1f, 1f).OnComplete(() => cgOtherButtons.interactable = true);
+            imgMainButton.DOFade(1f, 1f).OnComplete(() => btnMain.interactable = true);
+        }
+
+        /// <summary>
+        /// ロゴのスプライトを取得する
+        /// </summary>
+        /// <param name="logoType">ロゴの種類</param>
+        /// <returns>ロゴのスプライト</returns>
+        private Sprite GetLogoSprite(LogoType logoType)
+        {
+            //適切なロゴのスプライトを返す
+            return logoDatasList.Find(x => x.logoType == logoType).sprite;
         }
 
         /// <summary>
@@ -412,6 +426,8 @@ namespace CallOfUnity
             txtScoreTeam1.text = GameData.instance.score.team1.ToString();
         }
 
+        private Tween reloadGaugeTween;//リロードゲージのTween保持用
+
         /// <summary>
         /// リロードゲージのアニメーションを行う
         /// </summary>
@@ -422,7 +438,22 @@ namespace CallOfUnity
             imgReloadGauge.fillAmount = 1f;
 
             //アニメーションを行う
-            imgReloadGauge.DOFillAmount(0f,animationTime);
+           reloadGaugeTween= imgReloadGauge.DOFillAmount(0f, animationTime).SetEase(Ease.Linear);
+        }
+
+        /// <summary>
+        /// リロードゲージのアニメーションを止める
+        /// </summary>
+        public void StopReloadGaugeAnimation()
+        {
+            //リロードゲージのTweenが設定されていなければ、以降の処理を行わない
+            if (reloadGaugeTween == null) return;
+
+            //リロードゲージのアニメーションを止める
+            reloadGaugeTween.Kill();
+
+            //リロードゲージを非表示にする
+            imgReloadGauge.fillAmount = 0f;
         }
     }
 }

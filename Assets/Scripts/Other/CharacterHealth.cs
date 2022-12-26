@@ -63,8 +63,15 @@ namespace CallOfUnity
         /// <param name="bulletDetailBase">接触相手のBulletDetailBase</param>
         public void Die(ref float hp,ControllerBase controllerBase,BulletDetailBase bulletDetailBase = null)
         {
-            //自分がプレイヤーなら、プレイヤーのデス数を「1」増やす
-            if (controllerBase.IsPlayer) GameData.instance.playerTotalDeathCount++;
+            //自分がプレイヤーなら
+            if (controllerBase.IsPlayer)
+            {
+                //プレイヤーのデス数を「1」増やす
+                GameData.instance.playerTotalDeathCount++;
+
+                //リロードゲージのアニメーションを止める
+                GameData.instance.UiManager.StopReloadGaugeAnimation();
+            }
 
             //プレイヤーの弾によって死亡したら
             if (bulletDetailBase != null && bulletDetailBase.IsPlayerBullet)
