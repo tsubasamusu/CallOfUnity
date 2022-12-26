@@ -47,6 +47,9 @@ namespace CallOfUnity
             //試合を開始する
             void StartGame()
             {
+                //BGMを再生する
+                SoundManager.instance.PlaySound(SoundDataSO.SoundName.試合中のBGM, ConstData.BGM_VOLUME, true);
+
                 //各クラスの初期設定を行う（2回目）
                 SetUp(1);
             }
@@ -81,6 +84,13 @@ namespace CallOfUnity
 
                 //データを保存する
                 GameData.instance.SaveData();
+
+                //全ての音を停止する
+                SoundManager.instance.StopSound();
+
+                //効果音を再生する
+                SoundManager.instance
+                    .PlaySound(isGameClear ? SoundDataSO.SoundName.ゲームクリアの音 : SoundDataSO.SoundName.ゲームオーバーの音);
 
                 //ゲームを終了演出を行う
                 GameData.instance.UiManager.PlayGameEndPerformance(isGameClear);

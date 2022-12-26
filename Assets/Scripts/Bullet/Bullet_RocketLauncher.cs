@@ -36,8 +36,12 @@ namespace CallOfUnity
 
             //爆発
             this.OnCollisionEnterAsObservable()
-                .Subscribe(_ => 
+                .Subscribe(_ =>
                 {
+                    //効果音を再生する
+                    AudioSource.PlayClipAtPoint
+                        (SoundManager.instance.GetAudioClip(SoundDataSO.SoundName.爆発した時の音), transform.position);
+
                     //爆発のエフェクトを生成する
                     Transform explosionEffectTran = Instantiate(GameData.instance.ObjExplosionEffect.transform);
 

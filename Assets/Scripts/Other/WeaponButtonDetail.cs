@@ -38,6 +38,9 @@ namespace CallOfUnity
             btnWeapon.OnClickAsObservable()
                 .Subscribe(_ =>
                 {
+                    //効果音を再生する
+                    SoundManager.instance.PlaySound(SoundDataSO.SoundName.普通のボタンを押した時の音);
+
                     //ボタンを非活性化する
                     GetComponent<Button>().interactable = false;
 

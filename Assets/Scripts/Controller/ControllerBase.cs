@@ -108,8 +108,12 @@ namespace CallOfUnity
             //リロード中に変更する
             isReloading = true;
 
+            //効果音を再生する
+            AudioSource.PlayClipAtPoint
+                (SoundManager.instance.GetAudioClip(SoundDataSO.SoundName.リロードする時の音), transform.position);
+
             //自分がプレイヤーなら、リロードゲージのアニメーションを行う
-            if(isPlayer)GameData.instance.UiManager.PlayImgReloadGaugeAnimation(currentWeaponData.reloadTime);
+            if (isPlayer) GameData.instance.UiManager.PlayImgReloadGaugeAnimation(currentWeaponData.reloadTime);
 
             //一定時間待つ
             await UniTask.Delay(TimeSpan.FromSeconds(currentWeaponData.reloadTime), cancellationToken: token);
@@ -128,6 +132,9 @@ namespace CallOfUnity
         {
             //使用中の武器の残弾数が「0」以下なら、以降の処理を行わない
             if (GetBulletcCount() <= 0) return;
+
+            //効果音を再生する
+            AudioSource.PlayClipAtPoint(currentWeaponData.shotSE, weaponTran.position);
 
             //使用中の武器の残弾数を更新する
             SetBulletCount(currentWeapoonNo,

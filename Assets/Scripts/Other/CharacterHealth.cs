@@ -41,10 +41,17 @@ namespace CallOfUnity
                     {
                         //HPを更新する
                         hp = Mathf.Clamp(hp - bulletDetailBase.WeaponData.attackPower, 0f, 100f);
-                    }
 
-                    //自分がプレイヤーなら、HPのスライダーを設定する
-                    if (controllerBase.IsPlayer) GameData.instance.UiManager.SetSldHp(hp / 100f);
+                        //自分がプレイヤーなら
+                        if (controllerBase.IsPlayer)
+                        {
+                            //HPのスライダーを設定する
+                            GameData.instance.UiManager.SetSldHp(hp / 100f);
+
+                            //効果音を再生する
+                            SoundManager.instance.PlaySound(SoundDataSO.SoundName.被弾した時の音);
+                        }
+                    }
 
                     //触れた弾を消す
                     Destroy(collision.gameObject);

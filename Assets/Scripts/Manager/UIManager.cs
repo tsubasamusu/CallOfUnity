@@ -123,12 +123,18 @@ namespace CallOfUnity
                     //武器が選択されていなければ
                     if (GameData.instance.playerWeaponInfo.info0.data == null || GameData.instance.playerWeaponInfo.info1.data == null)
                     {
+                        //効果音を再生する
+                        SoundManager.instance.PlaySound(SoundDataSO.SoundName.無効なボタンを押した時の音);
+
                         //武器選択ボタンのアニメーションを行う
                         PlayButtonAnimation(btnChooseWeapon);
 
                         //以降の処理を行わない
                         return;
                     }
+
+                    //効果音を再生する
+                    SoundManager.instance.PlaySound(SoundDataSO.SoundName.ゲームスタートボタンを押した時の音);
 
                     //全てのボタンを非活性化する
                     btnMain.interactable = cgOtherButtons.interactable = false;
@@ -154,12 +160,18 @@ namespace CallOfUnity
                     //データが表示されているなら
                     if (txtData.color.a != 0)
                     {
+                        //効果音を再生する
+                        SoundManager.instance.PlaySound(SoundDataSO.SoundName.無効なボタンを押した時の音);
+
                         //データ表示ボタンのアニメーションを行う
                         PlayButtonAnimation(btnData);
 
                         //以降の処理を行わない
                         return;
                     }
+
+                    //効果音を再生する
+                    SoundManager.instance.PlaySound(SoundDataSO.SoundName.普通のボタンを押した時の音);
 
                     //設定のキャンバスグループが表示されているなら
                     if (cgSettings.gameObject.activeSelf)
@@ -196,12 +208,18 @@ namespace CallOfUnity
                     //設定が表示されているなら
                     if (cgSettings.gameObject.activeSelf)
                     {
+                        //効果音を再生する
+                        SoundManager.instance.PlaySound(SoundDataSO.SoundName.無効なボタンを押した時の音);
+
                         //設定ボタンのアニメーションを行う
                         PlayButtonAnimation(btnSetting);
 
                         //以降の処理を行わない
                         return;
                     }
+
+                    //効果音を再生する
+                    SoundManager.instance.PlaySound(SoundDataSO.SoundName.普通のボタンを押した時の音);
 
                     //データが表示されているなら
                     if (txtData.color.a == 1f)
@@ -235,6 +253,9 @@ namespace CallOfUnity
                     //データが表示されているなら
                     if (txtData.color.a != 0f)
                     {
+                        //効果音を再生する
+                        SoundManager.instance.PlaySound(SoundDataSO.SoundName.無効なボタンを押した時の音);
+
                         //データ表示ボタンのアニメーションを行う
                         PlayButtonAnimation(btnData);
 
@@ -244,12 +265,18 @@ namespace CallOfUnity
                     //設定が表示されているなら
                     else if (cgSettings.gameObject.activeSelf)
                     {
+                        //効果音を再生する
+                        SoundManager.instance.PlaySound(SoundDataSO.SoundName.無効なボタンを押した時の音);
+
                         //設定ボタンのアニメーションを行う
                         PlayButtonAnimation(btnSetting);
 
                         //以降の処理を行わない
                         return;
                     }
+
+                    //効果音を再生する
+                    SoundManager.instance.PlaySound(SoundDataSO.SoundName.普通のボタンを押した時の音);
 
                     //全てのボタンを非活性化する
                     btnMain.interactable = btnSetting.interactable = btnChooseWeapon.interactable = btnData.interactable = false;
@@ -494,6 +521,9 @@ namespace CallOfUnity
             btnMain.OnClickAsObservable()
                 .Subscribe(_ =>
                 {
+                    //効果音を再生する
+                    SoundManager.instance.PlaySound(SoundDataSO.SoundName.普通のボタンを押した時の音);
+
                     //メインボタンを非活性化する
                     btnMain.interactable = false;
 
