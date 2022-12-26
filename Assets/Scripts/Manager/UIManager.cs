@@ -99,7 +99,10 @@ namespace CallOfUnity
         private WeaponButtonDetail BtnWeaponPrefab;//武器のボタンのプレファブ
 
         [HideInInspector]
-        public ReactiveProperty<bool> EndedStartPerformance = new(false);//ゲームスタート演出が終わったかどうか
+        public ReactiveProperty<bool> EndedGameStartPerformance = new(false);//ゲームスタート演出が終わったかどうか
+
+        [HideInInspector]
+        public ReactiveProperty<bool> EndedGameEndPerformance = new(false);//ゲーム終了演出が終わったかどうか
 
         private List<WeaponButtonDetail> btnWeaponList = new();//武器のボタンのリスト
 
@@ -138,7 +141,7 @@ namespace CallOfUnity
                     //全てのボタンを一定時間かけて非表示にし、演出終了状態に切り替える
                     cgOtherButtons.DOFade(0f, 1f);
                     txtMainButton.DOFade(0f, 1f).OnComplete(() => cgGameUI.alpha = 1f);
-                    imgMainButton.DOFade(0f, 1f).OnComplete(() => EndedStartPerformance.Value = true);
+                    imgMainButton.DOFade(0f, 1f).OnComplete(() => EndedGameStartPerformance.Value = true);
                 })
                 .AddTo(this);
 
@@ -420,10 +423,10 @@ namespace CallOfUnity
         public void UpdateTxtScore()
         {
             //チーム0の得点のテキストを更新する
-            txtScoreTeam0.text = GameData.instance.score.team0.ToString();
+            txtScoreTeam0.text = GameData.instance.Score.Value.team0.ToString();
 
             //チーム1の得点のテキストを更新する
-            txtScoreTeam1.text = GameData.instance.score.team1.ToString();
+            txtScoreTeam1.text = GameData.instance.Score.Value.team1.ToString();
         }
 
         private Tween reloadGaugeTween;//リロードゲージのTween保持用
@@ -454,6 +457,15 @@ namespace CallOfUnity
 
             //リロードゲージを非表示にする
             imgReloadGauge.fillAmount = 0f;
+        }
+
+        /// <summary>
+        /// ゲーム終了演出を行う
+        /// </summary>
+        /// <param name="isGameClear">ゲームクリアかゲームオーバーか</param>
+        public void PlayGameEndPerformance(bool isGameClear)
+        {
+            EndedGameEndPerformance.Value = true;
         }
     }
 }

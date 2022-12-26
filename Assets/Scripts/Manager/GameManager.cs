@@ -5,7 +5,8 @@ using System.Collections.Generic;
 using TNRD;
 using UniRx;
 using UnityEngine;
-using System.Threading;
+using UnityEngine.SceneManagement;
+
 
 namespace CallOfUnity
 {
@@ -20,12 +21,6 @@ namespace CallOfUnity
         [SerializeField]
         private List<SerializableInterface<ISetUp>> iSetUpList1 = new();//ISetUpインターフェイスのリスト1
 
-        [SerializeField]
-        private ControllerBase playerControllerBase;//プレイヤーのControllerBase
-
-        [SerializeField]
-        private UIManager uIManager;//UIManager
-
         /// <summary>
         /// ゲーム開始直後に呼び出される
         /// </summary>
@@ -35,9 +30,18 @@ namespace CallOfUnity
             SetUp(0);
 
             //ゲームスタート演出が終わった際の処理
-            uIManager.EndedStartPerformance
-                .Where(_ => uIManager.EndedStartPerformance.Value == true)
+            GameData.instance.UiManager.EndedGameStartPerformance
+                .Where(_ => GameData.instance.UiManager.EndedGameStartPerformance.Value == true)
                 .Subscribe(_ => StartGame())
+                .AddTo(this);
+
+            //得点の監視処理
+            GameData.instance.Score
+                .Subscribe(_ =>
+                {
+                    if (GameData.instance.Score.Value.team0 >= ConstData.WIN_SCORE) EndGame(true);
+                    if (GameData.instance.Score.Value.team1 >= ConstData.WIN_SCORE) EndGame(false);
+                })
                 .AddTo(this);
 
             //試合を開始する
@@ -59,19 +63,30 @@ namespace CallOfUnity
             }
 
             //ゲームを終了する
-            void EndGame(EndGameType endGameType)
+            void EndGame(bool isGameClear)
             {
-                //ゲーム終了の種類に応じて処理を変更する
-                switch (endGameType)
-                {
-                    //ゲームクリアなら
-                    case EndGameType.GameClear:
-                        break;
+                //カメラを独立させる
+                Camera.main.transform.parent = null;
 
-                    //ゲームオーバーなら
-                    case EndGameType.GameOver:
-                        break;
+                //不要なゲームオブジェクトを全て消す
+                {
+                    Destroy(GameData.instance.TemporaryObjectContainerTran.gameObject);
+                    while (GameData.instance.npcControllerBaseList.Count > 0)
+                    {
+                        Destroy(GameData.instance.npcControllerBaseList[0].gameObject);
+                        GameData.instance.npcControllerBaseList.RemoveAt(0);
+                    }
+                    Destroy(GameData.instance.PlayerControllerBase.gameObject);
                 }
+
+                //ゲームを終了演出を行う
+                GameData.instance.UiManager.PlayGameEndPerformance(isGameClear);
+
+                //ゲーム終了演出が終った際の処理
+                GameData.instance.UiManager.EndedGameEndPerformance
+                    .Where(_ => GameData.instance.UiManager.EndedGameEndPerformance.Value == true)
+                    .Subscribe(_ => SceneManager.LoadScene("Main"))
+                    .AddTo(this);
             }
         }
     }

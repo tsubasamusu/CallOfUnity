@@ -64,7 +64,7 @@ namespace CallOfUnity
         private Material team1Material;//チーム1のマテリアル
 
         [HideInInspector]
-        public (int team0, int team1) score;//得点
+        public ReactiveProperty<(int team0, int team1)> Score = new((0, 0));//得点
 
         [SerializeField]
         private WeaponDataSO weaponDataSO;//WeaponDataSO
@@ -165,7 +165,7 @@ namespace CallOfUnity
         /// </summary>
         public void SetUp()
         {
-
+            
         }
     }
 }

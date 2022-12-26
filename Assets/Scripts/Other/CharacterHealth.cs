@@ -84,13 +84,15 @@ namespace CallOfUnity
             if (controllerBase.myTeamNo == 0)
             {
                 //チーム1の得点を増やす
-                GameData.instance.score.team1++;
+                GameData.instance.Score.Value
+                    = (GameData.instance.Score.Value.team0, (GameData.instance.Score.Value.team1 + 1));
             }
             //自分がチーム1なら
             else
             {
                 //チーム0の得点を増やす
-                GameData.instance.score.team0++;
+                GameData.instance.Score.Value
+                    = ((GameData.instance.Score.Value.team0 + 1), GameData.instance.Score.Value.team1);
             }
 
             //再設定する

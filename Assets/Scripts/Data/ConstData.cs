@@ -21,7 +21,7 @@ namespace CallOfUnity
 
         public const float WEAPON_ROT_SMOOTH = 0.8f;//武器の回転の滑らかさ
 
-        public const int WIN_SCORE = 50;//勝利得点
+        public const int WIN_SCORE = 10;//勝利得点
 
         public const int TEAMMATE_NUMBER = 10;//1チームの人数
 
