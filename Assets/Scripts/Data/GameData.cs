@@ -69,6 +69,9 @@ namespace CallOfUnity
         [SerializeField]
         private WeaponDataSO weaponDataSO;//WeaponDataSO
 
+        [SerializeField]
+        private SoundDataSO soundDataSO;//SoundDataSO
+
         [HideInInspector]
         public List<ControllerBase> npcControllerBaseList = new();//NPCのリスト
 
@@ -141,6 +144,11 @@ namespace CallOfUnity
         /// 「WeaponDataSO」の取得用
         /// </summary>
         public WeaponDataSO WeaponDataSO { get => weaponDataSO; }
+
+        /// <summary>
+        /// 「SoundDataSO」の取得用
+        /// </summary>
+        public SoundDataSO SoundDataSO { get => soundDataSO; }
 
         public static GameData instance;//インスタンス
 

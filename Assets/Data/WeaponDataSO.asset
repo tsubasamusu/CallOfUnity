@@ -26,6 +26,7 @@ MonoBehaviour:
     firingRange: 300
     shotPower: 10
     attackPower: 1
+    shotSE: {fileID: 8300000, guid: 89235ea05c88966498dba24e0651158b, type: 3}
   - name: 1
     objWeapon: {fileID: 2161021469762290829, guid: 6f442ab3c7624b34a97414f5b501ef19,
       type: 3}
@@ -39,6 +40,7 @@ MonoBehaviour:
     firingRange: 100
     shotPower: 10
     attackPower: 1
+    shotSE: {fileID: 8300000, guid: 89235ea05c88966498dba24e0651158b, type: 3}
   - name: 2
     objWeapon: {fileID: 8044793742223492786, guid: 83b0b12a3074d3e4aa0da20db6b74142,
       type: 3}
@@ -52,6 +54,7 @@ MonoBehaviour:
     firingRange: 100
     shotPower: 10
     attackPower: 100
+    shotSE: {fileID: 8300000, guid: 9d87ef9414f9ec74a912be6892a66909, type: 3}
   - name: 3
     objWeapon: {fileID: 4272078121948299647, guid: 42bd3dba4b01b35479dbd47886411415,
       type: 3}
@@ -65,6 +68,7 @@ MonoBehaviour:
     firingRange: 10
     shotPower: 10
     attackPower: 30
+    shotSE: {fileID: 8300000, guid: 0952a1e513ebc0649900252f3a5c9eaa, type: 3}
   - name: 4
     objWeapon: {fileID: 2792196814616366396, guid: 9da4a5b321cdf3147b0af1f4bb9686aa,
       type: 3}
@@ -78,6 +82,7 @@ MonoBehaviour:
     firingRange: 1000
     shotPower: 10
     attackPower: 80
+    shotSE: {fileID: 8300000, guid: 18b6457c4a97c244b997505523ff54b1, type: 3}
   - name: 5
     objWeapon: {fileID: 6268340975612751157, guid: 3f92009e42684114cb5d6a225af8672c,
       type: 3}
@@ -91,3 +96,4 @@ MonoBehaviour:
     firingRange: 100
     shotPower: 10
     attackPower: 1
+    shotSE: {fileID: 8300000, guid: 89235ea05c88966498dba24e0651158b, type: 3}

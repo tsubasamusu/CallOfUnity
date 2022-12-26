@@ -21,6 +21,8 @@ namespace CallOfUnity
 
         public const float WEAPON_ROT_SMOOTH = 0.8f;//武器の回転の滑らかさ
 
+        public const float FADE_SOUND_OUT_TIME = 0.5f;//音がフェードアウトする時間
+
         public const int WIN_SCORE = 50;//勝利得点
 
         public const int TEAMMATE_NUMBER = 10;//1チームの人数
