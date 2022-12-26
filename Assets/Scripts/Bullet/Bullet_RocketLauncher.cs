@@ -52,7 +52,7 @@ namespace CallOfUnity
                     explosionEffectTran.SetParent(GameData.instance.TemporaryObjectContainerTran);
 
                     //生成したエフェクトを3秒後に消す
-                    Destroy(explosionEffectTran.gameObject, 3f);
+                    Destroy(explosionEffectTran.gameObject, 1f);
                 })
                 .AddTo(this);
         }
