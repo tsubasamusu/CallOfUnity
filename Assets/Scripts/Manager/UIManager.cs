@@ -116,6 +116,7 @@ namespace CallOfUnity
 
             //メインボタンが押された際の処理
             btnMain.OnClickAsObservable()
+                .Where(_ => !EndedGameStartPerformance.Value)
                 .ThrottleFirst(TimeSpan.FromSeconds(0.6f))
                 .Subscribe(_ =>
                 {
@@ -441,7 +442,7 @@ namespace CallOfUnity
             imgReloadGauge.fillAmount = 1f;
 
             //アニメーションを行う
-           reloadGaugeTween= imgReloadGauge.DOFillAmount(0f, animationTime).SetEase(Ease.Linear);
+            reloadGaugeTween = imgReloadGauge.DOFillAmount(0f, animationTime).SetEase(Ease.Linear);
         }
 
         /// <summary>
@@ -465,7 +466,46 @@ namespace CallOfUnity
         /// <param name="isGameClear">ゲームクリアかゲームオーバーか</param>
         public void PlayGameEndPerformance(bool isGameClear)
         {
-            EndedGameEndPerformance.Value = true;
+            //メインボタンを非活性化する
+            btnMain.interactable = false;
+
+            //メインボタンのテキストを「Restart」に設定する
+            txtMainButton.text = "Restart";
+
+            //ボタンの色を設定する
+            imgMainButton.color = isGameClear ? Color.yellow : Color.red;
+
+            //背景の色を設定する
+            imgBackground.color = isGameClear ? Color.white : Color.black;
+
+            //ロゴのスプライトを設定する
+            imgLogo.sprite = GetLogoSprite(isGameClear ? LogoType.GameClear : LogoType.GameOver);
+
+            //試合中のUIを非表示にする
+            cgGameUI.alpha = 0f;
+
+            //必要なUIを表示する
+            imgBackground.DOFade(1f, 1f);
+            imgLogo.DOFade(1f, 1f);
+            imgMainButton.DOFade(1f, 1f);
+            txtMainButton.DOFade(1f, 1f).OnComplete(() => btnMain.interactable = true);
+
+            //メインボタンを押された際の処理
+            btnMain.OnClickAsObservable()
+                .Subscribe(_ =>
+                {
+                    //メインボタンを非活性化する
+                    btnMain.interactable = false;
+
+                    //背景以外のUIを非表示にする
+                    imgLogo.DOFade(0f, 1f);
+                    imgMainButton.DOFade(0f, 1f);
+                    txtMainButton.DOFade(0f, 1f);
+
+                    //背景を白色に変化させる
+                    imgBackground.DOColor(Color.white, 1f).OnComplete(() => EndedGameEndPerformance.Value = true);
+                })
+                .AddTo(this);
         }
     }
 }

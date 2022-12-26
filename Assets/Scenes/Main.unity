@@ -648,10 +648,10 @@ MonoBehaviour:
   logoDatasList:
   - logoType: 0
     sprite: {fileID: 21300000, guid: 4250c0d8f0566404285fb7fe2d6479eb, type: 3}
-  - logoType: 0
-    sprite: {fileID: 21300000, guid: 71e77ee19bb268f4eb0ee12ebd7df87c, type: 3}
-  - logoType: 0
+  - logoType: 2
     sprite: {fileID: 21300000, guid: 64b9257e5a602cb49841f47c0becfb15, type: 3}
+  - logoType: 1
+    sprite: {fileID: 21300000, guid: 71e77ee19bb268f4eb0ee12ebd7df87c, type: 3}
   imgLogo: {fileID: 1862941767}
   imgBackground: {fileID: 1413713507}
   cgGameUI: {fileID: 1483118592}
@@ -673,7 +673,9 @@ MonoBehaviour:
   imgReloadGauge: {fileID: 1758258382}
   BtnWeaponPrefab: {fileID: 2347266133493539186, guid: 7b49c422603307f4da49dadfd758c028,
     type: 3}
-  EndedStartPerformance:
+  EndedGameStartPerformance:
+    value: 0
+  EndedGameEndPerformance:
     value: 0
 --- !u!1 &307523560
 GameObject:
@@ -1645,8 +1647,6 @@ MonoBehaviour:
     unityReference: {fileID: 1329190542}
     rawReference:
       rid: -2
-  playerControllerBase: {fileID: 1519644928}
-  uIManager: {fileID: 297339686}
   references:
     version: 2
     RefIds:
