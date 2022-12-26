@@ -42,6 +42,7 @@ public class WeaponDataSO : ScriptableObject
         public float shotPower;//発射力
         [Range(0f,100f)]
         public float attackPower;//攻撃力
+        public AudioClip shotSE;//射撃時の効果音
     }
 
     public List<WeaponData> weaponDataList = new();//武器のデータのリスト  
