@@ -38,7 +38,7 @@ namespace CallOfUnity
                         float num = 0f;
 
                         //死ぬ
-                        GetComponent<CharacterHealth>().Die(ref num,this);
+                        GetComponent<CharacterHealth>().Die(ref num, this);
                     }
 
                     //移動する
@@ -63,11 +63,56 @@ namespace CallOfUnity
                 .Subscribe(_ => ReloadAsync(this.GetCancellationTokenOnDestroy()).Forget())
                 .AddTo(this);
 
-            //射撃
+            ////射撃
+            //this.UpdateAsObservable()
+            //    .Where(_ => Input.GetKey(ConstData.SHOT_KEY) && GetBulletcCount() >= 1 && !isReloading)
+            //    .ThrottleFirst(TimeSpan.FromSeconds(currentWeaponData.rateOfFire))
+            //    .Subscribe(_ => Shot())
+            //    .AddTo(this);
+
+            float timer0 = 100f;//プレイヤーの所持武器「0」用のタイマー
+            float timer1 = 100f;//プレイヤーの所持武器「1」用のタイマー
+
+            //射撃処理
             this.UpdateAsObservable()
-                .Where(_ => Input.GetKey(ConstData.SHOT_KEY) && GetBulletcCount() >= 1 && !isReloading)
-                .ThrottleFirst(TimeSpan.FromSeconds(currentWeaponData.rateOfFire))
-                .Subscribe(_ => Shot())
+                .Subscribe(_ =>
+                {
+                    //プレイヤーの所持武器「0」用の時間を計測
+                    timer0 += Time.deltaTime;
+
+                    //プレイヤーの所持武器「1」用の時間を計測
+                    timer1 += Time.deltaTime;
+
+                    //発射キーが押されていないか、残弾数が「1」より少ないか、リロード中なら、以降の処理を行わない
+                    if (!Input.GetKey(ConstData.SHOT_KEY) || GetBulletcCount() < 1 || isReloading) return;
+
+                    //プレイヤーが所持武器「0」を使用しているなら
+                    if (currentWeaponData != GameData.instance.playerWeaponInfo.info0.data)
+                    {
+                        //計測時間「0」が連射時間以上になったら
+                        if (timer0 >= currentWeaponData.rateOfFire)
+                        {
+                            //タイマー「0」を初期化する
+                            timer0 = 0f;
+                            
+                            //射撃する
+                            Shot();
+                        }
+                    }
+                    //プレイヤーが所持武器「1」を使用しているなら
+                    else
+                    {
+                        //計測時間「1」が連射時間以上になったら
+                        if (timer1 >= currentWeaponData.rateOfFire)
+                        {
+                            //タイマー「1」を初期化する
+                            timer1 = 0f; 
+                            
+                            //射撃する
+                            Shot();
+                        }
+                    }
+                })
                 .AddTo(this);
 
             //構える
