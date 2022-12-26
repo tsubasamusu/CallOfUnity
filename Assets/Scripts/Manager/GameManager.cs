@@ -50,6 +50,9 @@ namespace CallOfUnity
                 //BGMを再生する
                 SoundManager.instance.PlaySound(SoundDataSO.SoundName.試合中のBGM, ConstData.BGM_VOLUME, true);
 
+                //マウスカーソルの表示設定を行う
+                Cursor.visible = !GameData.instance.hideMouseCursor;
+
                 //各クラスの初期設定を行う（2回目）
                 SetUp(1);
             }
@@ -81,6 +84,9 @@ namespace CallOfUnity
                     }
                     Destroy(GameData.instance.PlayerControllerBase.gameObject);
                 }
+
+                //マウスカーソルを表示する
+                if(!Cursor.visible) Cursor.visible = true;
 
                 //データを保存する
                 GameData.instance.SaveData();

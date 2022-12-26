@@ -27,6 +27,9 @@ namespace CallOfUnity
         [HideInInspector]
         public int playerTotalShotCount;//プレイヤーの総発射数
 
+        [HideInInspector]
+        public bool hideMouseCursor;//マウスカーソルを非表示にするかどうか
+
         [SerializeField]
         private List<Transform> respawnTransList = new();
 
@@ -189,6 +192,7 @@ namespace CallOfUnity
             if (PlayerPrefs.HasKey("Shot")) playerTotalShotCount = PlayerPrefs.GetInt("Shot");
             if (PlayerPrefs.HasKey("LookSensitivity")) lookSensitivity = PlayerPrefs.GetFloat("LookSensitivity");
             if (PlayerPrefs.HasKey("LookSmooth")) lookSmooth = PlayerPrefs.GetFloat("LookSmooth");
+            if (PlayerPrefs.HasKey("HideMouseCursor")) hideMouseCursor = PlayerPrefs.GetString("HideMouseCursor") == "True";
         }
 
         /// <summary>
@@ -202,6 +206,7 @@ namespace CallOfUnity
             PlayerPrefs.SetInt("Shot", playerTotalShotCount);
             PlayerPrefs.SetFloat("LookSensitivity", lookSensitivity);
             PlayerPrefs.SetFloat("LookSmooth", lookSmooth);
+            PlayerPrefs.SetString("HideMouseCursor", hideMouseCursor.ToString());
         }
     }
 }

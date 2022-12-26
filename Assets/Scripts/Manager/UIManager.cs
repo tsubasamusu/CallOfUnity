@@ -96,6 +96,9 @@ namespace CallOfUnity
         private Image imgReloadGauge;//リロードゲージ
 
         [SerializeField]
+        private Toggle tglHideMouseCursor;//マウスを非表示にするかどうか
+
+        [SerializeField]
         private WeaponButtonDetail BtnWeaponPrefab;//武器のボタンのプレファブ
 
         [HideInInspector]
@@ -176,11 +179,10 @@ namespace CallOfUnity
                     //設定のキャンバスグループが表示されているなら
                     if (cgSettings.gameObject.activeSelf)
                     {
-                        //視点感度を更新
+                        //各設定を更新する
                         GameData.instance.lookSensitivity = sldLookSensitivity.value * 10f;
-
-                        //視点の滑らかさを更新
                         GameData.instance.lookSmooth = sldLookSmooth.value;
+                        GameData.instance.hideMouseCursor = tglHideMouseCursor.isOn;
 
                         //設定のキャンバスグループを非活性化する
                         cgSettings.gameObject.SetActive(false);
@@ -333,6 +335,9 @@ namespace CallOfUnity
         /// </summary>
         private void Reset()
         {
+            //「マウスカーソルを非表示にするかどうか」を初期値に設定する
+            tglHideMouseCursor.isOn = GameData.instance.hideMouseCursor;
+
             //メインボタンとその他のボタンを非活性化する
             btnMain.interactable = cgOtherButtons.interactable = false;
 
