@@ -165,7 +165,35 @@ namespace CallOfUnity
         /// </summary>
         public void SetUp()
         {
-            
+            //リセットする
+            Reset();
+        }
+
+        /// <summary>
+        /// リセットする
+        /// </summary>
+        private void Reset()
+        {
+            //データをロードする
+            if (PlayerPrefs.HasKey("Kill")) playerTotalKillCount = PlayerPrefs.GetInt("Kill");
+            if (PlayerPrefs.HasKey("Death")) playerTotalDeathCount = PlayerPrefs.GetInt("Death");
+            if (PlayerPrefs.HasKey("Attack")) playerTotalAttackCount = PlayerPrefs.GetInt("Attack");
+            if (PlayerPrefs.HasKey("Shot")) playerTotalShotCount = PlayerPrefs.GetInt("Shot");
+            if (PlayerPrefs.HasKey("LookSensitivity")) lookSensitivity = PlayerPrefs.GetFloat("LookSensitivity");
+            if (PlayerPrefs.HasKey("LookSmooth")) lookSmooth = PlayerPrefs.GetFloat("LookSmooth");
+        }
+
+        /// <summary>
+        /// データを保存する
+        /// </summary>
+        public void SaveData()
+        {
+            PlayerPrefs.SetInt("Kill", playerTotalKillCount);
+            PlayerPrefs.SetInt("Death", playerTotalDeathCount);
+            PlayerPrefs.SetInt("Attack", playerTotalAttackCount);
+            PlayerPrefs.SetInt("Shot", playerTotalShotCount);
+            PlayerPrefs.SetFloat("LookSensitivity", lookSensitivity);
+            PlayerPrefs.SetFloat("LookSmooth", lookSmooth);
         }
     }
 }

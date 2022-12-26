@@ -79,6 +79,9 @@ namespace CallOfUnity
                     Destroy(GameData.instance.PlayerControllerBase.gameObject);
                 }
 
+                //データを保存する
+                GameData.instance.SaveData();
+
                 //ゲームを終了演出を行う
                 GameData.instance.UiManager.PlayGameEndPerformance(isGameClear);
 
