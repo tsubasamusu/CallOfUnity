@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 using UnityEngine;
 using UniRx;
+using UniRx.Triggers;
 
 namespace CallOfUnity
 {
@@ -88,10 +89,13 @@ namespace CallOfUnity
         private Slider sldHp;//HPのスライダー
 
         [SerializeField]
+        private Text txtBulletCount;//残弾数のテキスト
+
+        [SerializeField]
         private WeaponButtonDetail BtnWeaponPrefab;//武器のボタンのプレファブ
 
         [HideInInspector]
-        public ReactiveProperty<bool> endedStartPerformance = new(false);//ゲームスタート演出が終わったかどうか
+        public ReactiveProperty<bool> EndedStartPerformance = new(false);//ゲームスタート演出が終わったかどうか
 
         private List<WeaponButtonDetail> btnWeaponList = new();//武器のボタンのリスト
 
@@ -189,7 +193,7 @@ namespace CallOfUnity
                     //全てのボタンを一定時間かけて非表示にし、演出終了状態に切り替える
                     cgOtherButtons.DOFade(0f, 1f);
                     txtMainButton.DOFade(0f, 1f).OnComplete(() => cgGameUI.alpha = 1f);
-                    imgMainButton.DOFade(0f, 1f).OnComplete(() => endedStartPerformance.Value = true);
+                    imgMainButton.DOFade(0f, 1f).OnComplete(() => EndedStartPerformance.Value = true);
                 })
                 .AddTo(this);
 
@@ -294,6 +298,11 @@ namespace CallOfUnity
                         }
                     });
                 })
+                .AddTo(this);
+
+            //残弾数のテキストの更新処理
+            this.UpdateAsObservable()
+                .Subscribe(_ => txtBulletCount.text = GameData.instance.PlayerControllerBase.GetBulletcCount().ToString())
                 .AddTo(this);
         }
 

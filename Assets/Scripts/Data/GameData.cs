@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UniRx;
 
 namespace CallOfUnity
 {
     /// <summary>
     /// 変動値を管理
     /// </summary>
-    public class GameData : MonoBehaviour,ISetUp
+    public class GameData : MonoBehaviour, ISetUp
     {
         [Range(0f, 10f)]
         public float lookSensitivity;//視点感度
@@ -89,7 +90,7 @@ namespace CallOfUnity
         /// <summary>
         /// 「出血のエフェクト」の取得用
         /// </summary>
-        public GameObject ObjBleedingEffect { get=> objBleedingEffect; }
+        public GameObject ObjBleedingEffect { get => objBleedingEffect; }
 
         /// <summary>
         /// 「ロケットランチャーのエフェクト」の取得用
@@ -164,7 +165,7 @@ namespace CallOfUnity
         /// </summary>
         public void SetUp()
         {
-            
+
         }
     }
 }

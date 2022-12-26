@@ -126,18 +126,22 @@ namespace CallOfUnity
             //使用中の武器の残弾数が「0」以下なら、以降の処理を行わない
             if (GetBulletcCount() <= 0) return;
 
-            //自分がプレイヤーなら、プレイヤーの発射数を「1」増やす
-            if (isPlayer) GameData.instance.playerTotalShotCount++;
-
             //使用中の武器の残弾数を更新する
             SetBulletCount(currentWeapoonNo,
                 Math.Clamp(GetWeaponInfo(currentWeapoonNo).bulletCount - 1, 0, currentWeaponData.ammunitionNo));
+
+            //自分がプレイヤーなら
+            if (isPlayer)
+            {
+                //プレイヤーの総発射数を「1」増やす
+                GameData.instance.playerTotalShotCount++;
+            }
 
             //弾を生成する
             BulletDetailBase bullet = Instantiate(currentWeaponData.bullet);
 
             //生成した弾の初期設定を行う
-            bullet.SetUpBullet(currentWeaponData,myTeamNo,isPlayer);
+            bullet.SetUpBullet(currentWeaponData, myTeamNo, isPlayer);
 
             //生成した弾の親を設定する
             bullet.transform.SetParent(GameData.instance.TemporaryObjectContainerTran);
@@ -179,7 +183,7 @@ namespace CallOfUnity
         /// 現在使用している武器の残弾数を取得する
         /// </summary>
         /// <returns>現在使用している武器の残弾数</returns>
-        protected int GetBulletcCount()
+        public int GetBulletcCount()
         {
             //現在使用している武器の残弾数を返す
             return GetWeaponInfo(currentWeapoonNo).bulletCount;

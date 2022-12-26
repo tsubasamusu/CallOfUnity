@@ -35,8 +35,8 @@ namespace CallOfUnity
             SetUp(0);
 
             //ゲームスタート演出が終わった際の処理
-            uIManager.endedStartPerformance
-                .Where(_ => uIManager.endedStartPerformance.Value == true)
+            uIManager.EndedStartPerformance
+                .Where(_ => uIManager.EndedStartPerformance.Value == true)
                 .Subscribe(_ => StartGame())
                 .AddTo(this);
 

@@ -21,11 +21,11 @@ namespace CallOfUnity
         /// </summary>
         protected override void SetUpController()
         {
-            //Rigidbodyを取得
-            Rigidbody rb = GetComponent<Rigidbody>();
-
             //リセット時の処理を呼び出す 
             Reset();
+
+            //Rigidbodyを取得
+            Rigidbody rb = GetComponent<Rigidbody>();
 
             //移動・かがむ・武器チェンジ・ジャンプ
             this.UpdateAsObservable()
