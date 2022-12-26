@@ -99,6 +99,9 @@ namespace CallOfUnity
         private Toggle tglHideMouseCursor;//マウスを非表示にするかどうか
 
         [SerializeField]
+        private Text txtGaveDamage;//与えたダメージのテキスト
+
+        [SerializeField]
         private WeaponButtonDetail BtnWeaponPrefab;//武器のボタンのプレファブ
 
         [HideInInspector]
@@ -108,6 +111,8 @@ namespace CallOfUnity
         public ReactiveProperty<bool> EndedGameEndPerformance = new(false);//ゲーム終了演出が終わったかどうか
 
         private List<WeaponButtonDetail> btnWeaponList = new();//武器のボタンのリスト
+
+        private Tween reloadGaugeTween;//リロードゲージのTween
 
         /// <summary>
         /// UIManagerの初期設定を行う
@@ -338,6 +343,9 @@ namespace CallOfUnity
             //「マウスカーソルを非表示にするかどうか」を初期値に設定する
             tglHideMouseCursor.isOn = GameData.instance.hideMouseCursor;
 
+            //与えたダメージのテキストを空にする
+            txtGaveDamage.text = string.Empty;
+
             //メインボタンとその他のボタンを非活性化する
             btnMain.interactable = cgOtherButtons.interactable = false;
 
@@ -462,8 +470,6 @@ namespace CallOfUnity
             txtScoreTeam1.text = GameData.instance.Score.Value.team1.ToString();
         }
 
-        private Tween reloadGaugeTween;//リロードゲージのTween保持用
-
         /// <summary>
         /// リロードゲージのアニメーションを行う
         /// </summary>
@@ -490,6 +496,24 @@ namespace CallOfUnity
 
             //リロードゲージを非表示にする
             imgReloadGauge.fillAmount = 0f;
+        }
+
+        /// <summary>
+        /// 与えたダメージのテキストのアニメーションを行う
+        /// </summary>
+        /// <param name="gaveDamage">与えたダメージ（1～100）</param>
+        public void PlayTxtGaveDamageAnimation(float gaveDamage)
+        {
+            //Sequenceを作成する
+            Sequence sequence = DOTween.Sequence();
+
+            //与えたダメージのテキストを設定する
+            txtGaveDamage.text = gaveDamage.ToString();
+
+            //アニメーションを行う
+            sequence.Append(txtGaveDamage.DOFade(1f, 0f));
+            sequence.Append(txtGaveDamage.gameObject.transform.DOScale(1.3f,0.25f).SetLoops(2,LoopType.Yoyo));
+            sequence.Append(txtGaveDamage.DOFade(0f, 0.25f));
         }
 
         /// <summary>

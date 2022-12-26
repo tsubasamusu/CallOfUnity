@@ -23,7 +23,7 @@ namespace CallOfUnity
 
         public const float BGM_VOLUME = 0.5f;//BGMの音量
 
-        public const int WIN_SCORE = 1;//勝利得点
+        public const int WIN_SCORE = 30;//勝利得点
 
         public const int TEAMMATE_NUMBER = 10;//1チームの人数
 

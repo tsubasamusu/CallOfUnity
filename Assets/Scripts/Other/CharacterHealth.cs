@@ -51,13 +51,19 @@ namespace CallOfUnity
                             //効果音を再生する
                             SoundManager.instance.PlaySound(SoundDataSO.SoundName.被弾した時の音);
                         }
+                        //触れた弾の持ち主がプレイヤーなら
+                        else if (bulletDetailBase.IsPlayerBullet)
+                        {
+                            //UIのアニメーションを行う
+                            GameData.instance.UiManager.PlayTxtGaveDamageAnimation(bulletDetailBase.WeaponData.attackPower);
+                        }
                     }
 
                     //触れた弾を消す
                     Destroy(collision.gameObject);
 
                     //HPが0なら死亡処理を行う
-                    if (hp == 0f) Die( ref hp, controllerBase,bulletDetailBase);
+                    if (hp == 0f) Die(ref hp, controllerBase, bulletDetailBase);
                 })
                 .AddTo(this);
         }
@@ -68,7 +74,7 @@ namespace CallOfUnity
         /// <param name="hp">自分のHP</param>
         /// <param name="controllerBase">自分のControllerBase</param>
         /// <param name="bulletDetailBase">接触相手のBulletDetailBase</param>
-        public void Die(ref float hp,ControllerBase controllerBase,BulletDetailBase bulletDetailBase = null)
+        public void Die(ref float hp, ControllerBase controllerBase, BulletDetailBase bulletDetailBase = null)
         {
             //自分がプレイヤーなら
             if (controllerBase.IsPlayer)

@@ -192,7 +192,7 @@ namespace CallOfUnity
             if (PlayerPrefs.HasKey("Shot")) playerTotalShotCount = PlayerPrefs.GetInt("Shot");
             if (PlayerPrefs.HasKey("LookSensitivity")) lookSensitivity = PlayerPrefs.GetFloat("LookSensitivity");
             if (PlayerPrefs.HasKey("LookSmooth")) lookSmooth = PlayerPrefs.GetFloat("LookSmooth");
-            if (PlayerPrefs.HasKey("HideMouseCursor")) hideMouseCursor = PlayerPrefs.GetString("HideMouseCursor") == "True";
+            if (PlayerPrefs.HasKey("HideMouseCursor")) hideMouseCursor = PlayerPrefs.GetString("HideMouseCursor") == true.ToString();
         }
 
         /// <summary>
