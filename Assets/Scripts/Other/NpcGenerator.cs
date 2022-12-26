@@ -56,20 +56,20 @@ namespace CallOfUnity
                 if (i <= ConstData.TEAMMATE_NUMBER - 2)
                 {
                     //最初の生成位置のx座標を取得
-                    float firstPosX = -2f*((ConstData.TEAMMATE_NUMBER-1) / 2f);
+                    float firstPosX = -2f * ((ConstData.TEAMMATE_NUMBER - 1) / 2f);
 
                     //作成した座標をリストに追加する
-                    spawnPosList.Add(new Vector3(firstPosX+(2f*i),0f,-25f));
+                    spawnPosList.Add(new Vector3(firstPosX + (2f * i), 0f, -25f));
 
                     //次の繰り返し処理に移る
                     continue;
                 }
 
                 //最初の生成位置のx座標を取得
-                float firstPosX2 = -2f*(ConstData.TEAMMATE_NUMBER / 2f);
+                float firstPosX2 = -2f * (ConstData.TEAMMATE_NUMBER / 2f);
 
                 //作成した座標をリストに追加する
-                spawnPosList.Add(new Vector3(firstPosX2 + (2f * (i- (ConstData.TEAMMATE_NUMBER-1))), 0f, 25f));
+                spawnPosList.Add(new Vector3(firstPosX2 + (2f * (i - (ConstData.TEAMMATE_NUMBER - 1))), 0f, 25f));
             }
 
             //作成したリストを返す
