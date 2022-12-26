@@ -29,7 +29,7 @@ namespace CallOfUnity
         [Serializable]
         private class LogoData
         {
-            public LogoType LogoType;//ロゴの種類
+            public LogoType logoType;//ロゴの種類
             public Sprite sprite;//スプライト
         }
 
@@ -113,6 +113,9 @@ namespace CallOfUnity
             sldLookSensitivity.value = GameData.instance.lookSensitivity / 10f;
             sldLookSmooth.value = GameData.instance.lookSmooth;
             sldHp.value = 1f;
+
+            //得点のテキストを初期値に設定する
+            UpdateTxtScore();
 
             //設定のキャンバスグループを非活性化する
             cgSettings.gameObject.SetActive(false);
@@ -249,7 +252,7 @@ namespace CallOfUnity
                 .AddTo(this);
 
             //キャンバスの位置情報を取得する
-            Transform canvasTran = GameObject.Find("Canvas").transform;
+            RectTransform canvasRectTran = GameObject.Find("Canvas").GetComponent<RectTransform>();
 
             //武器選択ボタンを押された際の処理
             btnChooseWeapon.OnClickAsObservable()
@@ -278,7 +281,7 @@ namespace CallOfUnity
                             RectTransform btnWeaponRectTran = btnWeapon.GetComponent<RectTransform>();
 
                             //生成したボタンの親を設定する
-                            btnWeaponRectTran.SetParent(canvasTran);
+                            btnWeaponRectTran.SetParent(canvasRectTran);
 
                             //適切なy座標を取得する
                             float y = -400f + (800f / (GameData.instance.WeaponDataSO.weaponDataList.Count - 1) * i);
@@ -302,7 +305,7 @@ namespace CallOfUnity
         private Sprite GetLogoSprite(LogoType logoType)
         {
             //適切なロゴのスプライトを返す
-            return logoDatasList.Find(x => x.LogoType == logoType).sprite;
+            return logoDatasList.Find(x => x.logoType == logoType).sprite;
         }
 
         /// <summary>
@@ -340,6 +343,18 @@ namespace CallOfUnity
         {
             //HPのスライダーの値を設定する
             sldHp.DOValue(setValue, 0.25f);
+        }
+
+        /// <summary>
+        /// 得点のテキストを更新する
+        /// </summary>
+        public void UpdateTxtScore()
+        {
+            //チーム0の得点のテキストを更新する
+            txtScoreTeam0.text = GameData.instance.score.team0.ToString();
+
+            //チーム1の得点のテキストを更新する
+            txtScoreTeam1.text = GameData.instance.score.team1.ToString();
         }
     }
 }

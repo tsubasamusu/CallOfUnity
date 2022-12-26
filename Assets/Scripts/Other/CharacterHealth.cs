@@ -95,6 +95,9 @@ namespace CallOfUnity
             //自分がプレイヤーなら、HPのスライダーを初期値に設定する
             if (controllerBase.IsPlayer) GameData.instance.UiManager.SetSldHp(1f);
 
+            //得点のテキストを更新する
+            GameData.instance.UiManager.UpdateTxtScore();
+
             //リスポーンする
             transform.position = controllerBase.myTeamNo == 0 ?
                 GameData.instance.RespawnTransList[0].position
