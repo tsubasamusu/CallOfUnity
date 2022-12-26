@@ -169,13 +169,14 @@ namespace CallOfUnity
 
             //メインボタンが押された際の処理
             btnMain.OnClickAsObservable()
+                .ThrottleFirst(TimeSpan.FromSeconds(0.6f))
                 .Subscribe(_ =>
                 {
                     //武器が選択されていなければ
                     if (GameData.instance.playerWeaponInfo.info0.data == null || GameData.instance.playerWeaponInfo.info1.data == null)
                     {
                         //武器選択ボタンのアニメーションを行う
-                        btnChooseWeapon.gameObject.transform.DOScale(1.3f, 0.25f).SetLoops(2, LoopType.Yoyo);
+                        PlayButtonAnimation(btnChooseWeapon);
 
                         //以降の処理を行わない
                         return;
@@ -199,9 +200,19 @@ namespace CallOfUnity
 
             //設定ボタンが押された際の処理
             btnSetting.OnClickAsObservable()
-                .Where(_ => txtData.color.a == 0)
+                .ThrottleFirst(TimeSpan.FromSeconds(0.6f))
                 .Subscribe(_ =>
                 {
+                    //データが表示されているなら
+                    if (txtData.color.a != 0)
+                    {
+                        //データ表示ボタンのアニメーションを行う
+                        PlayButtonAnimation(btnData);
+
+                        //以降の処理を行わない
+                        return;
+                    }
+
                     //設定のキャンバスグループが表示されているなら
                     if (cgSettings.gameObject.activeSelf)
                     {
@@ -231,9 +242,19 @@ namespace CallOfUnity
 
             //データボタンが押された際の処理
             btnData.OnClickAsObservable()
-                .Where(_ => !cgSettings.gameObject.activeSelf)
+                .ThrottleFirst(TimeSpan.FromSeconds(0.6f))
                 .Subscribe(_ =>
                 {
+                    //設定が表示されているなら
+                    if (cgSettings.gameObject.activeSelf)
+                    {
+                        //設定ボタンのアニメーションを行う
+                        PlayButtonAnimation(btnSetting);
+
+                        //以降の処理を行わない
+                        return;
+                    }
+
                     //データが表示されているなら
                     if (txtData.color.a == 1f)
                     {
@@ -260,9 +281,28 @@ namespace CallOfUnity
 
             //武器選択ボタンを押された際の処理
             btnChooseWeapon.OnClickAsObservable()
-                .Where(_ => txtData.color.a == 0 && !cgSettings.gameObject.activeSelf)
+                .ThrottleFirst(TimeSpan.FromSeconds(0.6f))
                 .Subscribe(_ =>
                 {
+                    //データが表示されているなら
+                    if (txtData.color.a != 0f)
+                    {
+                        //データ表示ボタンのアニメーションを行う
+                        PlayButtonAnimation(btnData);
+
+                        //以降の処理を行わない
+                        return;
+                    }
+                    //設定が表示されているなら
+                    else if (cgSettings.gameObject.activeSelf)
+                    {
+                        //設定ボタンのアニメーションを行う
+                        PlayButtonAnimation(btnSetting);
+
+                        //以降の処理を行わない
+                        return;
+                    }
+
                     //全てのボタンを非活性化する
                     btnMain.interactable = btnSetting.interactable = btnChooseWeapon.interactable = btnData.interactable = false;
 
@@ -304,17 +344,20 @@ namespace CallOfUnity
             this.UpdateAsObservable()
                 .Subscribe(_ => txtBulletCount.text = GameData.instance.PlayerControllerBase.GetBulletcCount().ToString())
                 .AddTo(this);
-        }
 
-        /// <summary>
-        /// ロゴのスプライトを取得する
-        /// </summary>
-        /// <param name="logoType">ロゴの種類</param>
-        /// <returns>ロゴのスプライト</returns>
-        private Sprite GetLogoSprite(LogoType logoType)
-        {
-            //適切なロゴのスプライトを返す
-            return logoDatasList.Find(x => x.logoType == logoType).sprite;
+            //ロゴのスプライトを取得する
+            Sprite GetLogoSprite(LogoType logoType)
+            {
+                //適切なロゴのスプライトを返す
+                return logoDatasList.Find(x => x.logoType == logoType).sprite;
+            }
+
+            //ボタンのアニメーションを行う
+            void PlayButtonAnimation(Button button)
+            {
+                //ボタンのアニメーションを行う
+                button.gameObject.transform.DOScale(1.3f, 0.25f).SetLoops(2, LoopType.Yoyo);
+            }
         }
 
         /// <summary>
