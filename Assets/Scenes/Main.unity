@@ -321,6 +321,7 @@ MonoBehaviour:
     type: 3}
   playerControllerBase: {fileID: 1519644928}
   playerCharacterHealth: {fileID: 1519644931}
+  cameraController: {fileID: 963194229}
   uiManager: {fileID: 297339686}
   team0Material: {fileID: 2100000, guid: 8b4da37a5ac03f149a7ac4d41bf969d7, type: 2}
   team1Material: {fileID: 2100000, guid: aa224ecd54f90594086936a61336859d, type: 2}

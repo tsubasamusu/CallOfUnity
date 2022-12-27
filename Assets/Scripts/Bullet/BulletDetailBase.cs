@@ -38,7 +38,7 @@ namespace CallOfUnity
         /// <param name="weaponData">使用した武器のデータ</param>
         /// <param name="myTeamNo">自分のチーム番号</param>
         /// <param name="isPlayerBullet">プレイヤーの弾かどうか</param>
-        public void SetUpBullet(WeaponDataSO.WeaponData weaponData,int myTeamNo,bool isPlayerBullet)
+        public void SetUpBullet(WeaponDataSO.WeaponData weaponData, int myTeamNo, bool isPlayerBullet)
         {
             //使用された武器のデータを取得する
             this.weaponData = weaponData;
@@ -100,6 +100,14 @@ namespace CallOfUnity
                         //自滅する
                         DestroyBullet(controllerBase.myTeamNo != myTeamNo);
                     }
+                    //プレイヤーとNPC以外の物に接触したら
+                    else
+                    {
+                        //効果音を再生する
+                        AudioSource.PlayClipAtPoint
+                        (SoundManager.instance.GetAudioClip(SoundDataSO.SoundName.銃弾が静的なオブジェクトに当たった時の音)
+                        ,transform.position);
+                    }
 
                     //自滅する
                     DestroyBullet(false);
@@ -116,7 +124,7 @@ namespace CallOfUnity
                     Destroy(gameObject);
                 }
                 //自分がプレイヤーかつ、敵に攻撃したなら
-                else if(isPlayerBullet&&attackedEnemy)
+                else if (isPlayerBullet && attackedEnemy)
                 {
                     //プレイヤーの命中数を「1」増やす
                     GameData.instance.playerTotalAttackCount++;

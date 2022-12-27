@@ -30,16 +30,16 @@ namespace CallOfUnity
             this.UpdateAsObservable()
                 .Subscribe(_ =>
                 {
-                    //マウスの横移動を取得
+                    //マウスの横移動を取得する
                     yRot += Input.GetAxis("Mouse X") * GameData.instance.lookSensitivity;
 
-                    //マウスの縦移動を取得
+                    //マウスの縦移動を取得する
                     xRot -= Input.GetAxis("Mouse Y") * GameData.instance.lookSensitivity;
 
-                    //滑らかにxの回転を取得
+                    //滑らかにxの回転を取得する
                     currentXRot = Mathf.SmoothDamp(currentXRot, xRot, ref xRotVelocity, GameData.instance.lookSmooth);
 
-                    //滑らかにyの回転を取得
+                    //滑らかにyの回転を取得する
                     currentYRot = Mathf.SmoothDamp(currentYRot, yRot, ref yRotVelocity, GameData.instance.lookSmooth);
 
                     //カメラを回転させる

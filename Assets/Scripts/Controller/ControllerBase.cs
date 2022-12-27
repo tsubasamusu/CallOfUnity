@@ -22,6 +22,8 @@ namespace CallOfUnity
 
         protected Transform weaponTran;//武器の位置
 
+        private Transform weaponParentTran;//武器の親の位置情報
+
         private GameObject objWeapon;//武器のオブジェクト
 
         protected bool isReloading;//リロード中かどうか
@@ -38,8 +40,11 @@ namespace CallOfUnity
         /// </summary>
         public void SetUp()
         {
-            //武器の位置を取得
-            weaponTran = transform.GetChild(0).transform.GetChild(0).transform;
+            //武器の位置を取得する
+            weaponTran = transform.GetChild(0).transform.GetChild(0);
+
+            //武器の親の位置情報を取得する
+            weaponParentTran = transform.GetChild(0);
 
             //子クラスの初期設定を行う
             SetUpController();
