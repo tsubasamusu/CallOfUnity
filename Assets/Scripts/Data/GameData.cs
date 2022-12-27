@@ -46,6 +46,9 @@ namespace CallOfUnity
         private GameObject objExplosionEffect;//爆発のエフェクト
 
         [SerializeField]
+        private GameObject objImpactBulletEffect;//着弾時のエフェクト
+
+        [SerializeField]
         private Transform temporaryObjectContainerTran;//ゲームオブジェクトの一時的な親
 
         [SerializeField]
@@ -107,6 +110,11 @@ namespace CallOfUnity
         /// 「爆発のエフェクト」の取得用
         /// </summary>
         public GameObject ObjExplosionEffect { get => objExplosionEffect; }
+
+        /// <summary>
+        /// 「着弾時のエフェクト」の取得用
+        /// </summary>
+        public GameObject ObjImpactBulletEffect { get => objImpactBulletEffect; }
 
         /// <summary>
         /// 「ゲームオブジェクトの一時的な親」の取得用

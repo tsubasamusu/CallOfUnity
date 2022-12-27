@@ -83,19 +83,19 @@ namespace CallOfUnity
                     if (collision.transform.TryGetComponent(out ControllerBase controllerBase))
                     {
                         //エフェクトを生成する
-                        Transform effectTran = Instantiate(GameData.instance.ObjBleedingEffect.transform);
+                        Transform bloodEffectTran = Instantiate(GameData.instance.ObjBleedingEffect.transform);
 
                         //生成したエフェクトの位置を設定する
-                        effectTran.position = transform.position;
+                        bloodEffectTran.position = transform.position;
 
                         //生成したエフェクトの向きを設定する
-                        effectTran.forward = -transform.forward;
+                        bloodEffectTran.forward = -transform.forward;
 
                         //生成したエフェクトの親を設定する
-                        effectTran.SetParent(controllerBase.transform);
+                        bloodEffectTran.SetParent(controllerBase.transform);
 
                         //生成したエフェクトを消す
-                        Destroy(effectTran.gameObject, 0.2f);
+                        Destroy(bloodEffectTran.gameObject, 0.2f);
 
                         //自滅する
                         DestroyBullet(controllerBase.myTeamNo != myTeamNo);
@@ -106,11 +106,26 @@ namespace CallOfUnity
                         //効果音を再生する
                         AudioSource.PlayClipAtPoint
                         (SoundManager.instance.GetAudioClip(SoundDataSO.SoundName.銃弾が静的なオブジェクトに当たった時の音)
-                        ,transform.position);
-                    }
+                        , transform.position);
 
-                    //自滅する
-                    DestroyBullet(false);
+                        //エフェクトを生成する
+                        Transform impactEffectTran = Instantiate(GameData.instance.ObjImpactBulletEffect.transform);
+
+                        //生成したエフェクトの位置を設定する
+                        impactEffectTran.position = transform.position;
+
+                        //生成したエフェクトの向きを設定する
+                        impactEffectTran.forward = -transform.forward;
+
+                        //生成したエフェクトの親を設定する
+                        impactEffectTran.SetParent(GameData.instance.TemporaryObjectContainerTran);
+
+                        //生成したエフェクトを消す
+                        Destroy(impactEffectTran.gameObject, 0.2f);
+
+                        //自滅する
+                        DestroyBullet(false);
+                    }
                 })
                 .AddTo(this);
 
